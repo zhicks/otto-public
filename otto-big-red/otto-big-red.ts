@@ -9,6 +9,8 @@ let socketIoClient = require('socket.io-client');
 
 // ------------------------------------------------------------------- Constants
 const SOCKET_ADDRESS = 'http://localhost:3500';
+let hueHubAddress = 'http://192.168.1.111';
+// TODO When you are ready to make a production app you will need to discover the bridge automatically using the Hue Bridge Discovery Guide or the tools provided with the official Philips Hue SDKs
 
 // ------------------------------------------------------------------- Props
 let cloudSocket: any;
