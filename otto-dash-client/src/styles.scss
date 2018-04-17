@@ -1,0 +1,120 @@
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: #e0e0e0;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  line-height: inherit;
+}
+a img {
+  border: none;
+}
+a:active, a:hover {
+  outline: 0;
+  text-decoration: none;
+}
+
+.light-span {
+  color: rgba(0,0,0,0.4);
+  &.bold {
+    font-weight: bold;
+  }
+}
+
+
+.otto-page-title {
+  h3 {
+    font-weight: bold;
+  }
+}
+
+
+.otto-list-wrapper {
+  padding: 1rem;
+
+  .otto-list-wrapper-inner {
+
+    .otto-list-group {
+
+      .list-group-title {
+        padding-bottom: 1rem;
+        padding-top: 0.8rem;
+
+        .group-title-title {
+          font-size: 1.6rem;
+        }
+
+        .group-title-subtitle {
+          font-size: 1.2rem;
+          color: rgba(0,0,0,0.5);
+        }
+      }
+
+      .inner-group-list-wrapper {
+
+        .otto-list-item-wrapper {
+          margin-bottom: 1rem;
+          background: white;
+          padding: 1.3rem;
+          border-radius: 0.2rem;
+          box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+          .list-item-top {
+            display: flex;
+            justify-content: space-between;
+
+            .list-item-top-left {
+              display: flex;
+
+              .top-left-left {
+                padding-right: 1.3rem;
+                font-size: 2.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &.dark-orange {
+                  color: #8c5500;
+                }
+                &.blue {
+                  color: #00378c;
+                }
+              }
+
+              .list-item-title {
+
+              }
+
+              .list-item-subtitle {
+                font-size: 1.2rem;
+                color: rgba(0,0,0,0.6);
+              }
+            }
+
+            .list-item-top-right {
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.action-buttons {
+  padding: 1rem;
+}
+.actions-title {
+  padding-bottom: 1rem;
+  padding-top: 0.8rem;
+  font-size: 1.6rem;
+}
+.blue-text {
+  color: #00519f
+}
