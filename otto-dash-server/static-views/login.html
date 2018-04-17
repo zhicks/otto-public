@@ -1,0 +1,114 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Otto | Login</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="/assets/login-register.css">
+    <link href="https://fonts.googleapis.com/css?family=Lalezar|Ubuntu:300,400" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
+</head>
+
+<body class="login-page">
+
+<div class="container">
+
+    <div class="general-wrapper">
+        <div class="logo-header">
+            <div class="logo">
+                <a class="logo-logo">
+                    <i class="fab fa-connectdevelop"></i>
+                </a>
+                <a class="logo-text" href="/">Otto</a>
+            </div>
+        </div>
+        <div class="form-wrapper">
+            <div class="">
+                <div class="prompt">
+                    Look at me go!
+                </div>
+
+                <div class="form-group">
+                    <!--<label class=" control-label" >Password</label>-->
+                    <div class=" inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                            <input id="password" name="user_password" placeholder="Password" class="form-control"  type="password">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Success message -->
+                <!--<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Success!.</div>-->
+
+                <div id="error-message" class="error-message"></div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class=" control-label"></label>
+                    <div class="button-wrapper">
+                        <button id="login" class="btn action-button" >Login</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</div><!-- /.container -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    // Change these, make sure to change in Register and Util file
+    function isPasswordValid(pass1) {
+        if (pass1) {
+            return pass1.length > 1;
+        }
+        return false;
+    }
+    function doIt() {
+        var $password = $('#password');
+        var password = $password.val();
+        var $error = $('#error-message');
+        if (!isPasswordValid(password)) {
+            console.log('problem with pass');
+            $error.text('Password incorrect');
+        } else {
+            $('#login').attr('disabled', true);
+            $.ajax({
+                method: "POST",
+                url: "/auth/login",
+                data: { password: password }
+            })
+                .done(function(msg) {
+                    window.location = '/dashboard';
+                })
+                .fail(function(msg) {
+                    console.log('error');
+                    console.log(msg);
+                    $error.text(msg && msg.responseText || 'Sorry, there was an unknown error logging in.');
+                    $('#login').attr('disabled', false);
+                });
+        }
+    }
+    $('#password').focus();
+    $(document).on('keypress', function(e) {
+        if (e.keyCode === 13 || e.which === 13) {
+            doIt();
+        }
+    });
+    $('#login').on('click', function() {
+        doIt();
+    });
+</script>
+
+</body>
+
+</html>

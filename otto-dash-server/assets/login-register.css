@@ -1,0 +1,132 @@
+body {
+    background: #00519f;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    line-height: inherit;
+}
+a img {
+    border: none;
+}
+a:active, a:hover {
+    outline: 0;
+    text-decoration: none;
+}
+
+label {
+    font-size: 1.2rem;
+    color: rgba(0,0,0,0.7);
+}
+
+.input-group-addon {
+    padding: 0.7rem 1.2rem;
+    background: #fdfdfd;
+    color: #7c7c7c;
+}
+
+::placeholder {
+    color: rgba(0,0,0,0.3) !important;
+}
+
+input {
+    font-size: 1.2rem !important;
+    padding: 0.6rem !important;
+}
+
+.input-group i {
+    font-size: 1.2rem !important;
+}
+
+.general-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 2rem;
+}
+
+.prompt {
+    font-size: 1.5rem;
+    text-align: center;
+    padding-bottom: 2rem;
+    color: rgba(0,0,0,0.7);
+}
+
+@media only screen and (min-width:768px) {
+    /* Big */
+    .form-group {
+        min-width: 30rem;
+    }
+}
+@media only screen and (max-width:768px) {
+    /* Small */
+    .form-wrapper {
+        padding: 1rem !important;
+        width: 100%;
+        margin-bottom: 4rem;
+    }
+    .input-group-addon {
+        padding: 0.5rem 1rem;
+    }
+    input {
+        font-size: 1.2rem !important;
+        padding: 0.6rem !important;
+    }
+    .input-group i {
+        font-size: 1.2rem !important;
+    }
+}
+
+.form-wrapper {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.3rem;
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+}
+
+.logo-header {
+    font-size: 2.2rem;
+    color: white;
+    padding-bottom: 1rem;
+}
+.logo a.logo-logo {
+    width: 38px;
+    height: 38px;
+    background-size: 38px 38px;
+}
+.logo a.logo-text {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.button-wrapper {
+    text-align: center;
+}
+input {
+    outline: 0 !important;
+    outline-width: 0 !important;
+}
+.action-button {
+    width: 90%;
+    padding: 1rem;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    cursor: pointer !important;
+    transition: all 200ms;
+    background: #20a656;
+    color: white;
+}
+.action-button:hover {
+    background: #24c866;
+}
+.action-button:active {
+    background: #1ba753;
+}
+.error-message {
+    color: #9b3434;
+    text-align: center;
+}
