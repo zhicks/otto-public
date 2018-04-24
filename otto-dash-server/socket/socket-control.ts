@@ -20,6 +20,18 @@ class SocketControl {
                 this.satellites.push(socket);
                 socket.satellite = true;
                 socket.satelliteId = idObj.id;
+                socket.emit('info', {
+                    timeout: 30 * 60 * 1000
+                });
+            });
+            socket.on('satellite_motion_detected', (idObj: {id: string}) => {
+                // this.bigRed.emit('turn_light_on', idObj);
+                // The id is the light
+                // We need to get the group ID
+                // and then send all lights from that group
+            });
+            socket.on('satellite_motion_timeout', (idObj: {id: string}) => {
+                // this.bigRed.emit('turn_light_off', idObj);
             });
             socket.on('disconnect', () => {
                 console.log('socket disconnect');
