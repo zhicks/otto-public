@@ -61,6 +61,7 @@ app.post('/api/group', main_controller_1.checkAuthenticated, main_controller_1.m
 app.post('/api/group/:id', main_controller_1.checkAuthenticated, main_controller_1.mainController.saveGroup.bind(main_controller_1.mainController));
 app.post('/api/:type/:id/name', main_controller_1.checkAuthenticated, main_controller_1.mainController.saveNameForItem.bind(main_controller_1.mainController));
 app.post('/api/:type/:id/group', main_controller_1.checkAuthenticated, main_controller_1.mainController.saveGroupForItem.bind(main_controller_1.mainController));
+app.post('/api/updateprogram', main_controller_1.checkAuthenticated, main_controller_1.mainController.updateProgram.bind(main_controller_1.mainController));
 // ------------------------------------------------------------------- Handle 500
 app.use(function (error, req, res, next) {
     res.status(500).send('Oops! Something went wrong');

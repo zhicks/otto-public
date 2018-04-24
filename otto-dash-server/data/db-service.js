@@ -20,7 +20,8 @@ var DbService = /** @class */ (function () {
         if (!groupId) {
             var group = {
                 id: this.generateUniqueId(),
-                name: groupName
+                name: groupName,
+                lightTimeout: 2 * 60 * 1000
             };
             this.dbContent.groups.push(group);
             this.doWrite();

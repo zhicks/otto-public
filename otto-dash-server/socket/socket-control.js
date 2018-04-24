@@ -21,6 +21,21 @@ var SocketControl = /** @class */ (function () {
                 _this.satellites.push(socket);
                 socket.satellite = true;
                 socket.satelliteId = idObj.id;
+                socket.emit('info', {
+                    timeout: 30 * 60 * 1000
+                });
+            });
+            socket.on('app_get_status', function () {
+                console.log('app get status was called');
+            });
+            socket.on('satellite_motion_detected', function (idObj) {
+                // this.bigRed.emit('turn_light_on', idObj);
+                // The id is the light
+                // We need to get the group ID
+                // and then send all lights from that group
+            });
+            socket.on('satellite_motion_timeout', function (idObj) {
+                // this.bigRed.emit('turn_light_off', idObj);
             });
             socket.on('disconnect', function () {
                 console.log('socket disconnect');
@@ -43,6 +58,12 @@ var SocketControl = /** @class */ (function () {
                 console.log(_this.satellites);
             });
         });
+    };
+    SocketControl.prototype.updateProgram = function () {
+        for (var _i = 0, _a = this.satellites; _i < _a.length; _i++) {
+            var satellite = _a[_i];
+            satellite.emit('update_program');
+        }
     };
     return SocketControl;
 }());

@@ -27,7 +27,8 @@ class DbService {
         if (!groupId) {
             let group = {
                 id: this.generateUniqueId(),
-                name: groupName
+                name: groupName,
+                lightTimeout: 2 * 60 * 1000
             };
             this.dbContent.groups.push(group);
             this.doWrite();
@@ -87,6 +88,22 @@ class DbService {
                 return item;
             }
         }
+    }
+    findSatelliteForGroup(groupId: string) {
+        for (let sat of this.dbContent.satellites) {
+            if (sat.group === groupId) {
+                return sat;
+            }
+        }
+    }
+    getLightsForGroupId(groupId: string) {
+        let lights = [];
+        for (let light of this.dbContent.lights) {
+            if (light.group === groupId) {
+                lights.push(light);
+            }
+        }
+        return lights;
     }
 }
 export const dbService = new DbService();

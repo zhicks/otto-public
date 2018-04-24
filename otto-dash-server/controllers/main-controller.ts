@@ -1,4 +1,5 @@
 import {dbService} from "../data/db-service";
+import {socketControl} from "../socket/socket-control";
 
 export function isUserLoggedIn(req) {
     let userId = getUserId(req);

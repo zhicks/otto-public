@@ -27,11 +27,12 @@ export class GroupComponent implements OnInit {
       if (!groupId) {
         this.editingGroup = {
           id: '',
-          name: ''
+          name: '',
+          lightTimeout: 3 * 60 * 1000
         }
       } else {
         console.log(groupId);
-        let group: OttoGroup = await this.apiService.getItemById(OttoItemType.Group, groupId);
+        let group: OttoGroup = <OttoGroup> await this.apiService.getItemById(OttoItemType.Group, groupId);
         this.editingGroup = {...group};
       }
     });

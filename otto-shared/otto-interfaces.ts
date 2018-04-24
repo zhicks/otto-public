@@ -1,3 +1,5 @@
+import {OttoObjectStatus} from "./constants";
+
 export interface OttoDb {
     groups: OttoGroup[],
     lights: OttoLight[],
@@ -6,7 +8,8 @@ export interface OttoDb {
 
 export interface OttoGroup {
     id: string,
-    name: string
+    name: string,
+    lightTimeout: number
 }
 
 export interface OttoBaseItem {
@@ -24,4 +27,17 @@ export interface OttoLight extends OttoItem {
 
 export interface OttoSatellite extends OttoItem {
 
+}
+
+export interface OttoStatusData {
+    groups: {
+        id: string,
+        lights?: {
+            id: string,
+            status: OttoObjectStatus
+        }[],
+        motion?: {
+            status: OttoObjectStatus
+        }
+    }[]
 }

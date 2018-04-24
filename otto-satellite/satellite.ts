@@ -1,3 +1,4 @@
+import {OttoObjectStatus} from "../otto-shared/constants";
 
 module OttoSatellite {
 
@@ -9,18 +10,27 @@ module OttoSatellite {
     let socketIoClient = require('socket.io-client');
     const SOCKET_ADDRESS = 'http://localhost:3500';
     const ID_FILE_PATH = '~/otto_id';
-    const DEFAULT_TIMEOUT = 30 * 60 * 1000;
+    const BASH_UPDATE_SCRIPT_FILE_PATH = '~/otto_update_script';
+    const DEFAULT_TIMEOUT = 2 * 60 * 1000;
     const uuidv4 = require('uuid/v4');
+    const Gpio = require('onoff').Gpio;
+    const pir = new Gpio(4, 'in', 'both'); // or 7, I forget
+    const TEMP_TIMEOUT_LENGTH = 1 * 60 * 1000;
+    const { exec } = require('child_process');
     let cloudSocket: any;
 
     class OttoSatellite {
         id: string;
         timeoutLength: number;
         motionTimeout: any;
+        didSecondaryInit = false;
+        motionStatus = OttoObjectStatus.On;
+        motionTempOffTimeout: any;
 
         init() {
             this.initServer();
             this.initId();
+            this.initBashScript();
             this.initSocket();
         }
         secondaryInit() {
@@ -34,6 +44,9 @@ module OttoSatellite {
                 console.log('listening on ' + app.get('port'));
             });
             console.log('satellite server started');
+        }
+        initBashScript() {
+            fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript);
         }
         initId() {
             try {
@@ -53,15 +66,64 @@ module OttoSatellite {
                 cloudSocket.on('info', (infoObj) => {
                     let timeout = infoObj.timeout;
                     this.timeoutLength = timeout || DEFAULT_TIMEOUT;
-                    this.secondaryInit();
+                    console.log('got info from cloud socket: ', infoObj);
+                    console.log('time out length is ' + this.timeoutLength);
+                    if (!this.didSecondaryInit) {
+                        console.log('did not init motion yet, calling secondary init for motion');
+                        this.secondaryInit();
+                    } else {
+                        console.log('already did motion init, just setting timeout');
+                    }
                 });
+                cloudSocket.on('update_program', () => {
+                    console.log('update program called');
+                    this.updateProgram();
+                });
+                cloudSocket.on('turn_motion_on', () => {
+                    console.log('turn motion on called');
+                    clearTimeout(this.motionTempOffTimeout);
+                    this.motionStatus = OttoObjectStatus.On;
+                });
+                cloudSocket.on('turn_motion_off', () => {
+                    console.log('turn motion off called');
+                    clearTimeout(this.motionTempOffTimeout);
+                    this.motionStatus = OttoObjectStatus.Off;
+                });
+                cloudSocket.on('turn_motion_off_temp', () => {
+                    console.log('turn motion off temp called');
+                    if (this.motionStatus !== OttoObjectStatus.OffTemporarily) {
+                        this.motionTempOffTimeout = setTimeout(() => {
+                            this.motionStatus = OttoObjectStatus.On;
+                        }, TEMP_TIMEOUT_LENGTH);
+                    }
+                    this.motionStatus = OttoObjectStatus.OffTemporarily;
+                });
+                cloudSocket.on('get_motion_status', () => {
+                    cloudSocket.emit('satellite_motion_status', {
+                        id: this.id,
+                        status: this.motionStatus
+                    });
+                });
+                console.log('saying hello to cloud socket, id: ', this.id);
                 cloudSocket.emit('satellite', {
                     id: this.id
                 });
             });
         }
         initMotionDetection() {
-
+            pir.watch((err, value) => {
+                if (err) {
+                    console.log('Error in PIR watch:');
+                    console.log(err);
+                } else {
+                    console.log(' ----- motion logged: ', value);
+                    if (value === 1) {
+                        console.log('value is 1, calling motion detected');
+                        this.onMotionDetected();
+                    }
+                }
+            });
+            this.didSecondaryInit = true;
         }
 
         onMotionDetected() {
@@ -69,25 +131,47 @@ module OttoSatellite {
             // The satellite will send that motion was detected
             // and that its timer is done
             if (this.motionTimeout) {
+                console.log('motion timeout exists, clearing timeout');
                 // It's currently on
                 clearTimeout(this.motionTimeout);
             } else {
                 // This is new
+                console.log('motion timeout did not exist, emitting to cloud socket');
                 cloudSocket.emit('satellite_motion_detected', { id: this.id });
             }
             this.setMotionTimeout();
         }
         private setMotionTimeout = () => {
+            console.log('setting motion timeout');
             this.motionTimeout = setTimeout(() => {
                 this.onMotionTimeout();
             }, this.timeoutLength);
         }
         private onMotionTimeout = () => {
+            console.log('motion timed out, emitting to cloud socket');
             cloudSocket.emit('satellite_motion_timeout', { id: this.id });
             this.motionTimeout = null;
         }
 
+        private updateProgram() {
+            console.log('calling update program');
+            exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH}`, (err, stdout, stderr) => {
+                if (err) {
+                    console.log('Error updating program');
+                    console.log(err);
+                }
+                console.log(stdout);
+            });
+        }
+
     }
+
+    const BashScript = `
+        cd ~/otto;
+        git pull;
+        pkill -f node;
+        node satellite.js;
+    `;
 }
 
 

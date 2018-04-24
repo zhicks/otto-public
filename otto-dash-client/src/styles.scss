@@ -40,14 +40,30 @@ a:active, a:hover {
 
   .otto-list-wrapper-inner {
 
+    .list-group-actions {
+      display: flex;
+      flex-direction: column;
+    }
+
     .otto-list-group {
+      background: rgba(0,0,0,0.06);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      &:not(:first-child) {
+        margin-top: 2rem;
+      }
 
       .list-group-title {
         padding-bottom: 1rem;
         padding-top: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
         .group-title-title {
           font-size: 1.6rem;
+          font-weight: bold;
         }
 
         .group-title-subtitle {
@@ -109,6 +125,8 @@ a:active, a:hover {
 
 .action-buttons {
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .actions-title {
   padding-bottom: 1rem;

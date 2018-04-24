@@ -3,15 +3,20 @@ import {Http} from "@angular/http";
 import {OttoBaseItem, OttoDb, OttoItem} from "../../../../otto-shared/otto-interfaces";
 import {OttoItemType} from "../../../../otto-shared/constants";
 
+declare const io;
+
 @Injectable()
 export class ApiService {
 
   private baseUrl = '/api';
+  socket: any;
   model: OttoDb;
 
   constructor(
     private http: Http
-  ) { }
+  ) {
+    this.socket = io();
+  }
 
   async getStuff(): Promise<OttoDb> {
     let resource = `${this.baseUrl}/stuff`;

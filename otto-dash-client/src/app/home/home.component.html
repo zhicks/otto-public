@@ -12,6 +12,28 @@
           {{group.id}}
         </div>
       </div>
+      <div class="list-group-actions">
+        <button class="btn btn-default btn-lg">
+          <span *ngIf="group.status.lights.status === OttoObjectStatus.On">
+            <i class="fas fa-lightbulb"></i> Turn Lights Off
+          </span>
+          <span *ngIf="group.status.lights.status === OttoObjectStatus.Off">
+            <i class="far fa-lightbulb"></i> Turn Lights On
+          </span>
+        </button>
+
+        <button class="btn btn-default btn-lg" (click)="motionOffClicked(group.id)" *ngIf="group.status.motion.status === OttoObjectStatus.On">
+          <i class="fas fa-eye"></i> Turn Motion Off
+        </button>
+        <button class="btn btn-default btn-lg" (click)="motionOnClicked(group.id)" *ngIf="group.status.motion.status === OttoObjectStatus.Off || group.status.motion.status === OttoObjectStatus.OffTemporarily">
+          <i class="fas fa-eye"></i> Turn Motion On
+        </button>
+        <button class="btn btn-default btn-lg" (click)="motionOnTempClicked(group.id)" *ngIf="group.status.motion.status === OttoObjectStatus.On">
+          <i class="fas fa-clock"></i> Turn Motion Off Temporarily
+        </button>
+      </div>
+
+      <h5 *ngIf="group.lights && group.lights.length">Lights</h5>
       <div class="inner-group-list-wrapper">
         <div class="otto-list-item-wrapper" *ngFor="let light of group.lights" (click)="lightClicked(light)">
           <div class="list-item-top">
@@ -34,6 +56,8 @@
           </div>
         </div>
       </div>
+
+      <h5 *ngIf="group.satellites && group.satellites.length">Satellites</h5>
       <div class="inner-group-list-wrapper">
         <div class="otto-list-item-wrapper" *ngFor="let satellite of group.satellites" (click)="satelliteClicked(satellite)">
           <div class="list-item-top">
@@ -70,5 +94,8 @@
   <button class="btn btn-default btn-lg">
     <i class="fas fa-eye"></i>
     Scan Lights
+  </button>
+  <button class="btn btn-default btn-sm" style="margin-top: 2rem">
+    Update Satellites
   </button>
 </div>

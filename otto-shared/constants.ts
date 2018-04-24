@@ -3,3 +3,9 @@ export enum OttoItemType {
     Satellite,
     Group
 }
+
+export enum OttoObjectStatus {
+    Off,
+    On,
+    OffTemporarily
+}
