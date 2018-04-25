@@ -55,6 +55,34 @@ class DbService {
         return item;
     }
 
+    insertLightsFromBigRedIfNecessary(lightObjs: any[]) {
+        // lots of props on those light objs but we only care about a few of those props for now
+        let lightsToInsert: OttoLight[] = [];
+        for (let bigRedLight of lightObjs) {
+            let foundLight;
+            for (let dbLight of this.dbContent.lights) {
+                if (dbLight.id === bigRedLight.id) {
+                    foundLight = dbLight;
+                    break;
+                }
+            }
+            if (!foundLight) {
+                lightsToInsert.push({
+                    type: bigRedLight.type,
+                    id: bigRedLight.id,
+                    name: '',
+                    group: ''
+                });
+            }
+        }
+        if (lightsToInsert.length) {
+            for (let light of lightsToInsert) {
+                this.dbContent.lights.push(light);
+            }
+            this.doWrite();
+        }
+    }
+
     private doWrite() {
         let content = JSON.stringify(this.dbContent);
         fs.writeFileSync(DB_FILE_PATH, content);

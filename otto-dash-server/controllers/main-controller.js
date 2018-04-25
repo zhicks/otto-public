@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_service_1 = require("../data/db-service");
-var socket_control_1 = require("../socket/socket-control");
 function isUserLoggedIn(req) {
     var userId = getUserId(req);
     return !!userId;
@@ -69,10 +68,6 @@ var MainController = /** @class */ (function () {
         var type = +req.params.type;
         var object = db_service_1.dbService.saveNameForItem(id, newName, type);
         res.send(object);
-    };
-    MainController.prototype.updateProgram = function (req, res) {
-        socket_control_1.socketControl.updateProgram();
-        res.send({ ok: true });
     };
     return MainController;
 }());

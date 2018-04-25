@@ -2,6 +2,8 @@ import {OttoObjectStatus} from "../otto-shared/constants";
 
 module OttoSatellite {
 
+    declare const require;
+    declare const process;
     let path = require('path');
     let express = require('express');
     let app = express();

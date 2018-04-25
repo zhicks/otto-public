@@ -20,6 +20,11 @@ class SocketControl {
                 this.bigRed = socket;
                 this.bigRed.bigRed = true;
             });
+            socket.on('bigred_lights', (lightObjs) => {
+                // These have plenty of info on them but for now we only care about a little bit
+                console.log('got big red lights, calling update or insert if necessary');
+                dbService.insertLightsFromBigRedIfNecessary(lightObjs);
+            });
             socket.on('bigred_bulb_statuses', (lights: { id: string, status: OttoObjectStatus }[]) => {
                 // We send it piecemeal
                 let status: OttoStatusData = {
@@ -27,21 +32,25 @@ class SocketControl {
                 }
                 for (let light of lights) {
                     let group = this.findGroupForLightId(light.id);
-                    let foundGroup: any;
-                    for (let g of status.groups) {
-                        if (g.id === group.id) {
-                            foundGroup = g;
-                            break;
+                    if (!group) {
+                        console.log('could not find group for light id ', light.id);
+                    } else {
+                        let foundGroup: any;
+                        for (let g of status.groups) {
+                            if (g.id === group.id) {
+                                foundGroup = g;
+                                break;
+                            }
                         }
+                        if (!foundGroup) {
+                            foundGroup = {
+                                id: group.id,
+                                lights: []
+                            };
+                            status.groups.push(foundGroup);
+                        }
+                        foundGroup.lights.push(light);
                     }
-                    if (!foundGroup) {
-                        foundGroup = {
-                            id: group.id,
-                            lights: []
-                        };
-                        status.groups.push(foundGroup);
-                    }
-                    foundGroup.lights.push(light);
                 }
                 for (let appSocket of this.appSockets) {
                     appSocket.emit('status', status);
@@ -72,6 +81,10 @@ class SocketControl {
             });
             socket.on('app_get_status', () => {
                 console.log('app get status was called');
+                if (!socket.appId) {
+                    socket.appId = uuidv4();
+                    this.appSockets.push(socket);
+                }
                 // get bulb statuses
                 // then get satellite statuses
                 if (this.bigRed) {
@@ -96,18 +109,44 @@ class SocketControl {
                 let satSocket = this.findSatSocketForGroupId(groupObj.group);
                 satSocket.emit('turn_motion_off_temp');
             });
+            socket.on('app_group_lights_on', (groupObj: {group: string}) => {
+                // send to big red
+                let lights = dbService.getLightsForGroupId(groupObj.group);
+                let lightIds = lights.map(light => light.id);
+                if (this.bigRed) {
+                    this.bigRed.emit('turn_lights_on', {
+                        lights: lightIds
+                    })
+                }
+            });
+            socket.on('app_group_lights_off', (groupObj: {group: string}) => {
+                let lights = dbService.getLightsForGroupId(groupObj.group);
+                let lightIds = lights.map(light => light.id);
+                if (this.bigRed) {
+                    this.bigRed.emit('turn_lights_off', {
+                        lights: lightIds
+                    })
+                }
+            });
+            socket.on('app_scan_lights', () => {
+                if (this.bigRed) {
+                    this.bigRed.emit('scan_lights');
+                }
+            });
             socket.on('satellite_motion_detected', (idObj: {id: string}) => {
                 let group = this.findGroupForSatelliteId(idObj.id);
                 let lights = dbService.getLightsForGroupId(group.id);
+                let lightIds = lights.map(light => light.id);
                 this.bigRed.emit('turn_lights_on', {
-                    lights: lights
+                    lights: lightIds
                 });
             });
             socket.on('satellite_motion_timeout', (idObj: {id: string}) => {
                 let group = this.findGroupForSatelliteId(idObj.id);
                 let lights = dbService.getLightsForGroupId(group.id);
+                let lightIds = lights.map(light => light.id);
                 this.bigRed.emit('turn_lights_off', {
-                    lights: lights
+                    lights: lightIds
                 });
             });
             socket.on('disconnect', () => {
@@ -127,8 +166,21 @@ class SocketControl {
                         }
                     }
                 }
+                if (socket.appId) {
+                    console.log('socket is app', socket.appId);
+                    for (let i = 0; i < this.appSockets.length; i++) {
+                        let app = this.appSockets[i];
+                        if (app.appId === socket.appId) {
+                            this.appSockets.splice(i, 1);
+                            console.log('app socket removed');
+                            break;
+                        }
+                    }
+                }
                 console.log('satellites:');
                 console.log(this.satellites);
+                console.log('apps:');
+                console.log(this.appSockets);
             });
         });
     }
@@ -162,9 +214,15 @@ class SocketControl {
         return <OttoGroup>dbService.findItemById(sat.group, OttoItemType.Group);
     }
     private findGroupForLightId(lightId: string): OttoGroup {
-        let sat = <OttoLight>dbService.findItemById(lightId, OttoItemType.Light);
-        return <OttoGroup>dbService.findItemById(sat.group, OttoItemType.Group);
+        console.log('find gruop for light id ', lightId);
+        let light = <OttoLight>dbService.findItemById(lightId, OttoItemType.Light);
+        if (!light) {
+            console.log('coudl not find light');
+            return null;
+        }
+        return <OttoGroup>dbService.findItemById(light.group, OttoItemType.Group);
     }
+
 }
 
 export const socketControl = new SocketControl();

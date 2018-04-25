@@ -46,6 +46,36 @@ var DbService = /** @class */ (function () {
         this.doWrite();
         return item;
     };
+    DbService.prototype.insertLightsFromBigRedIfNecessary = function (lightObjs) {
+        // lots of props on those light objs but we only care about a few of those props for now
+        var lightsToInsert = [];
+        for (var _i = 0, lightObjs_1 = lightObjs; _i < lightObjs_1.length; _i++) {
+            var bigRedLight = lightObjs_1[_i];
+            var foundLight = void 0;
+            for (var _a = 0, _b = this.dbContent.lights; _a < _b.length; _a++) {
+                var dbLight = _b[_a];
+                if (dbLight.id === bigRedLight.id) {
+                    foundLight = dbLight;
+                    break;
+                }
+            }
+            if (!foundLight) {
+                lightsToInsert.push({
+                    type: bigRedLight.type,
+                    id: bigRedLight.id,
+                    name: '',
+                    group: ''
+                });
+            }
+        }
+        if (lightsToInsert.length) {
+            for (var _c = 0, lightsToInsert_1 = lightsToInsert; _c < lightsToInsert_1.length; _c++) {
+                var light = lightsToInsert_1[_c];
+                this.dbContent.lights.push(light);
+            }
+            this.doWrite();
+        }
+    };
     DbService.prototype.doWrite = function () {
         var content = JSON.stringify(this.dbContent);
         fs.writeFileSync(DB_FILE_PATH, content);
@@ -81,6 +111,24 @@ var DbService = /** @class */ (function () {
                 return item;
             }
         }
+    };
+    DbService.prototype.findSatelliteForGroup = function (groupId) {
+        for (var _i = 0, _a = this.dbContent.satellites; _i < _a.length; _i++) {
+            var sat = _a[_i];
+            if (sat.group === groupId) {
+                return sat;
+            }
+        }
+    };
+    DbService.prototype.getLightsForGroupId = function (groupId) {
+        var lights = [];
+        for (var _i = 0, _a = this.dbContent.lights; _i < _a.length; _i++) {
+            var light = _a[_i];
+            if (light.group === groupId) {
+                lights.push(light);
+            }
+        }
+        return lights;
     };
     return DbService;
 }());

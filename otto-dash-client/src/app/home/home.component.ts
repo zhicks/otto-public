@@ -149,8 +149,20 @@ export class HomeComponent implements OnInit {
     this.apiService.socket.emit('app_motion_on_temp', { group: groupId });
   }
 
+  toggleLightsForGroupClicked(group: HierarchicalGroupData) {
+    if (group.status.lights.status === OttoObjectStatus.On) {
+      this.apiService.socket.emit('app_group_lights_off', { group: group.id });
+    } else {
+      this.apiService.socket.emit('app_group_lights_on', { group: group.id });
+    }
+  }
+
   updateSatellitesClicked() {
     this.apiService.socket.emit('app_update_program');
+  }
+
+  scanLightsClicked() {
+    this.apiService.socket.emit('app_scan_lights');
   }
 
   ngOnDestroy() {
