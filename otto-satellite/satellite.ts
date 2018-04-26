@@ -88,6 +88,7 @@ module OttoSatelliteModule {
                 cloudSocket.on('turn_motion_on', () => {
                     console.log('turn motion on called');
                     clearTimeout(this.motionTempOffTimeout);
+                    clearTimeout(this.motionTimeout);
                     this.motionStatus = OttoObjectStatus.On;
                 });
                 cloudSocket.on('turn_motion_off', () => {
