@@ -159,7 +159,7 @@ module OttoSatelliteModule {
 
         private updateProgram() {
             console.log('calling update program');
-            exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH}`, (err, stdout, stderr) => {
+            exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH} `, (err, stdout, stderr) => {
                 if (err) {
                     console.log('Error updating program');
                     console.log(err);
@@ -173,16 +173,8 @@ module OttoSatelliteModule {
     const BashScript = `
         git pull;
         pkill -f node;
+        npm run start > ~/output.txt;
     `;
-
-    process.on("exit", function () {
-        require("child_process").spawn(process.argv.shift(), process.argv, {
-            cwd: process.cwd(),
-            detached : true,
-            stdio: "inherit"
-        });
-    });
-    process.exit();
 
     new OttoSatellite().init();
 }
