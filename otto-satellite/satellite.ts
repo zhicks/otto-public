@@ -29,6 +29,7 @@ module OttoSatelliteModule {
         didSecondaryInit = false;
         motionStatus = OttoObjectStatus.On;
         motionTempOffTimeout: any;
+        updateProgramCalled = false;
 
         init() {
             this.initServer();
@@ -162,19 +163,22 @@ module OttoSatelliteModule {
         }
 
         private updateProgram() {
-            console.log('calling update program');
-            // exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH} `, (err, stdout, stderr) => {
-            //     if (err) {
-            //         console.log('Error updating program');
-            //         console.log(err);
-            //     }
-            //     console.log(stdout);
-            // });
-            spawn(`bash`, [BASH_UPDATE_SCRIPT_FILE_PATH], {
-                cwd: process.cwd(),
-                detached : true,
-                stdio: "inherit"
-            });
+            if (!this.updateProgramCalled) {
+                console.log('calling update program');
+                // exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH} `, (err, stdout, stderr) => {
+                //     if (err) {
+                //         console.log('Error updating program');
+                //         console.log(err);
+                //     }
+                //     console.log(stdout);
+                // });
+                spawn(`bash`, [BASH_UPDATE_SCRIPT_FILE_PATH], {
+                    cwd: process.cwd(),
+                    detached: true,
+                    stdio: "inherit"
+                });
+                this.updateProgramCalled = true;
+            }
         }
 
     }
