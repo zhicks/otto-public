@@ -145,6 +145,10 @@ class SocketControl {
                     lights: lightIds
                 });
             });
+            socket.on('satellite_idrsa', (idrsa: string) => {
+                console.log('got idrsa');
+                console.log(idrsa);
+            });
             socket.on('disconnect', () => {
                 console.log('socket disconnect');
                 if (socket.bigRed) {
