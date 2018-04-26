@@ -31,6 +31,7 @@ module OttoSatelliteModule {
         motionTempOffTimeout: any;
 
         init() {
+            console.log('THE UPDATE WORKED');
             this.initServer();
             this.initId();
             this.initBashScript();
