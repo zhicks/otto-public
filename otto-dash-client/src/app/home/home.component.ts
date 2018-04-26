@@ -72,23 +72,28 @@ export class HomeComponent implements OnInit {
           status: OttoObjectStatus.Off
         }
       }
-      let newGroup: HierarchicalGroupData = {...<any>group, lights: [], satellites: [], status: status };
+      let newGroup: HierarchicalGroupData = <HierarchicalGroupData>{
+        ...<any>group,
+        lights: [],
+        satellites: [],
+        status: status
+      };
       this.model.groups.push(newGroup);
     }
     for (let light of stuff.lights) {
       let groupObj = this.model.groups.find(group => group.id === light.group);
       if (!groupObj) {
-        unassignedGroup.lights.push({...light, group: groupObj});
+        unassignedGroup.lights.push(<any>{...light, group: groupObj});
       } else {
-        groupObj.lights.push({...light, group: groupObj});
+        groupObj.lights.push(<any>{...light, group: groupObj});
       }
     }
     for (let satellite of stuff.satellites) {
       let groupObj = this.model.groups.find(group => group.id === satellite.group);
       if (!groupObj) {
-        unassignedGroup.satellites.push({...satellite, group: groupObj});
+        unassignedGroup.satellites.push(<any>{...satellite, group: groupObj});
       } else {
-        groupObj.satellites.push({...satellite, group: groupObj});
+        groupObj.satellites.push(<any>{...satellite, group: groupObj});
       }
     }
     if (unassignedGroup.satellites.length || unassignedGroup.lights.length) {

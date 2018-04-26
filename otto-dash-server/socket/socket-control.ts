@@ -85,14 +85,10 @@ class SocketControl {
                     socket.appId = uuidv4();
                     this.appSockets.push(socket);
                 }
-                // get bulb statuses
-                // then get satellite statuses
-                if (this.bigRed) {
-                    this.bigRed.emit('get_bulb_statuses');
-                }
-                for (let sat of this.satellites) {
-                    sat.emit('get_motion_status');
-                }
+                this.doStatus();
+            });
+            socket.on('refresh_status', () => {
+                this.doStatus();
             });
             socket.on('app_update_program', () => {
                 this.updateProgram();
@@ -183,6 +179,17 @@ class SocketControl {
                 console.log(this.appSockets);
             });
         });
+    }
+
+    private doStatus() {
+        console.log('calling do status');
+        if (this.bigRed) {
+            console.log('calling big red get bulb statuses');
+            this.bigRed.emit('get_bulb_statuses');
+        }
+        for (let sat of this.satellites) {
+            sat.emit('get_motion_status');
+        }
     }
 
     updateProgram() {

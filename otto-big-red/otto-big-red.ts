@@ -39,7 +39,7 @@ module OttoBigRed {
         });
     }
 
-    let toggleLights = (lightIds: {lights: string[]}, on: boolean) => {
+    let toggleLights = (lightIds: {lights: string[]}, on: boolean, callback: () => void) => {
         console.log(lightIds);
         hubClient.lights.getAll().then(lights => {
             let matchingHueJayLights = [];
@@ -62,6 +62,9 @@ module OttoBigRed {
                     hubClient.lights.save(light);
                 }
             }
+            setTimeout(() => {
+                callback();
+            }, 100);
         });
     }
 
@@ -99,12 +102,16 @@ module OttoBigRed {
 
         cloudSocket.on('turn_lights_on', (lightIds: {lights: string[]}) => {
             console.log('turn lights on for ids');
-            toggleLights(lightIds, true);
+            toggleLights(lightIds, true, () => {
+                cloudSocket.emit('refresh_status');
+            });
         });
 
         cloudSocket.on('turn_lights_off', (lightIds: {lights: string[]}) => {
             console.log('turn lights off for ids');
-            toggleLights(lightIds, false);
+            toggleLights(lightIds, false, () => {
+                cloudSocket.emit('refresh_status');
+            });
         });
 
     }
@@ -118,6 +125,8 @@ module OttoBigRed {
             timeout:  15000,            // Optional, timeout in milliseconds (15000 is the default)
         });
         initSocket();
+        // doScanAndAddNewLights();
+        // 830F26
     }
     let doHubInit = () => {
         if (bridgeIp) {
@@ -144,6 +153,7 @@ module OttoBigRed {
     // ------------------------------------------------------------------- Hub One Time Init
     let doHubOneTimeInit = () => {
         console.log('doing one time hub init. this is for creating a user if there is not one. you gotta press the hub link button');
+        console.log('actually you may just wanna use the app to add it by serial number');
         let user = new hubClient.users.User;
 
         // Optionally configure a device type / agent on the user
@@ -152,7 +162,7 @@ module OttoBigRed {
         hubClient.users.create(user)
             .then(user => {
                 console.log(`New user created - Username: ${user.username}`);
-                console.log('now restart and dont call doHubOneTimeInit - just call regular init or whatever its called');
+                console.log('now restart and dont call this method - just call regular init or whatever its called');
                 // hubClient.users.get()
                 //     .then(user => {
                 //         console.log('Username:', user.username);
@@ -173,9 +183,27 @@ module OttoBigRed {
 
                 console.log(error.stack);
             });
-
     }
 
+    let doScanAndAddNewLights = () => {
+        console.log('calling do scan and add new lights - this is a one time thing when you add new bulbs and is manually called');
+        hubClient.lights.scan()
+            .then(() => {
+                console.log('Started new light scan');
+                setTimeout(() => {
+                    hubClient.lights.getNew()
+                        .then(lights => {
+                            console.log('Found new lights:');
+                            for (let light of lights) {
+                                console.log(`Light [${light.id}]:`);
+                                console.log('  Unique Id:', light.uniqueId);
+                                console.log('  Model:',     light.model.name);
+                                console.log('  Reachable:', light.reachable);
+                            }
+                        });
+                }, 20 * 1000);
+            });
+    }
 
     app.set('view engine', 'html');
     app.set('port', (process.env.PORT || 3501));

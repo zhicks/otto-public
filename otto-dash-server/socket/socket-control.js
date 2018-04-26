@@ -89,15 +89,10 @@ var SocketControl = /** @class */ (function () {
                     socket.appId = uuidv4();
                     _this.appSockets.push(socket);
                 }
-                // get bulb statuses
-                // then get satellite statuses
-                if (_this.bigRed) {
-                    _this.bigRed.emit('get_bulb_statuses');
-                }
-                for (var _i = 0, _a = _this.satellites; _i < _a.length; _i++) {
-                    var sat = _a[_i];
-                    sat.emit('get_motion_status');
-                }
+                _this.doStatus();
+            });
+            socket.on('refresh_status', function () {
+                _this.doStatus();
             });
             socket.on('app_update_program', function () {
                 _this.updateProgram();
@@ -188,6 +183,17 @@ var SocketControl = /** @class */ (function () {
                 console.log(_this.appSockets);
             });
         });
+    };
+    SocketControl.prototype.doStatus = function () {
+        console.log('calling do status');
+        if (this.bigRed) {
+            console.log('calling big red get bulb statuses');
+            this.bigRed.emit('get_bulb_statuses');
+        }
+        for (var _i = 0, _a = this.satellites; _i < _a.length; _i++) {
+            var sat = _a[_i];
+            sat.emit('get_motion_status');
+        }
     };
     SocketControl.prototype.updateProgram = function () {
         for (var _i = 0, _a = this.satellites; _i < _a.length; _i++) {

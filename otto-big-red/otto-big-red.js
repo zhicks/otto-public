@@ -34,7 +34,7 @@ var OttoBigRed;
             callback(lightObjs);
         });
     };
-    var toggleLights = function (lightIds, on) {
+    var toggleLights = function (lightIds, on, callback) {
         console.log(lightIds);
         hubClient.lights.getAll().then(function (lights) {
             var matchingHueJayLights = [];
@@ -60,6 +60,9 @@ var OttoBigRed;
                     hubClient.lights.save(light);
                 }
             }
+            setTimeout(function () {
+                callback();
+            }, 100);
         });
     };
     // ------------------------------------------------------------------- Regular Init (after hub init)
@@ -92,11 +95,15 @@ var OttoBigRed;
         });
         cloudSocket.on('turn_lights_on', function (lightIds) {
             console.log('turn lights on for ids');
-            toggleLights(lightIds, true);
+            toggleLights(lightIds, true, function () {
+                cloudSocket.emit('refresh_status');
+            });
         });
         cloudSocket.on('turn_lights_off', function (lightIds) {
             console.log('turn lights off for ids');
-            toggleLights(lightIds, false);
+            toggleLights(lightIds, false, function () {
+                cloudSocket.emit('refresh_status');
+            });
         });
     };
     // ------------------------------------------------------------------- Hub Init
@@ -108,6 +115,8 @@ var OttoBigRed;
             timeout: 15000,
         });
         initSocket();
+        // doScanAndAddNewLights();
+        // 830F26
     };
     var doHubInit = function () {
         if (bridgeIp) {
@@ -135,13 +144,14 @@ var OttoBigRed;
     // ------------------------------------------------------------------- Hub One Time Init
     var doHubOneTimeInit = function () {
         console.log('doing one time hub init. this is for creating a user if there is not one. you gotta press the hub link button');
+        console.log('actually you may just wanna use the app to add it by serial number');
         var user = new hubClient.users.User;
         // Optionally configure a device type / agent on the user
         user.deviceType = 'bigred'; // Default is 'huejay'
         hubClient.users.create(user)
             .then(function (user) {
             console.log("New user created - Username: " + user.username);
-            console.log('now restart and dont call doHubOneTimeInit - just call regular init or whatever its called');
+            console.log('now restart and dont call this method - just call regular init or whatever its called');
             // hubClient.users.get()
             //     .then(user => {
             //         console.log('Username:', user.username);
@@ -159,6 +169,26 @@ var OttoBigRed;
                 return console.log("Link button not pressed. Try again...");
             }
             console.log(error.stack);
+        });
+    };
+    var doScanAndAddNewLights = function () {
+        console.log('calling do scan and add new lights - this is a one time thing when you add new bulbs and is manually called');
+        hubClient.lights.scan()
+            .then(function () {
+            console.log('Started new light scan');
+            setTimeout(function () {
+                hubClient.lights.getNew()
+                    .then(function (lights) {
+                    console.log('Found new lights:');
+                    for (var _i = 0, lights_3 = lights; _i < lights_3.length; _i++) {
+                        var light = lights_3[_i];
+                        console.log("Light [" + light.id + "]:");
+                        console.log('  Unique Id:', light.uniqueId);
+                        console.log('  Model:', light.model.name);
+                        console.log('  Reachable:', light.reachable);
+                    }
+                });
+            }, 20 * 1000);
         });
     };
     app.set('view engine', 'html');
