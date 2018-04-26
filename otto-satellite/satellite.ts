@@ -91,12 +91,14 @@ module OttoSatelliteModule {
                     clearTimeout(this.motionTempOffTimeout);
                     clearTimeout(this.motionTimeout);
                     this.motionStatus = OttoObjectStatus.On;
+                    cloudSocket.emit('refresh_status');
                 });
                 cloudSocket.on('turn_motion_off', () => {
                     console.log('turn motion off called');
                     clearTimeout(this.motionTempOffTimeout);
                     clearTimeout(this.motionTimeout);
                     this.motionStatus = OttoObjectStatus.Off;
+                    cloudSocket.emit('refresh_status');
                 });
                 cloudSocket.on('turn_motion_off_temp', () => {
                     console.log('turn motion off temp called');
@@ -106,6 +108,7 @@ module OttoSatelliteModule {
                         }, TEMP_TIMEOUT_LENGTH);
                     }
                     this.motionStatus = OttoObjectStatus.OffTemporarily;
+                    cloudSocket.emit('refresh_status');
                 });
                 cloudSocket.on('get_motion_status', () => {
                     cloudSocket.emit('satellite_motion_status', {
