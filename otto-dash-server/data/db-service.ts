@@ -83,6 +83,10 @@ class DbService {
         }
     }
 
+    insertSatelliteIfNecessary(id: string) {
+
+    }
+
     private doWrite() {
         let content = JSON.stringify(this.dbContent);
         fs.writeFileSync(DB_FILE_PATH, content);

@@ -31,7 +31,6 @@ module OttoSatelliteModule {
         motionTempOffTimeout: any;
 
         init() {
-            console.log('THE UPDATE WORKED');
             this.initServer();
             this.initId();
             this.initBashScript();
@@ -56,6 +55,8 @@ module OttoSatelliteModule {
             try {
                 console.log('about to read from id file');
                 let data = fs.readFileSync(ID_FILE_PATH).toString();
+                console.log('id from data is ', data);
+                this.id = data;
             } catch (e) {
                 console.log('id did not exist, writing it');
                 this.id = uuidv4();

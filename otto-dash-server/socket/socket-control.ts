@@ -58,6 +58,7 @@ class SocketControl {
             });
             socket.on('satellite', (idObj: {id: string}) => {
                 console.log('satellite connected with id', idObj.id);
+                dbService.insertSatelliteIfNecessary(idObj.id);
                 this.satellites.push(socket);
                 socket.satellite = true;
                 socket.satelliteId = idObj.id;
