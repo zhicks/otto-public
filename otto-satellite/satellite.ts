@@ -19,7 +19,7 @@ module OttoSatelliteModule {
     const Gpio = require('onoff').Gpio;
     const pir = new Gpio(4, 'in', 'both'); // or 7, I forget
     const TEMP_TIMEOUT_LENGTH = 1 * 60 * 1000;
-    const { exec } = require('child_process');
+    const { spawn } = require('child_process');
     let cloudSocket: any;
 
     class OttoSatellite {
@@ -159,12 +159,17 @@ module OttoSatelliteModule {
 
         private updateProgram() {
             console.log('calling update program');
-            exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH} `, (err, stdout, stderr) => {
-                if (err) {
-                    console.log('Error updating program');
-                    console.log(err);
-                }
-                console.log(stdout);
+            // exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH} `, (err, stdout, stderr) => {
+            //     if (err) {
+            //         console.log('Error updating program');
+            //         console.log(err);
+            //     }
+            //     console.log(stdout);
+            // });
+            spawn(`bash`, [BASH_UPDATE_SCRIPT_FILE_PATH], {
+                cwd: process.cwd(),
+                detached : true,
+                stdio: "inherit"
             });
         }
 
