@@ -171,6 +171,7 @@ module OttoSatelliteModule {
     }
 
     const BashScript = `
+        cd /home/sunny/otto/otto-satellite;
         git pull;
         pkill -f node;
         npm run start;
