@@ -13,7 +13,7 @@ module OttoSatelliteModule {
     const SOCKET_ADDRESS = process.argv && process.argv[2] === 'prod' ? 'http://blackboxjs.com:3500': 'http://192.168.1.102:3500';
     console.log('socket address is ', SOCKET_ADDRESS);
     const ID_FILE_PATH = '../../otto_id';
-    const BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script';
+    const BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script.sh';
     const DEFAULT_TIMEOUT = 2 * 60 * 1000;
     const uuidv4 = require('uuid/v4');
     const Gpio = require('onoff').Gpio;
@@ -170,10 +170,9 @@ module OttoSatelliteModule {
     }
 
     const BashScript = `
-        cd ~/otto;
         git pull;
         pkill -f node;
-        node satellite.js;
+        npm run start-prod;
     `;
 
     new OttoSatellite().init();
