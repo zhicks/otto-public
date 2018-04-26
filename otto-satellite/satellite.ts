@@ -10,7 +10,8 @@ module OttoSatelliteModule {
     let fs = require('fs');
     let http = require('http').Server(app);
     let socketIoClient = require('socket.io-client');
-    const SOCKET_ADDRESS = 'http://localhost:3500';
+    const SOCKET_ADDRESS = process.argv && process.argv[2] === 'prod' ? 'http://blackboxjs.com:3500': 'http://192.168.1.102:3500';
+    console.log('socket address is ', SOCKET_ADDRESS);
     const ID_FILE_PATH = '../../otto_id';
     const BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script';
     const DEFAULT_TIMEOUT = 2 * 60 * 1000;

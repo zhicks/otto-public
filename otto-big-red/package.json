@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node otto-big-red.js",
+    "start-prod": "tsc && node otto-big-red.js prod",
     "tsc": "tsc"
   },
   "keywords": [],

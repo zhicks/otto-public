@@ -9,8 +9,10 @@ var OttoBigRed;
     var http = require('http').Server(app);
     var socketIoClient = require('socket.io-client');
     var huejay = require('huejay');
+    console.log(process.argv);
     // ------------------------------------------------------------------- Constants
-    var SOCKET_ADDRESS = 'http://localhost:3500';
+    var SOCKET_ADDRESS = process.argv && process.argv[2] === 'prod' ? 'http://blackboxjs.com:3500' : 'http://localhost:3500';
+    console.log('socket address is ', SOCKET_ADDRESS);
     // ------------------------------------------------------------------- Props
     var cloudSocket;
     var hubClient;

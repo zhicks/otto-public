@@ -12,8 +12,11 @@ module OttoBigRed {
     let socketIoClient = require('socket.io-client');
     let huejay = require('huejay');
 
+    console.log(process.argv);
+
     // ------------------------------------------------------------------- Constants
-    const SOCKET_ADDRESS = 'http://localhost:3500';
+    const SOCKET_ADDRESS = process.argv && process.argv[2] === 'prod' ? 'http://blackboxjs.com:3500': 'http://localhost:3500';
+    console.log('socket address is ', SOCKET_ADDRESS);
 
     // ------------------------------------------------------------------- Props
     let cloudSocket: any;
