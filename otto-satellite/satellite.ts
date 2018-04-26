@@ -173,7 +173,7 @@ module OttoSatelliteModule {
     const BashScript = `
         git pull;
         pkill -f node;
-        npm run start-prod;
+        npm run start;
     `;
 
     new OttoSatellite().init();
