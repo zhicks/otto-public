@@ -93,6 +93,7 @@ module OttoSatelliteModule {
                 cloudSocket.on('turn_motion_off', () => {
                     console.log('turn motion off called');
                     clearTimeout(this.motionTempOffTimeout);
+                    clearTimeout(this.motionTimeout);
                     this.motionStatus = OttoObjectStatus.Off;
                 });
                 cloudSocket.on('turn_motion_off_temp', () => {
@@ -123,7 +124,7 @@ module OttoSatelliteModule {
                     console.log(err);
                 } else {
                     console.log(' ----- motion logged: ', value);
-                    if (value === 1) {
+                    if (this.motionStatus === OttoObjectStatus.On && value === 1) {
                         console.log('value is 1, calling motion detected');
                         this.onMotionDetected();
                     }

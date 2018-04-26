@@ -84,7 +84,21 @@ class DbService {
     }
 
     insertSatelliteIfNecessary(id: string) {
-
+        let foundSat = null;
+        for (let serverSatellite of this.dbContent.satellites) {
+            if (serverSatellite.id === id) {
+                foundSat = serverSatellite;
+                break;
+            }
+        }
+        if (!foundSat) {
+            this.dbContent.satellites.push({
+                id: id,
+                group: '',
+                name: ''
+            });
+            this.doWrite();
+        }
     }
 
     private doWrite() {

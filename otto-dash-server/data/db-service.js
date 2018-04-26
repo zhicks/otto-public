@@ -76,6 +76,24 @@ var DbService = /** @class */ (function () {
             this.doWrite();
         }
     };
+    DbService.prototype.insertSatelliteIfNecessary = function (id) {
+        var foundSat = null;
+        for (var _i = 0, _a = this.dbContent.satellites; _i < _a.length; _i++) {
+            var serverSatellite = _a[_i];
+            if (serverSatellite.id === id) {
+                foundSat = serverSatellite;
+                break;
+            }
+        }
+        if (!foundSat) {
+            this.dbContent.satellites.push({
+                id: id,
+                group: '',
+                name: ''
+            });
+            this.doWrite();
+        }
+    };
     DbService.prototype.doWrite = function () {
         var content = JSON.stringify(this.dbContent);
         fs.writeFileSync(DB_FILE_PATH, content);

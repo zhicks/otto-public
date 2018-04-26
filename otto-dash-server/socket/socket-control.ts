@@ -99,14 +99,16 @@ class SocketControl {
                 this.updateProgram();
             });
             socket.on('app_motion_on', (groupObj: {group: string}) => {
+                console.log('turning motion on for group', groupObj);
                 let satSocket = this.findSatSocketForGroupId(groupObj.group);
                 satSocket.emit('turn_motion_on');
             });
             socket.on('app_motion_off', (groupObj: {group: string}) => {
+                console.log('turning motion off for group', groupObj);
                 let satSocket = this.findSatSocketForGroupId(groupObj.group);
                 satSocket.emit('turn_motion_off');
             });
-            socket.on('app_motion_on_temp', (groupObj: {group: string}) => {
+            socket.on('app_motion_off_temp', (groupObj: {group: string}) => {
                 let satSocket = this.findSatSocketForGroupId(groupObj.group);
                 satSocket.emit('turn_motion_off_temp');
             });
@@ -224,9 +226,10 @@ class SocketControl {
             let sat = dbService.findSatelliteForGroup(group.id);
             if (!sat) {
                 console.log('no sat found for group id ', group.id);
+            } else {
                 let satSocket: any;
                 for (let socket of this.satellites) {
-                    if (socket.id === sat.id) {
+                    if (socket.satelliteId === sat.id) {
                         return socket;
                     }
                 }

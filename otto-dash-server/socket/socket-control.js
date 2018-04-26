@@ -61,6 +61,7 @@ var SocketControl = /** @class */ (function () {
             });
             socket.on('satellite', function (idObj) {
                 console.log('satellite connected with id', idObj.id);
+                db_service_1.dbService.insertSatelliteIfNecessary(idObj.id);
                 _this.satellites.push(socket);
                 socket.satellite = true;
                 socket.satelliteId = idObj.id;
@@ -103,14 +104,16 @@ var SocketControl = /** @class */ (function () {
                 _this.updateProgram();
             });
             socket.on('app_motion_on', function (groupObj) {
+                console.log('turning motion on for group', groupObj);
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
                 satSocket.emit('turn_motion_on');
             });
             socket.on('app_motion_off', function (groupObj) {
+                console.log('turning motion off for group', groupObj);
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
                 satSocket.emit('turn_motion_off');
             });
-            socket.on('app_motion_on_temp', function (groupObj) {
+            socket.on('app_motion_off_temp', function (groupObj) {
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
                 satSocket.emit('turn_motion_off_temp');
             });
@@ -230,10 +233,13 @@ var SocketControl = /** @class */ (function () {
             var sat = db_service_1.dbService.findSatelliteForGroup(group.id);
             if (!sat) {
                 console.log('no sat found for group id ', group.id);
+            }
+            else {
                 var satSocket = void 0;
+                console.log('FUCK');
                 for (var _i = 0, _a = this.satellites; _i < _a.length; _i++) {
                     var socket = _a[_i];
-                    if (socket.id === sat.id) {
+                    if (socket.satelliteId === sat.id) {
                         return socket;
                     }
                 }

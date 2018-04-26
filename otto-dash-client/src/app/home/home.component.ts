@@ -151,7 +151,7 @@ export class HomeComponent implements OnInit {
   }
 
   motionOnTempClicked(groupId: string) {
-    this.apiService.socket.emit('app_motion_on_temp', { group: groupId });
+    this.apiService.socket.emit('app_motion_off_temp', { group: groupId });
   }
 
   toggleLightsForGroupClicked(group: HierarchicalGroupData) {
