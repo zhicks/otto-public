@@ -14,11 +14,11 @@ module OttoSatelliteModule {
     console.log('socket address is ', SOCKET_ADDRESS);
     const ID_FILE_PATH = '../../otto_id';
     const BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script.sh';
-    const DEFAULT_TIMEOUT = 2 * 60 * 1000;
+    const DEFAULT_TIMEOUT = 8 * 1000;
     const uuidv4 = require('uuid/v4');
     const Gpio = require('onoff').Gpio;
     const pir = new Gpio(4, 'in', 'both'); // or 7, I forget
-    const TEMP_TIMEOUT_LENGTH = 1 * 60 * 1000;
+    const TEMP_TIMEOUT_LENGTH = 5 * 1000;
     const { spawn } = require('child_process');
     let cloudSocket: any;
 
@@ -69,7 +69,8 @@ module OttoSatelliteModule {
                 console.log('connection');
                 cloudSocket.on('info', (infoObj) => {
                     let timeout = infoObj.timeout;
-                    this.timeoutLength = timeout || DEFAULT_TIMEOUT;
+                    // this.timeoutLength = timeout || DEFAULT_TIMEOUT;
+                    this.timeoutLength = DEFAULT_TIMEOUT;
                     console.log('got info from cloud socket: ', infoObj);
                     console.log('time out length is ' + this.timeoutLength);
                     if (!this.didSecondaryInit) {
