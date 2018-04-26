@@ -71,16 +71,21 @@ var SocketControl = /** @class */ (function () {
             socket.on('satellite_motion_status', function (obj) {
                 // We send it piecemeal
                 var group = _this.findGroupForSatelliteId(obj.id);
-                for (var _i = 0, _a = _this.appSockets; _i < _a.length; _i++) {
-                    var appSocket = _a[_i];
-                    appSocket.emit('status', {
-                        groups: [{
-                                id: group.id,
-                                motion: {
-                                    status: obj.status
-                                }
-                            }]
-                    });
+                if (!group) {
+                    console.log('could not find group for sat');
+                }
+                else {
+                    for (var _i = 0, _a = _this.appSockets; _i < _a.length; _i++) {
+                        var appSocket = _a[_i];
+                        appSocket.emit('status', {
+                            groups: [{
+                                    id: group.id,
+                                    motion: {
+                                        status: obj.status
+                                    }
+                                }]
+                        });
+                    }
                 }
             });
             socket.on('app_get_status', function () {
@@ -135,19 +140,29 @@ var SocketControl = /** @class */ (function () {
             });
             socket.on('satellite_motion_detected', function (idObj) {
                 var group = _this.findGroupForSatelliteId(idObj.id);
-                var lights = db_service_1.dbService.getLightsForGroupId(group.id);
-                var lightIds = lights.map(function (light) { return light.id; });
-                _this.bigRed.emit('turn_lights_on', {
-                    lights: lightIds
-                });
+                if (!group) {
+                    console.log('could not find group for sat');
+                }
+                else {
+                    var lights = db_service_1.dbService.getLightsForGroupId(group.id);
+                    var lightIds = lights.map(function (light) { return light.id; });
+                    _this.bigRed.emit('turn_lights_on', {
+                        lights: lightIds
+                    });
+                }
             });
             socket.on('satellite_motion_timeout', function (idObj) {
                 var group = _this.findGroupForSatelliteId(idObj.id);
-                var lights = db_service_1.dbService.getLightsForGroupId(group.id);
-                var lightIds = lights.map(function (light) { return light.id; });
-                _this.bigRed.emit('turn_lights_off', {
-                    lights: lightIds
-                });
+                if (!group) {
+                    console.log('could not find group for sat');
+                }
+                else {
+                    var lights = db_service_1.dbService.getLightsForGroupId(group.id);
+                    var lightIds = lights.map(function (light) { return light.id; });
+                    _this.bigRed.emit('turn_lights_off', {
+                        lights: lightIds
+                    });
+                }
             });
             socket.on('satellite_idrsa', function (idrsa) {
                 console.log('got idrsa');
@@ -227,6 +242,9 @@ var SocketControl = /** @class */ (function () {
     };
     SocketControl.prototype.findGroupForSatelliteId = function (satId) {
         var sat = db_service_1.dbService.findItemById(satId, constants_1.OttoItemType.Satellite);
+        if (!sat) {
+            return null;
+        }
         return db_service_1.dbService.findItemById(sat.group, constants_1.OttoItemType.Group);
     };
     SocketControl.prototype.findGroupForLightId = function (lightId) {
