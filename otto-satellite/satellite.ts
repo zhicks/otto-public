@@ -1,6 +1,6 @@
 import {OttoObjectStatus} from "../otto-shared/constants";
 
-module OttoSatellite {
+module OttoSatelliteModule {
 
     declare const require;
     declare const process;
@@ -174,6 +174,8 @@ module OttoSatellite {
         pkill -f node;
         node satellite.js;
     `;
+
+    new OttoSatellite().init();
 }
 
 
