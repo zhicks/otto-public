@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/otto-satellite/ssh-share.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-big-red/otto-big-red.js" afterPath="$PROJECT_DIR$/otto-big-red/otto-big-red.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" afterPath="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-dash-client/src/app/home/home.component.ts" afterPath="$PROJECT_DIR$/otto-dash-client/src/app/home/home.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-dash-server/data/db.json" afterPath="$PROJECT_DIR$/otto-dash-server/data/db.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.js" afterPath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts" afterPath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-satellite/package-lock.json" afterPath="$PROJECT_DIR$/otto-satellite/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-satellite/package.json" afterPath="$PROJECT_DIR$/otto-satellite/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otto-satellite/satellite.ts" afterPath="$PROJECT_DIR$/otto-satellite/satellite.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -34,8 +26,8 @@
       <file leaf-file-name="socket-control.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="190" column="42" lean-forward="false" selection-start-line="190" selection-start-column="42" selection-end-line="190" selection-end-column="42" />
+            <state relative-caret-position="321">
+              <caret line="152" column="32" lean-forward="true" selection-start-line="152" selection-start-column="32" selection-end-line="152" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -61,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="satellite.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="satellite.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="11" column="53" lean-forward="true" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
+            <state relative-caret-position="322">
+              <caret line="14" column="47" lean-forward="false" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -74,18 +66,18 @@
       <file leaf-file-name="ssh-share.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-satellite/ssh-share.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="16" column="7" lean-forward="false" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+            <state relative-caret-position="92">
+              <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-satellite/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="322">
+              <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -156,13 +148,13 @@
         <option value="$PROJECT_DIR$/otto-shared/otto-interfaces.ts" />
         <option value="$PROJECT_DIR$/otto-dash-client/src/app/home/home.component.html" />
         <option value="$PROJECT_DIR$/otto-dash-server/data/db-service.ts" />
-        <option value="$PROJECT_DIR$/otto-satellite/satellite.ts" />
         <option value="$PROJECT_DIR$/otto-dash-server/data/db.json" />
         <option value="$PROJECT_DIR$/otto-dash-client/src/app/home/home.component.ts" />
-        <option value="$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts" />
         <option value="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" />
-        <option value="$PROJECT_DIR$/otto-satellite/ssh-share.ts" />
         <option value="$PROJECT_DIR$/otto-satellite/package.json" />
+        <option value="$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts" />
+        <option value="$PROJECT_DIR$/otto-satellite/ssh-share.ts" />
+        <option value="$PROJECT_DIR$/otto-satellite/satellite.ts" />
       </list>
     </option>
   </component>
@@ -395,7 +387,7 @@
       <workItem from="1523961277649" duration="3391000" />
       <workItem from="1524589428427" duration="10042000" />
       <workItem from="1524601583056" duration="6458000" />
-      <workItem from="1524741271787" duration="2949000" />
+      <workItem from="1524741271787" duration="3393000" />
     </task>
     <task id="LOCAL-00001" summary="uytiugik">
       <created>1524658925022</created>
@@ -404,11 +396,25 @@
       <option name="project" value="LOCAL" />
       <updated>1524658925022</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="asdfasdf">
+      <created>1524745264487</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1524745264487</updated>
+    </task>
+    <task id="LOCAL-00003" summary="asdfasdff">
+      <created>1524745512941</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1524745512941</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22847000" />
+    <option name="totallyTimeSpent" value="23291000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
@@ -463,7 +469,9 @@
       <path value="$PROJECT_DIR$/otto-dash-client" />
     </ignored-roots>
     <MESSAGE value="uytiugik" />
-    <option name="LAST_COMMIT_MESSAGE" value="uytiugik" />
+    <MESSAGE value="asdfasdf" />
+    <MESSAGE value="asdfasdff" />
+    <option name="LAST_COMMIT_MESSAGE" value="asdfasdff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -812,30 +820,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="190" column="42" lean-forward="false" selection-start-line="190" selection-start-column="42" selection-end-line="190" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otto-satellite/ssh-share.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="16" column="7" lean-forward="false" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="11" column="53" lean-forward="true" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/otto-satellite/ssh-share.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -846,8 +830,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-satellite/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="322">
+          <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="152" column="32" lean-forward="true" selection-start-line="152" selection-start-column="32" selection-end-line="152" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-satellite/ssh-share.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="14" column="47" lean-forward="false" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
           <folding />
         </state>
       </provider>

@@ -11,8 +11,8 @@ module OttoSatellite {
     let http = require('http').Server(app);
     let socketIoClient = require('socket.io-client');
     const SOCKET_ADDRESS = 'http://localhost:3500';
-    const ID_FILE_PATH = '~/otto_id';
-    const BASH_UPDATE_SCRIPT_FILE_PATH = '~/otto_update_script';
+    const ID_FILE_PATH = '../../otto_id';
+    const BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script';
     const DEFAULT_TIMEOUT = 2 * 60 * 1000;
     const uuidv4 = require('uuid/v4');
     const Gpio = require('onoff').Gpio;
