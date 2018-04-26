@@ -14,7 +14,7 @@ module OttoSatelliteModule {
     console.log('socket address is ', SOCKET_ADDRESS);
     const ID_FILE_PATH = '../../otto_id';
     const BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script.sh';
-    const DEFAULT_TIMEOUT = 8 * 1000;
+    const DEFAULT_TIMEOUT = 14 * 1000;
     const uuidv4 = require('uuid/v4');
     const Gpio = require('onoff').Gpio;
     const pir = new Gpio(4, 'in', 'both'); // or 7, I forget
