@@ -79,8 +79,8 @@ module OttoSatelliteModule {
                 console.log('connection');
                 cloudSocket.on('info', (infoObj) => {
                     let timeout = infoObj.timeout;
-                    // this.timeoutLength = timeout || DEFAULT_TIMEOUT;
-                    this.timeoutLength = DEFAULT_TIMEOUT;
+                    this.timeoutLength = timeout || DEFAULT_TIMEOUT;
+                    // this.timeoutLength = DEFAULT_TIMEOUT;
                     console.log('got info from cloud socket: ', infoObj);
                     console.log('time out length is ' + this.timeoutLength);
                     if (!this.didSecondaryInit) {

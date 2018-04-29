@@ -65,8 +65,9 @@ var SocketControl = /** @class */ (function () {
                 _this.satellites.push(socket);
                 socket.satellite = true;
                 socket.satelliteId = idObj.id;
+                var group = _this.findGroupForSatelliteId(idObj.id);
                 socket.emit('info', {
-                    timeout: 30 * 60 * 1000
+                    timeout: group ? group.lightTimeout : null
                 });
             });
             socket.on('satellite_motion_status', function (obj) {
@@ -106,12 +107,22 @@ var SocketControl = /** @class */ (function () {
             socket.on('app_motion_on', function (groupObj) {
                 console.log('turning motion on for group', groupObj);
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
-                satSocket.emit('turn_motion_on');
+                if (!satSocket) {
+                    console.log('cant find sat socket for turn motion off');
+                }
+                else {
+                    satSocket.emit('turn_motion_on');
+                }
             });
             socket.on('app_motion_off', function (groupObj) {
                 console.log('turning motion off for group', groupObj);
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
-                satSocket.emit('turn_motion_off');
+                if (!satSocket) {
+                    console.log('cant find sat socket for turn motion off');
+                }
+                else {
+                    satSocket.emit('turn_motion_off');
+                }
             });
             socket.on('app_motion_off_temp', function (groupObj) {
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
@@ -200,9 +211,9 @@ var SocketControl = /** @class */ (function () {
                     }
                 }
                 console.log('satellites:');
-                console.log(_this.satellites);
+                console.log(_this.satellites.length);
                 console.log('apps:');
-                console.log(_this.appSockets);
+                console.log(_this.appSockets.length);
             });
         });
     };
