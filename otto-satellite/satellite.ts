@@ -68,7 +68,7 @@ module OttoSatelliteModule {
             try {
                 let exists = fs.readFileSync('/home/pi/pi_id_otto_hack');
                 console.log('username is pi');
-                USERNAME = 'pi';
+                USERNAME = 'pi';//
             } catch (e) {
                 console.log('username staying as sunny');
             }
