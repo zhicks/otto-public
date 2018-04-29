@@ -87,8 +87,8 @@
       <file leaf-file-name="satellite.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
-              <caret line="70" column="32" lean-forward="false" selection-start-line="70" selection-start-column="32" selection-end-line="70" selection-end-column="32" />
+            <state relative-caret-position="699">
+              <caret line="53" column="71" lean-forward="false" selection-start-line="53" selection-start-column="71" selection-end-line="53" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -132,7 +132,6 @@
       <find>OttoSatellite</find>
       <find>sat.gr</find>
       <find>findGroupForSatelliteId</find>
-      <find>BashScript</find>
       <find>exec</find>
       <find>timeoutLength</find>
       <find>motionTempOffTimeout</find>
@@ -158,6 +157,7 @@
       <find>turn_lights_off</find>
       <find>app_motion_off</find>
       <find>turn_motion_off</find>
+      <find>BashScript</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -419,7 +419,7 @@
       <workItem from="1523961277649" duration="3391000" />
       <workItem from="1524589428427" duration="10042000" />
       <workItem from="1524601583056" duration="6458000" />
-      <workItem from="1524741271787" duration="12205000" />
+      <workItem from="1524741271787" duration="13191000" />
     </task>
     <task id="LOCAL-00001" summary="uytiugik">
       <created>1524658925022</created>
@@ -589,11 +589,25 @@
       <option name="project" value="LOCAL" />
       <updated>1524779709536</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="asdfadsfsdf">
+      <created>1525009376385</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1525009376385</updated>
+    </task>
+    <task id="LOCAL-00026" summary="asdfadsfsdf">
+      <created>1525009615925</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1525009615925</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32103000" />
+    <option name="totallyTimeSpent" value="33089000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-8" width="1936" height="1066" extended-state="6" />
@@ -1047,8 +1061,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="70" column="32" lean-forward="false" selection-start-line="70" selection-start-column="32" selection-end-line="70" selection-end-column="32" />
+        <state relative-caret-position="699">
+          <caret line="53" column="71" lean-forward="false" selection-start-line="53" selection-start-column="71" selection-end-line="53" selection-end-column="71" />
           <folding />
         </state>
       </provider>

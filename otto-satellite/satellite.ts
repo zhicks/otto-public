@@ -51,7 +51,7 @@ module OttoSatelliteModule {
             console.log('satellite server started');
         }
         initBashScript() {
-            fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript);
+            fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript());
         }
         initId() {
             try {
@@ -194,13 +194,13 @@ module OttoSatelliteModule {
 
     }
 
-    const BashScript = `
+    const BashScript = () => { return `
         pkill -f node;
         cd /home/${USERNAME}/otto/otto-satellite;
         git stash;
         git pull;
         npm run start;
-    `;
+    `};
 
     new OttoSatellite().init();
 }
