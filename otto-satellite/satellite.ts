@@ -19,6 +19,7 @@ module OttoSatelliteModule {
     const Gpio = require('onoff').Gpio;
     const pir = new Gpio(4, 'in', 'both'); // or 7, I forget
     const TEMP_TIMEOUT_LENGTH = 5 * 1000;
+    let USERNAME = 'sunny';
     const { spawn } = require('child_process');
     let cloudSocket: any;
 
@@ -63,6 +64,13 @@ module OttoSatelliteModule {
                 this.id = uuidv4();
                 console.log('with id ' + this.id);
                 fs.writeFileSync(ID_FILE_PATH, this.id);
+            }
+            try {
+                let exists = fs.readFileSync('/home/pi/pi_id_otto_hack');
+                console.log('username is pi');
+                USERNAME = 'pi';
+            } catch (e) {
+                console.log('username staying as sunny');
             }
         }
         initSocket() {
@@ -188,7 +196,7 @@ module OttoSatelliteModule {
 
     const BashScript = `
         pkill -f node;
-        cd /home/sunny/otto/otto-satellite;
+        cd /home/${USERNAME}/otto/otto-satellite;
         git stash;
         git pull;
         npm run start;
