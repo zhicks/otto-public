@@ -39,7 +39,11 @@ module OttoBigRed {
                 lightObjs.push({ id, type, on, reachable, bri, hue, sat });
             }
             callback(lightObjs);
-        });
+        })
+            .catch(error => {
+                console.log('hue jay error getLightObjectDatas');
+                console.log(error);
+            })
     }
 
     let toggleLights = (lightIds: {lights: string[]}, on: boolean, callback: () => void) => {
@@ -68,7 +72,11 @@ module OttoBigRed {
             setTimeout(() => {
                 callback();
             }, 100);
-        });
+        })
+            .catch(error => {
+                console.log('hue jay error toggleLights');
+                console.log(error);
+            });
     }
 
     // ------------------------------------------------------------------- Regular Init (after hub init)
@@ -148,7 +156,8 @@ module OttoBigRed {
                     }
                 })
                 .catch(error => {
-                    console.log(`An error occurred: ${error.message}`);
+                        console.log('hue jay error doHubInit');
+                        console.log(error);
                 });
         }
     }
@@ -203,8 +212,16 @@ module OttoBigRed {
                                 console.log('  Model:',     light.model.name);
                                 console.log('  Reachable:', light.reachable);
                             }
+                        })
+                        .catch(error => {
+                            console.log('hue jay error doScanAndAddNewLights inner');
+                            console.log(error);
                         });
                 }, 20 * 1000);
+            })
+            .catch(error => {
+                console.log('hue jay error doScanAndAddNewLights');
+                console.log(error);
             });
     }
 

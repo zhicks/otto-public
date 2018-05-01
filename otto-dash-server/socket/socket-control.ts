@@ -152,7 +152,7 @@ class SocketControl {
                 } else {
                     let lights = dbService.getLightsForGroupId(group.id);
                     let lightIds = lights.map(light => light.id);
-                    this.bigRed.emit('turn_lights_on', {
+                    this.bigRed && this.bigRed.emit('turn_lights_on', {
                         lights: lightIds
                     });
                 }
@@ -164,7 +164,7 @@ class SocketControl {
                 } else {
                     let lights = dbService.getLightsForGroupId(group.id);
                     let lightIds = lights.map(light => light.id);
-                    this.bigRed.emit('turn_lights_off', {
+                    this.bigRed && this.bigRed.emit('turn_lights_off', {
                         lights: lightIds
                     });
                 }
