@@ -198,7 +198,9 @@ module OttoSatelliteModule {
     const BashScript = () => { return `
         pkill -f node;
         cd /home/${USERNAME}/otto/otto-satellite;
+        npm install;
         git stash;
+        git clean  -d  -fx .;
         git pull;
         npm run start-prod;
     `};
