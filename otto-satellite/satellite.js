@@ -194,7 +194,7 @@ var OttoSatelliteModule;
         return OttoSatellite;
     }());
     var BashScript = function () {
-        return "\n        pkill -f node;\n        cd /home/" + USERNAME + "/otto/otto-satellite;\n        git stash;\n        git pull;\n        npm run start;\n    ";
+        return "\n        pkill -f node;\n        cd /home/" + USERNAME + "/otto/otto-satellite;\n        git stash;\n        git pull;\n        npm run start-prod;\n    ";
     };
     new OttoSatellite().init();
 })(OttoSatelliteModule || (OttoSatelliteModule = {}));

@@ -16,7 +16,7 @@ var OttoBigRed;
     // ------------------------------------------------------------------- Props
     var cloudSocket;
     var hubClient;
-    var bridgeIp = '192.168.1.111';
+    var bridgeIp = '192.168.1.100';
     // ------------------------------------------------------------------- Stuff
     var getLightObjectDatas = function (callback) {
         // Doesnt return otto-specific or huejay-specific

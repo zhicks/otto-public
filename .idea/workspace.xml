@@ -4,8 +4,8 @@
     <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-big-red/otto-big-red.js" beforeDir="false" afterPath="$PROJECT_DIR$/otto-big-red/otto-big-red.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-dash-server/otto-dash-server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-server/otto-dash-server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.js" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/otto-dash-server.js" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-server/otto-dash-server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-satellite/satellite.js" beforeDir="false" afterPath="$PROJECT_DIR$/otto-satellite/satellite.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-satellite/satellite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-satellite/satellite.ts" afterDir="false" />
     </list>
@@ -30,8 +30,17 @@
       <file leaf-file-name="otto-big-red.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-big-red/otto-big-red.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="18" column="54" lean-forward="true" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
+            <state relative-caret-position="345">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/otto-big-red/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="8" column="16" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -57,8 +66,8 @@
       <file leaf-file-name="socket-control.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="59" column="47" lean-forward="true" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
+            <state relative-caret-position="834">
+              <caret line="262" column="5" lean-forward="true" selection-start-line="262" selection-start-column="5" selection-end-line="262" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -66,44 +75,35 @@
       <file leaf-file-name="home.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/home/home.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3266">
-              <caret line="142" column="3" selection-start-line="142" selection-start-column="3" selection-end-line="142" selection-end-column="3" />
+            <state relative-caret-position="492">
+              <caret line="43" column="31" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="otto-interfaces.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/otto-shared/otto-interfaces.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="db.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/otto-dash-server/data/db.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="108" selection-start-column="108" selection-end-column="108" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="satellite.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
+      <file leaf-file-name="api.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/api/api.service.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="391">
-              <caret line="197" column="22" lean-forward="true" selection-start-line="197" selection-start-column="22" selection-end-line="197" selection-end-column="22" />
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="otto-dash-server.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="satellite.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="13" column="67" selection-start-line="13" selection-start-column="67" selection-end-line="13" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="otto-dash-server.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-dash-server/otto-dash-server.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="75" column="59" lean-forward="true" selection-start-line="75" selection-start-column="59" selection-end-line="75" selection-end-column="59" />
+            <state relative-caret-position="529">
+              <caret line="74" column="26" lean-forward="true" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -111,8 +111,8 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-satellite/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+            <state relative-caret-position="138">
+              <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -121,10 +121,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>app_motion_off_temp</find>
-      <find>.emit</find>
-      <find>turn_motion_off_temp</find>
-      <find>sat 1</find>
       <find>.sat</find>
       <find>turning motion off</find>
       <find>satelliteId</find>
@@ -136,7 +132,6 @@
       <find>turn_lights_off</find>
       <find>app_motion_off</find>
       <find>turn_motion_off</find>
-      <find>BashScript</find>
       <find>console.log</find>
       <find>turning mot</find>
       <find>1b5</find>
@@ -151,6 +146,11 @@
       <find>.then</find>
       <find>setraw</find>
       <find>prod</find>
+      <find>getlight</find>
+      <find>calling get</find>
+      <find>cant find</find>
+      <find>SOCKET_ADDRESS</find>
+      <find>BashScript</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -177,11 +177,11 @@
         <option value="$PROJECT_DIR$/otto-dash-client/.gitignore" />
         <option value="$PROJECT_DIR$/otto-dash-server/data/db.json" />
         <option value="$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts" />
-        <option value="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" />
         <option value="$PROJECT_DIR$/deploy/client-deploy.sh" />
         <option value="$PROJECT_DIR$/deploy/on-machine/client-deploy.sh" />
-        <option value="$PROJECT_DIR$/otto-satellite/satellite.ts" />
         <option value="$PROJECT_DIR$/otto-dash-server/otto-dash-server.ts" />
+        <option value="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" />
+        <option value="$PROJECT_DIR$/otto-satellite/satellite.ts" />
       </list>
     </option>
   </component>
@@ -265,7 +265,54 @@
             <path>
               <item name="otto" type="b2602c69:ProjectViewProjectNode" />
               <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-dash-client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-dash-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-dash-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-dash-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-dash-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="home" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
               <item name="otto-dash-server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-dash-server" type="462c0819:PsiDirectoryNode" />
+              <item name="socket" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-dash-server" type="462c0819:PsiDirectoryNode" />
+              <item name="socket" type="462c0819:PsiDirectoryNode" />
+              <item name="socket-control.ts" type="620a8d5e:NestingTreeNode" />
             </path>
             <path>
               <item name="otto" type="b2602c69:ProjectViewProjectNode" />
@@ -341,7 +388,7 @@
       <workItem from="1524589428427" duration="10042000" />
       <workItem from="1524601583056" duration="6458000" />
       <workItem from="1524741271787" duration="18357000" />
-      <workItem from="1525215231242" duration="1366000" />
+      <workItem from="1525215231242" duration="2442000" />
     </task>
     <task id="LOCAL-00001" summary="uytiugik">
       <created>1524658925022</created>
@@ -550,7 +597,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39621000" />
+    <option name="totallyTimeSpent" value="40697000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -621,7 +668,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -805,13 +852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/api/api.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="12" column="16" lean-forward="true" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/group/group.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
@@ -864,13 +904,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-big-red/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="16" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/otto-dash-server/data/db-service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2277">
@@ -892,13 +925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/home/home.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3266">
-          <caret line="142" column="3" selection-start-line="142" selection-start-column="3" selection-end-line="142" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/otto-shared/otto-interfaces.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -910,13 +936,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="108" selection-start-column="108" selection-end-column="108" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="59" column="47" lean-forward="true" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -934,31 +953,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-big-red/otto-big-red.ts">
+    <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/home/home.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="18" column="54" lean-forward="true" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
+        <state relative-caret-position="492">
+          <caret line="43" column="31" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-satellite/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
+    <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/api/api.service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
-          <caret line="197" column="22" lean-forward="true" selection-start-line="197" selection-start-column="22" selection-end-line="197" selection-end-column="22" />
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-dash-server/otto-dash-server.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="75" column="59" lean-forward="true" selection-start-line="75" selection-start-column="59" selection-end-line="75" selection-end-column="59" />
+        <state relative-caret-position="529">
+          <caret line="74" column="26" lean-forward="true" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="834">
+          <caret line="262" column="5" lean-forward="true" selection-start-line="262" selection-start-column="5" selection-end-line="262" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-big-red/otto-big-red.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-big-red/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="16" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-satellite/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="17" lean-forward="true" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="67" selection-start-line="13" selection-start-column="67" selection-end-line="13" selection-end-column="67" />
         </state>
       </provider>
     </entry>

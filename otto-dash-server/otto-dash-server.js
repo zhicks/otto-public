@@ -70,8 +70,8 @@ http.listen(app.get('port'), function () {
     console.log('listening on ' + app.get('port'));
 });
 // ------------------------------------------------------------------- Exit on keypress
-process.stdin.setRawMode(true);
-process.stdin.resume();
-process.stdin.on('data', process.exit.bind(process, 0));
+// process.stdin.setRawMode(true);
+// process.stdin.resume();
+// process.stdin.on('data', process.exit.bind(process, 0));
 // ------------------------------------------------------------------- Socket
 socket_control_1.socketControl.init(http);
