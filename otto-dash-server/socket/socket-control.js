@@ -160,7 +160,7 @@ var SocketControl = /** @class */ (function () {
                 else {
                     var lights = db_service_1.dbService.getLightsForGroupId(group.id);
                     var lightIds = lights.map(function (light) { return light.id; });
-                    _this.bigRed.emit('turn_lights_on', {
+                    _this.bigRed && _this.bigRed.emit('turn_lights_on', {
                         lights: lightIds
                     });
                 }
@@ -173,7 +173,7 @@ var SocketControl = /** @class */ (function () {
                 else {
                     var lights = db_service_1.dbService.getLightsForGroupId(group.id);
                     var lightIds = lights.map(function (light) { return light.id; });
-                    _this.bigRed.emit('turn_lights_off', {
+                    _this.bigRed && _this.bigRed.emit('turn_lights_off', {
                         lights: lightIds
                     });
                 }

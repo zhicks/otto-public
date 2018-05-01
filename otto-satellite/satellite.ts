@@ -199,7 +199,7 @@ module OttoSatelliteModule {
         cd /home/${USERNAME}/otto/otto-satellite;
         git stash;
         git pull;
-        npm run start;
+        npm run start-prod;
     `};
 
     new OttoSatellite().init();
