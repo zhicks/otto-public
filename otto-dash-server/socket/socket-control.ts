@@ -7,7 +7,7 @@ const uuidv4 = require('uuid/v4');
 const socketIo = require('socket.io');
 
 class OttoLogger {
-    readonly limit = 40;
+    limit = 40;
     messages: {
         ts: Date,
         ms: any
