@@ -10,19 +10,23 @@ module OttoSatelliteModule {
     let fs = require('fs');
     let http = require('http').Server(app);
     let socketIoClient = require('socket.io-client');
-    // const SOCKET_ADDRESS = process.argv && process.argv[2] === 'prod' ? 'http://blackboxjs.com:3500': 'http://192.168.1.102:3500';
-    const SOCKET_ADDRESS = 'http://blackboxjs.com:3500'; // TODO ^^
+    const isProd = process.argv && process.argv[2] === 'prod';
+    const SOCKET_ADDRESS = isProd ? 'http://blackboxjs.com:3500': 'http://192.168.1.102:3500';
     console.log('socket address is ', SOCKET_ADDRESS);
     const ID_FILE_PATH = '../../otto_id';
     const BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script.sh';
     const DEFAULT_TIMEOUT = 14 * 1000;
     const uuidv4 = require('uuid/v4');
     const Gpio = require('onoff').Gpio;
-    const pir = new Gpio(4, 'in', 'both'); // or 7, I forget
     const TEMP_TIMEOUT_LENGTH = 5 * 1000;
     let USERNAME = 'sunny';
     const { spawn } = require('child_process');
     let cloudSocket: any;
+
+    const pir4 = new Gpio(4, 'in', 'both');
+    const pir17 = new Gpio(17, 'in', 'both');
+
+    // NEXT: Test watching 17 if there's nothing plugged in before trying anything else
 
     class OttoSatellite {
         id: string;
@@ -32,6 +36,12 @@ module OttoSatelliteModule {
         motionStatus = OttoObjectStatus.On;
         motionTempOffTimeout: any;
         updateProgramCalled = false;
+
+        doLog(message: any) {
+            if (cloudSocket) {
+                cloudSocket.emit('sat_log', { id: this.id, msg: message });
+            }
+        }
 
         init() {
             this.initServer();
@@ -125,28 +135,47 @@ module OttoSatelliteModule {
                         status: this.motionStatus
                     });
                 });
+                cloudSocket.on('ping', () => {
+                    console.log(`cloud socket ping ${new Date()}`);
+                    cloudSocket.emit('pong', { id: this.id });
+                });
                 console.log('saying hello to cloud socket, id: ', this.id);
                 cloudSocket.emit('satellite', {
                     id: this.id
                 });
             });
         }
-        initMotionDetection() {
-            pir.watch((err, value) => {
-                if (err) {
-                    console.log('Error in PIR watch:');
-                    console.log(err);
-                } else {
-                    console.log(' ----- motion logged: ', value);
-                    if (this.motionStatus === OttoObjectStatus.On && value === 1) {
-                        console.log('value is 1, calling motion detected');
+        private innerInitMotionDetection(err, value, pirnum: string) {
+            if (err) {
+                console.log(`Error in PIR watch ${pirnum}:`);
+                console.log(err);
+            } else {
+                console.log(` ----- m ${pirnum}: `, value);
+                if (value === 1) {
+                    if (cloudSocket) {
+                        console.log(`emitting motion to cloud ${pirnum}`);
+                        cloudSocket.emit('sat_mot', {
+                            id: this.id
+                        });
+                    }
+                    if (this.motionStatus === OttoObjectStatus.On) {
+                        console.log('calling motion detected');
                         this.onMotionDetected();
+                    } else {
+                        console.log('not calling motion detected');
                     }
                 }
+            }
+        }
+        initMotionDetection() {
+            pir4.watch((err, value) => {
+                this.innerInitMotionDetection(err, value, '4');
+            });
+            pir17.watch((err, value) => {
+                this.innerInitMotionDetection(err, value, '17');
             });
             this.didSecondaryInit = true;
         }
-
         onMotionDetected() {
             // We only care about the 1 - not the 0.
             // The satellite will send that motion was detected

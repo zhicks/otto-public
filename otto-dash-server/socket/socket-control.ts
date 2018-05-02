@@ -6,10 +6,52 @@ declare const require;
 const uuidv4 = require('uuid/v4');
 const socketIo = require('socket.io');
 
+class OttoLogger {
+    readonly limit = 40;
+    messages: {
+        ts: Date,
+        ms: any
+    }[] = [];
+
+    constructor(
+        private logToConsole: boolean
+    ) {}
+
+    log(message: any) {
+        this.messages.unshift({
+            ts: new Date(),
+            ms: message
+        });
+        if (this.messages.length > this.limit) {
+            this.messages.pop();
+        }
+        if (this.logToConsole) {
+            console.log(message);
+        }
+    }
+}
+
 class SocketControl {
     bigRed: any;
-    satellites: any[] = [];
+    satellites: { satelliteId: string, emit: Function }[] = [];
     appSockets: any[] = [];
+    loggers: {
+        [id: string]: {
+            id: string,
+            type: OttoItemType,
+            logger: OttoLogger
+        }
+    } = {};
+
+    serverLog(message: any) {
+        const serverId = 'OTTO_SERVER';
+        this.loggers[serverId] = this.loggers[serverId] || {
+            id: serverId,
+            type: OttoItemType.Server,
+            logger: new OttoLogger(true)
+        }
+        this.loggers[serverId].logger.log(message);
+    }
 
     init(http: any) {
         let io = socketIo(http);
@@ -141,9 +183,35 @@ class SocketControl {
                 }
             });
             socket.on('app_scan_lights', () => {
+                console.log('got app scan lights');
                 if (this.bigRed) {
                     this.bigRed.emit('scan_lights');
                 }
+            });
+            socket.on('app_log_dump', (idObj: { id: string }) => {
+                let logger = this.loggers[idObj.id];
+                let logDump;
+                if (!logger) {
+                    logDump = { error: 'log dump was empty for id ' + idObj.id };
+                } else {
+                    logDump = logger.logger.messages;
+                }
+                socket.emit('log_dump', logDump);
+            });
+            socket.on('sat_log', (log: { id: string, msg: any }) => {
+                this.loggers[log.id] = this.loggers[log.id] || {
+                    id: log.id,
+                    type: OttoItemType.Satellite,
+                    logger: new OttoLogger(false)
+                }
+                this.loggers[log.id].logger.log(log.msg);
+                this.appSockets.forEach(appSocket => {
+                    appSocket.emit('new_log', {
+                        type: OttoItemType.Satellite,
+                        id: log.id,
+                        msg: log.msg
+                    });
+                });
             });
             socket.on('satellite_motion_detected', (idObj: {id: string}) => {
                 let group = this.findGroupForSatelliteId(idObj.id);
