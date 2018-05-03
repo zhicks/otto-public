@@ -51,7 +51,6 @@ var OttoSatelliteModule;
         OttoSatellite.prototype.init = function () {
             this.initServer();
             this.initId();
-            this.initBashScript();
             this.initSocket();
         };
         OttoSatellite.prototype.secondaryInit = function () {
@@ -66,8 +65,8 @@ var OttoSatelliteModule;
             });
             this.doLog('satellite server started');
         };
-        OttoSatellite.prototype.initBashScript = function () {
-            fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript());
+        OttoSatellite.prototype.writeBashScript = function (doProd) {
+            fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript(doProd));
         };
         OttoSatellite.prototype.initId = function () {
             try {
@@ -110,9 +109,13 @@ var OttoSatelliteModule;
                         _this.doLog('already did motion init, just setting timeout');
                     }
                 });
-                cloudSocket.on('update_program', function () {
+                cloudSocket.on('update_program_prod', function () {
                     _this.doLog('update program called');
-                    _this.updateProgram();
+                    _this.updateProgram(true);
+                });
+                cloudSocket.on('update_program_dev', function () {
+                    _this.doLog('update program called');
+                    _this.updateProgram(false);
                 });
                 cloudSocket.on('turn_motion_on', function () {
                     _this.doLog('turn motion on called');
@@ -204,28 +207,22 @@ var OttoSatelliteModule;
             }
             this.setMotionTimeout();
         };
-        OttoSatellite.prototype.updateProgram = function () {
+        OttoSatellite.prototype.updateProgram = function (doProd) {
             if (!this.updateProgramCalled) {
-                this.doLog('calling update program');
-                // exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH} `, (err, stdout, stderr) => {
-                //     if (err) {
-                //         this.doLog('Error updating program');
-                //         this.doLog(err);
-                //     }
-                //     this.doLog(stdout);
-                // });
+                this.doLog("calling update program - doProd: " + doProd);
+                this.writeBashScript(doProd);
                 spawn("bash", [BASH_UPDATE_SCRIPT_FILE_PATH], {
                     cwd: process.cwd(),
                     detached: true,
-                    stdio: "inherit"
+                    stdio: 'inherit'
                 });
                 this.updateProgramCalled = true;
             }
         };
         return OttoSatellite;
     }());
-    var BashScript = function () {
-        return "\n        pkill -f node;\n        cd /home/" + USERNAME + "/otto/otto-satellite;\n        git stash;\n        git clean  -d  -fx .;\n        git pull;\n        npm install;\n        npm run start-prod;\n    ";
+    var BashScript = function (doProd) {
+        return "\n        pkill -f node;\n        cd /home/" + USERNAME + "/otto/otto-satellite;\n        git stash;\n        git clean  -d  -fx .;\n        git pull;\n        npm install;\n        npm run start" + (doProd ? "-prod" : '') + ";\n    ";
     };
     new OttoSatellite().init();
 })(OttoSatelliteModule || (OttoSatelliteModule = {}));

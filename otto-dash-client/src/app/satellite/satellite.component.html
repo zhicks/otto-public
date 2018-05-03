@@ -4,7 +4,7 @@
 <div class="otto-list-wrapper" *ngIf="editingSat">
   <div class="form-group">
     <label>Satellite Name</label>
-    <input type="email" class="form-control input-lg" placeholder="Enter name" [(ngModel)]="editingSat.name">
+    <input class="form-control input-lg" placeholder="Enter name" [(ngModel)]="editingSat.name">
   </div>
   <div class="form-group">
     <label>Select Group</label>
@@ -12,6 +12,12 @@
       <option *ngFor="let group of groups" [ngValue]="group">{{group.name}}</option>
     </select>
   </div>
+</div>
+<div class="action-buttons">
+  <button class="btn btn-default btn-lg" (click)="logsClicked()">
+    <i class="fa fa-list"></i>
+    Logs
+  </button>
 </div>
 <div class="action-buttons">
   <button class="btn btn-default btn-lg blue-text" (click)="saveClicked()">

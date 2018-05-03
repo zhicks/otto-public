@@ -67,7 +67,7 @@
               </div>
               <div class="top-left-right">
                 <div class="list-item-title">
-                  {{satellite.name}}
+                  {{satellite.name}} <span style="color: #01519e" [hidden]="!satellite.liveMotion"><i class="fas fa-eye"></i></span>
                 </div>
                 <div class="list-item-subtitle">
                   {{satellite.id}}

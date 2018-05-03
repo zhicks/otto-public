@@ -1,0 +1,16 @@
+<div class="otto-page-title">
+  <h3><i class="fa fa-list"></i> Logs</h3>
+</div>
+<div class="otto-list-wrapper">
+  <div class="log-message-wrapper" *ngFor="let log of logs">
+    <div class="type">{{ OttoItemType[log.type] }} - {{log.id}}</div>
+    <div class="time">{{ log.ts | date:'full' }}</div>
+    <div class="message">{{log.ms}}</div>
+  </div>
+</div>
+<div class="action-buttons">
+  <button class="btn btn-default btn-lg" (click)="backClicked()">
+    <i class="fas fa-times"></i>
+    Back
+  </button>
+</div>

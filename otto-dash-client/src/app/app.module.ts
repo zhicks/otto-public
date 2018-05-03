@@ -11,6 +11,7 @@ import {GroupComponent} from "./group/group.component";
 import {FormsModule} from "@angular/forms";
 import {SatelliteComponent} from "./satellite/satellite.component";
 import {LightComponent} from "./light/light.component";
+import {LogsComponent} from "./logs/logs.component";
 
 const routing: ModuleWithProviders = RouterModule.forRoot([
   {
@@ -34,6 +35,10 @@ const routing: ModuleWithProviders = RouterModule.forRoot([
     component: SatelliteComponent
   },
   {
+    path: 'satellite/:id/logs',
+    component: LogsComponent
+  },
+  {
     path: 'light',
     component: LightComponent
   },
@@ -54,7 +59,8 @@ const routing: ModuleWithProviders = RouterModule.forRoot([
     HomeComponent,
     GroupComponent,
     SatelliteComponent,
-    LightComponent
+    LightComponent,
+    LogsComponent
   ],
   imports: [
     BrowserModule,

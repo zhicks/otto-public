@@ -24,7 +24,9 @@ interface HierarchicalGroupData {
   satellites: {
     id: string,
     name: string,
-    group: HierarchicalGroupData
+    group: HierarchicalGroupData,
+    liveMotion: boolean,
+    liveMotionTimeout: any
   }[]
 }
 
@@ -121,6 +123,20 @@ export class HomeComponent implements OnInit {
           if (statusGroup.motion) {
             modelGroup.status.motion.status = statusGroup.motion.status;
           }
+        }
+      }
+    });
+    socket.on('sat_mot', (idObj: {id: string}) => {
+      console.log('sat mot');
+      if (this.model) {
+        for (let group of this.model.groups) {
+          group.satellites.forEach(satellite => {
+            clearTimeout(satellite.liveMotionTimeout);
+            satellite.liveMotion = true;
+            satellite.liveMotionTimeout = setTimeout(() => {
+              satellite.liveMotion = false;
+            }, 6000);
+          });
         }
       }
     });

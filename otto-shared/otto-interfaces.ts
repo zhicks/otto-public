@@ -1,4 +1,4 @@
-import {OttoObjectStatus} from "./constants";
+import {OttoItemType, OttoObjectStatus} from "./constants";
 
 export interface OttoDb {
     groups: OttoGroup[],
@@ -10,6 +10,13 @@ export interface OttoGroup {
     id: string,
     name: string,
     lightTimeout: number
+}
+
+export interface OttoLoggerMessage {
+    ts: Date,
+    ms: any,
+    id: string,
+    type: OttoItemType
 }
 
 export interface OttoBaseItem {

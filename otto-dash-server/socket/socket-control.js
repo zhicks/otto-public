@@ -5,22 +5,28 @@ var db_service_1 = require("../data/db-service");
 var uuidv4 = require('uuid/v4');
 var socketIo = require('socket.io');
 var OttoLogger = /** @class */ (function () {
-    function OttoLogger(logToConsole) {
+    function OttoLogger(id, type, logToConsole) {
+        this.id = id;
+        this.type = type;
         this.logToConsole = logToConsole;
         this.limit = 40;
         this.messages = [];
     }
     OttoLogger.prototype.log = function (message) {
-        this.messages.unshift({
+        var messageObj = {
             ts: new Date(),
-            ms: message
-        });
+            ms: message,
+            id: this.id,
+            type: this.type
+        };
+        this.messages.unshift(messageObj);
         if (this.messages.length > this.limit) {
             this.messages.pop();
         }
         if (this.logToConsole) {
             console.log(message);
         }
+        return messageObj;
     };
     return OttoLogger;
 }());
@@ -32,12 +38,12 @@ var SocketControl = /** @class */ (function () {
     }
     SocketControl.prototype.doLog = function (message) {
         var serverId = 'OTTO_SERVER';
-        this.loggers[serverId] = this.loggers[serverId] || {
-            id: serverId,
-            type: constants_1.OttoItemType.Server,
-            logger: new OttoLogger(true)
-        };
-        this.loggers[serverId].logger.log(message);
+        this.loggers[serverId] = this.loggers[serverId] || new OttoLogger(serverId, constants_1.OttoItemType.Server, true);
+        var messageObj = this.loggers[serverId].log(message);
+        var messages = [messageObj];
+        this.appSockets.forEach(function (appSocket) {
+            appSocket.emit('new_log', messages);
+        });
     };
     SocketControl.prototype.init = function (http) {
         var _this = this;
@@ -187,29 +193,35 @@ var SocketControl = /** @class */ (function () {
                 }
             });
             socket.on('app_log_dump', function (idObj) {
-                var logger = _this.loggers[idObj.id];
-                var logDump;
-                if (!logger) {
-                    logDump = { error: 'log dump was empty for id ' + idObj.id };
+                var logDump = [];
+                if (!idObj) {
+                    for (var key in _this.loggers) {
+                        var logger = _this.loggers[key];
+                        // TODO App Dump
+                    }
                 }
                 else {
-                    logDump = logger.logger.messages;
+                    var logger = _this.loggers[idObj.id];
+                    if (!logger) {
+                        logDump = [{
+                                ts: new Date(),
+                                ms: 'log dump was empty for id ' + idObj.id,
+                                id: 'none',
+                                type: constants_1.OttoItemType.None
+                            }];
+                    }
+                    else {
+                        logDump = logger.messages;
+                    }
                 }
                 socket.emit('log_dump', logDump);
             });
             socket.on('sat_log', function (log) {
-                _this.loggers[log.id] = _this.loggers[log.id] || {
-                    id: log.id,
-                    type: constants_1.OttoItemType.Satellite,
-                    logger: new OttoLogger(false)
-                };
-                _this.loggers[log.id].logger.log(log.msg);
+                _this.loggers[log.id] = _this.loggers[log.id] || new OttoLogger(log.id, constants_1.OttoItemType.Satellite, false);
+                var messageObj = _this.loggers[log.id].log(log.msg);
+                var messages = [messageObj];
                 _this.appSockets.forEach(function (appSocket) {
-                    appSocket.emit('new_log', {
-                        type: constants_1.OttoItemType.Satellite,
-                        id: log.id,
-                        msg: log.msg
-                    });
+                    appSocket.emit('new_log', messages);
                 });
             });
             socket.on('satellite_motion_detected', function (idObj) {
@@ -224,6 +236,11 @@ var SocketControl = /** @class */ (function () {
                         lights: lightIds
                     });
                 }
+            });
+            socket.on('sat_mot', function (idObj) {
+                _this.appSockets.forEach(function (appSocket) {
+                    appSocket.emit('sat_mot', idObj);
+                });
             });
             socket.on('satellite_motion_timeout', function (idObj) {
                 var group = _this.findGroupForSatelliteId(idObj.id);

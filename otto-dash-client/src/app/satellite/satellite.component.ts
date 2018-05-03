@@ -62,4 +62,8 @@ export class SatelliteComponent implements OnInit {
     this.router.navigate(['../']);
   }
 
+  logsClicked() {
+    this.router.navigate(['logs'], { relativeTo: this.activatedRoute });
+  }
+
 }

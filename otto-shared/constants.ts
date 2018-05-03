@@ -2,7 +2,9 @@ export enum OttoItemType {
     Light,
     Satellite,
     Group,
-    Server
+    Server,
+    None,
+    All
 }
 
 export enum OttoObjectStatus {
