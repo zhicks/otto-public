@@ -138,8 +138,11 @@ class SocketControl {
             socket.on('refresh_status', () => {
                 this.doStatus();
             });
-            socket.on('app_update_program', () => {
-                this.updateProgram();
+            socket.on('app_update_program_dev', () => {
+                this.updateProgram(false);
+            });
+            socket.on('app_update_program_prod', () => {
+                this.updateProgram(true);
             });
             socket.on('app_motion_on', (groupObj: {group: string}) => {
                 this.doLog('turning motion on for group' + JSON.stringify(groupObj));
@@ -288,9 +291,10 @@ class SocketControl {
         }
     }
 
-    updateProgram() {
+    updateProgram(doProd: boolean) {
+        const eventString = `update_program${doProd ? '_prod' : '_dev'}`;
         for (let satellite of this.satellites) {
-            satellite.emit('update_program');
+            satellite.emit(eventString);
         }
     }
 

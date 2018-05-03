@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
-    "deploy": "./deploy/bb-deploy.sh"
+    "deploy": "bash ./deploy/bb-deploy.sh"
   },
   "keywords": [],
   "author": "",

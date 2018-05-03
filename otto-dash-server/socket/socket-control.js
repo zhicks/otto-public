@@ -131,8 +131,11 @@ var SocketControl = /** @class */ (function () {
             socket.on('refresh_status', function () {
                 _this.doStatus();
             });
-            socket.on('app_update_program', function () {
-                _this.updateProgram();
+            socket.on('app_update_program_dev', function () {
+                _this.updateProgram(false);
+            });
+            socket.on('app_update_program_prod', function () {
+                _this.updateProgram(true);
             });
             socket.on('app_motion_on', function (groupObj) {
                 _this.doLog('turning motion on for group' + JSON.stringify(groupObj));
@@ -285,10 +288,11 @@ var SocketControl = /** @class */ (function () {
             sat.emit('get_motion_status');
         }
     };
-    SocketControl.prototype.updateProgram = function () {
+    SocketControl.prototype.updateProgram = function (doProd) {
+        var eventString = "update_program" + (doProd ? '_prod' : '_dev');
         for (var _i = 0, _a = this.satellites; _i < _a.length; _i++) {
             var satellite = _a[_i];
-            satellite.emit('update_program');
+            satellite.emit(eventString);
         }
     };
     SocketControl.prototype.findSatSocketForGroupId = function (groupId) {

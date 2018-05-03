@@ -162,8 +162,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  updateSatellitesClicked() {
-    this.apiService.socket.emit('app_update_program');
+  updateSatellitesDevClicked() {
+    this.apiService.socket.emit('app_update_program_dev');
+  }
+
+  updateSatellitesProdClicked() {
+    this.apiService.socket.emit('app_update_program_prod');
   }
 
   scanLightsClicked() {
