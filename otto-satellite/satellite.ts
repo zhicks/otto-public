@@ -38,6 +38,7 @@ module OttoSatelliteModule {
         updateProgramCalled = false;
 
         doLog(message: any) {
+            console.log(message);
             if (cloudSocket) {
                 cloudSocket.emit('sat_log', { id: this.id, msg: message });
             }
@@ -57,70 +58,70 @@ module OttoSatelliteModule {
             app.set('view engine', 'html');
             app.set('port', (process.env.PORT || 3501));
             http.listen(app.get('port'), () => {
-                console.log('listening on ' + app.get('port'));
+                this.doLog('listening on ' + app.get('port'));
             });
-            console.log('satellite server started');
+            this.doLog('satellite server started');
         }
         initBashScript() {
             fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript());
         }
         initId() {
             try {
-                console.log('about to read from id file');
+                this.doLog('about to read from id file');
                 let data = fs.readFileSync(ID_FILE_PATH).toString();
-                console.log('id from data is ', data);
+                this.doLog('id from data is ' + JSON.stringify(data));
                 this.id = data;
             } catch (e) {
-                console.log('id did not exist, writing it');
+                this.doLog('id did not exist, writing it');
                 this.id = uuidv4();
-                console.log('with id ' + this.id);
+                this.doLog('with id ' + this.id);
                 fs.writeFileSync(ID_FILE_PATH, this.id);
             }
             try {
                 let exists = fs.readFileSync('/home/pi/pi_id_otto_hack');
-                console.log('username is pi');
+                this.doLog('username is pi');
                 USERNAME = 'pi';//
             } catch (e) {
-                console.log('username staying as sunny');
+                this.doLog('username staying as sunny');
             }
         }
         initSocket() {
             cloudSocket = socketIoClient(SOCKET_ADDRESS);
             cloudSocket.on('connect', () => {
-                console.log('connection');
+                this.doLog('connection');
                 cloudSocket.on('info', (infoObj) => {
                     let timeout = infoObj.timeout;
                     this.timeoutLength = timeout || DEFAULT_TIMEOUT;
                     // this.timeoutLength = DEFAULT_TIMEOUT;
-                    console.log('got info from cloud socket: ', infoObj);
-                    console.log('time out length is ' + this.timeoutLength);
+                    this.doLog('got info from cloud socket: ' + JSON.stringify(infoObj));
+                    this.doLog('time out length is ' + this.timeoutLength);
                     if (!this.didSecondaryInit) {
-                        console.log('did not init motion yet, calling secondary init for motion');
+                        this.doLog('did not init motion yet, calling secondary init for motion');
                         this.secondaryInit();
                     } else {
-                        console.log('already did motion init, just setting timeout');
+                        this.doLog('already did motion init, just setting timeout');
                     }
                 });
                 cloudSocket.on('update_program', () => {
-                    console.log('update program called');
+                    this.doLog('update program called');
                     this.updateProgram();
                 });
                 cloudSocket.on('turn_motion_on', () => {
-                    console.log('turn motion on called');
+                    this.doLog('turn motion on called');
                     clearTimeout(this.motionTempOffTimeout);
                     clearTimeout(this.motionTimeout);
                     this.motionStatus = OttoObjectStatus.On;
                     cloudSocket.emit('refresh_status');
                 });
                 cloudSocket.on('turn_motion_off', () => {
-                    console.log('turn motion off called');
+                    this.doLog('turn motion off called');
                     clearTimeout(this.motionTempOffTimeout);
                     clearTimeout(this.motionTimeout);
                     this.motionStatus = OttoObjectStatus.Off;
                     cloudSocket.emit('refresh_status');
                 });
                 cloudSocket.on('turn_motion_off_temp', () => {
-                    console.log('turn motion off temp called');
+                    this.doLog('turn motion off temp called');
                     if (this.motionStatus !== OttoObjectStatus.OffTemporarily) {
                         this.motionTempOffTimeout = setTimeout(() => {
                             this.motionStatus = OttoObjectStatus.On;
@@ -136,10 +137,10 @@ module OttoSatelliteModule {
                     });
                 });
                 cloudSocket.on('ping', () => {
-                    console.log(`cloud socket ping ${new Date()}`);
-                    cloudSocket.emit('pong', { id: this.id });
+                    // this.doLog(`cloud socket ping ${new Date()}`);
+                    // cloudSocket.emit('pong', { id: this.id });
                 });
-                console.log('saying hello to cloud socket, id: ', this.id);
+                this.doLog('saying hello to cloud socket, id: ' + this.id);
                 cloudSocket.emit('satellite', {
                     id: this.id
                 });
@@ -147,22 +148,22 @@ module OttoSatelliteModule {
         }
         private innerInitMotionDetection(err, value, pirnum: string) {
             if (err) {
-                console.log(`Error in PIR watch ${pirnum}:`);
-                console.log(err);
+                this.doLog(`Error in PIR watch ${pirnum}:`);
+                this.doLog(err);
             } else {
-                console.log(` ----- m ${pirnum}: `, value);
+                this.doLog(` ----- m ${pirnum}: ` + value);
                 if (value === 1) {
                     if (cloudSocket) {
-                        console.log(`emitting motion to cloud ${pirnum}`);
+                        this.doLog(`emitting motion to cloud ${pirnum}`);
                         cloudSocket.emit('sat_mot', {
                             id: this.id
                         });
                     }
                     if (this.motionStatus === OttoObjectStatus.On) {
-                        console.log('calling motion detected');
+                        this.doLog('calling motion detected');
                         this.onMotionDetected();
                     } else {
-                        console.log('not calling motion detected');
+                        this.doLog('not calling motion detected');
                     }
                 }
             }
@@ -181,37 +182,37 @@ module OttoSatelliteModule {
             // The satellite will send that motion was detected
             // and that its timer is done
             if (this.motionTimeout) {
-                console.log('motion timeout exists, clearing timeout');
+                this.doLog('motion timeout exists, clearing timeout');
                 // It's currently on
                 clearTimeout(this.motionTimeout);
             } else {
                 // This is new
-                console.log('motion timeout did not exist, emitting to cloud socket');
+                this.doLog('motion timeout did not exist, emitting to cloud socket');
                 cloudSocket.emit('satellite_motion_detected', { id: this.id });
             }
             this.setMotionTimeout();
         }
         private setMotionTimeout = () => {
-            console.log('setting motion timeout');
+            this.doLog('setting motion timeout');
             this.motionTimeout = setTimeout(() => {
                 this.onMotionTimeout();
             }, this.timeoutLength);
         }
         private onMotionTimeout = () => {
-            console.log('motion timed out, emitting to cloud socket');
+            this.doLog('motion timed out, emitting to cloud socket');
             cloudSocket.emit('satellite_motion_timeout', { id: this.id });
             this.motionTimeout = null;
         }
 
         private updateProgram() {
             if (!this.updateProgramCalled) {
-                console.log('calling update program');
+                this.doLog('calling update program');
                 // exec(`bash ${BASH_UPDATE_SCRIPT_FILE_PATH} `, (err, stdout, stderr) => {
                 //     if (err) {
-                //         console.log('Error updating program');
-                //         console.log(err);
+                //         this.doLog('Error updating program');
+                //         this.doLog(err);
                 //     }
-                //     console.log(stdout);
+                //     this.doLog(stdout);
                 // });
                 spawn(`bash`, [BASH_UPDATE_SCRIPT_FILE_PATH], {
                     cwd: process.cwd(),
@@ -229,8 +230,8 @@ module OttoSatelliteModule {
         cd /home/${USERNAME}/otto/otto-satellite;
         git stash;
         git clean  -d  -fx .;
-        npm install;
         git pull;
+        npm install;
         npm run start-prod;
     `};
 

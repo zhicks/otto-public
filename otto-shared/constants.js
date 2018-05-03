@@ -5,6 +5,7 @@ var OttoItemType;
     OttoItemType[OttoItemType["Light"] = 0] = "Light";
     OttoItemType[OttoItemType["Satellite"] = 1] = "Satellite";
     OttoItemType[OttoItemType["Group"] = 2] = "Group";
+    OttoItemType[OttoItemType["Server"] = 3] = "Server";
 })(OttoItemType = exports.OttoItemType || (exports.OttoItemType = {}));
 var OttoObjectStatus;
 (function (OttoObjectStatus) {

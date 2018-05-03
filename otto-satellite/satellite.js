@@ -9,18 +9,21 @@ var OttoSatelliteModule;
     var fs = require('fs');
     var http = require('http').Server(app);
     var socketIoClient = require('socket.io-client');
-    var SOCKET_ADDRESS = process.argv && process.argv[2] === 'prod' ? 'http://blackboxjs.com:3500' : 'http://192.168.1.102:3500';
+    var isProd = process.argv && process.argv[2] === 'prod';
+    var SOCKET_ADDRESS = isProd ? 'http://blackboxjs.com:3500' : 'http://192.168.1.102:3500';
     console.log('socket address is ', SOCKET_ADDRESS);
     var ID_FILE_PATH = '../../otto_id';
     var BASH_UPDATE_SCRIPT_FILE_PATH = '../../otto_update_script.sh';
     var DEFAULT_TIMEOUT = 14 * 1000;
     var uuidv4 = require('uuid/v4');
     var Gpio = require('onoff').Gpio;
-    var pir = new Gpio(4, 'in', 'both'); // or 7, I forget
     var TEMP_TIMEOUT_LENGTH = 5 * 1000;
     var USERNAME = 'sunny';
     var spawn = require('child_process').spawn;
     var cloudSocket;
+    var pir4 = new Gpio(4, 'in', 'both');
+    var pir17 = new Gpio(17, 'in', 'both');
+    // NEXT: Test watching 17 if there's nothing plugged in before trying anything else
     var OttoSatellite = /** @class */ (function () {
         function OttoSatellite() {
             var _this = this;
@@ -39,6 +42,11 @@ var OttoSatelliteModule;
                 _this.motionTimeout = null;
             };
         }
+        OttoSatellite.prototype.doLog = function (message) {
+            if (cloudSocket) {
+                cloudSocket.emit('sat_log', { id: this.id, msg: message });
+            }
+        };
         OttoSatellite.prototype.init = function () {
             this.initServer();
             this.initId();
@@ -134,26 +142,47 @@ var OttoSatelliteModule;
                         status: _this.motionStatus
                     });
                 });
+                cloudSocket.on('ping', function () {
+                    // console.log(`cloud socket ping ${new Date()}`);
+                    // cloudSocket.emit('pong', { id: this.id });
+                });
                 console.log('saying hello to cloud socket, id: ', _this.id);
                 cloudSocket.emit('satellite', {
                     id: _this.id
                 });
             });
         };
-        OttoSatellite.prototype.initMotionDetection = function () {
-            var _this = this;
-            pir.watch(function (err, value) {
-                if (err) {
-                    console.log('Error in PIR watch:');
-                    console.log(err);
-                }
-                else {
-                    console.log(' ----- motion logged: ', value);
-                    if (_this.motionStatus === constants_1.OttoObjectStatus.On && value === 1) {
-                        console.log('value is 1, calling motion detected');
-                        _this.onMotionDetected();
+        OttoSatellite.prototype.innerInitMotionDetection = function (err, value, pirnum) {
+            if (err) {
+                console.log("Error in PIR watch " + pirnum + ":");
+                console.log(err);
+            }
+            else {
+                console.log(" ----- m " + pirnum + ": ", value);
+                if (value === 1) {
+                    if (cloudSocket) {
+                        console.log("emitting motion to cloud " + pirnum);
+                        cloudSocket.emit('sat_mot', {
+                            id: this.id
+                        });
+                    }
+                    if (this.motionStatus === constants_1.OttoObjectStatus.On) {
+                        console.log('calling motion detected');
+                        this.onMotionDetected();
+                    }
+                    else {
+                        console.log('not calling motion detected');
                     }
                 }
+            }
+        };
+        OttoSatellite.prototype.initMotionDetection = function () {
+            var _this = this;
+            pir4.watch(function (err, value) {
+                _this.innerInitMotionDetection(err, value, '4');
+            });
+            pir17.watch(function (err, value) {
+                _this.innerInitMotionDetection(err, value, '17');
             });
             this.didSecondaryInit = true;
         };
@@ -194,7 +223,7 @@ var OttoSatelliteModule;
         return OttoSatellite;
     }());
     var BashScript = function () {
-        return "\n        pkill -f node;\n        cd /home/" + USERNAME + "/otto/otto-satellite;\n        git stash;\n        git pull;\n        npm run start-prod;\n    ";
+        return "\n        pkill -f node;\n        cd /home/" + USERNAME + "/otto/otto-satellite;\n        git stash;\n        git clean  -d  -fx .;\n        git pull;\n        npm install;\n        npm run start-prod;\n    ";
     };
     new OttoSatellite().init();
 })(OttoSatelliteModule || (OttoSatelliteModule = {}));

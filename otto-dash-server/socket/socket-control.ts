@@ -43,7 +43,7 @@ class SocketControl {
         }
     } = {};
 
-    serverLog(message: any) {
+    doLog(message: any) {
         const serverId = 'OTTO_SERVER';
         this.loggers[serverId] = this.loggers[serverId] || {
             id: serverId,
@@ -56,15 +56,15 @@ class SocketControl {
     init(http: any) {
         let io = socketIo(http);
         io.on('connection', socket => {
-            console.log('connection');
+            this.doLog('connection');
             socket.on('bigred', () => {
-                console.log('big red connected');
+                this.doLog('big red connected');
                 this.bigRed = socket;
                 this.bigRed.bigRed = true;
             });
             socket.on('bigred_lights', (lightObjs) => {
                 // These have plenty of info on them but for now we only care about a little bit
-                console.log('got big red lights, calling update or insert if necessary');
+                this.doLog('got big red lights, calling update or insert if necessary');
                 dbService.insertLightsFromBigRedIfNecessary(lightObjs);
             });
             socket.on('bigred_bulb_statuses', (lights: { id: string, status: OttoObjectStatus }[]) => {
@@ -75,7 +75,7 @@ class SocketControl {
                 for (let light of lights) {
                     let group = this.findGroupForLightId(light.id);
                     if (!group) {
-                        console.log('could not find group for light id ', light.id);
+                        this.doLog('could not find group for light id ' + light.id);
                     } else {
                         let foundGroup: any;
                         for (let g of status.groups) {
@@ -99,7 +99,7 @@ class SocketControl {
                 }
             });
             socket.on('satellite', (idObj: {id: string}) => {
-                console.log('satellite connected with id', idObj.id);
+                this.doLog('satellite connected with id' + idObj.id);
                 dbService.insertSatelliteIfNecessary(idObj.id);
                 this.satellites.push(socket);
                 socket.satellite = true;
@@ -113,7 +113,7 @@ class SocketControl {
                 // We send it piecemeal
                 let group = this.findGroupForSatelliteId(obj.id);
                 if (!group) {
-                    console.log('could not find group for sat');
+                    this.doLog('could not find group for sat');
                 } else {
                     for (let appSocket of this.appSockets) {
                         appSocket.emit('status', <OttoStatusData>{
@@ -128,7 +128,7 @@ class SocketControl {
                 }
             });
             socket.on('app_get_status', () => {
-                console.log('app get status was called');
+                this.doLog('app get status was called');
                 if (!socket.appId) {
                     socket.appId = uuidv4();
                     this.appSockets.push(socket);
@@ -142,19 +142,19 @@ class SocketControl {
                 this.updateProgram();
             });
             socket.on('app_motion_on', (groupObj: {group: string}) => {
-                console.log('turning motion on for group', groupObj);
+                this.doLog('turning motion on for group' + JSON.stringify(groupObj));
                 let satSocket = this.findSatSocketForGroupId(groupObj.group);
                 if (!satSocket) {
-                    console.log('cant find sat socket for turn motion off');
+                    this.doLog('cant find sat socket for turn motion off');
                 } else {
                     satSocket.emit('turn_motion_on');
                 }
             });
             socket.on('app_motion_off', (groupObj: {group: string}) => {
-                console.log('turning motion off for group', groupObj);
+                this.doLog('turning motion off for group' + JSON.stringify(groupObj));
                 let satSocket = this.findSatSocketForGroupId(groupObj.group);
                 if (!satSocket) {
-                    console.log('cant find sat socket for turn motion off');
+                    this.doLog('cant find sat socket for turn motion off');
                 } else {
                     satSocket.emit('turn_motion_off');
                 }
@@ -183,7 +183,7 @@ class SocketControl {
                 }
             });
             socket.on('app_scan_lights', () => {
-                console.log('got app scan lights');
+                this.doLog('got app scan lights');
                 if (this.bigRed) {
                     this.bigRed.emit('scan_lights');
                 }
@@ -216,7 +216,7 @@ class SocketControl {
             socket.on('satellite_motion_detected', (idObj: {id: string}) => {
                 let group = this.findGroupForSatelliteId(idObj.id);
                 if (!group) {
-                    console.log('could not find group for sat');
+                    this.doLog('could not find group for sat');
                 } else {
                     let lights = dbService.getLightsForGroupId(group.id);
                     let lightIds = lights.map(light => light.id);
@@ -228,7 +228,7 @@ class SocketControl {
             socket.on('satellite_motion_timeout', (idObj: {id: string}) => {
                 let group = this.findGroupForSatelliteId(idObj.id);
                 if (!group) {
-                    console.log('could not find group for sat');
+                    this.doLog('could not find group for sat');
                 } else {
                     let lights = dbService.getLightsForGroupId(group.id);
                     let lightIds = lights.map(light => light.id);
@@ -238,49 +238,49 @@ class SocketControl {
                 }
             });
             socket.on('satellite_idrsa', (idrsa: string) => {
-                console.log('got idrsa');
-                console.log(idrsa);
+                this.doLog('got idrsa');
+                this.doLog(idrsa);
             });
             socket.on('disconnect', () => {
-                console.log('socket disconnect');
+                this.doLog('socket disconnect');
                 if (socket.bigRed) {
                     this.bigRed = null;
-                    console.log('big red disconnect');
+                    this.doLog('big red disconnect');
                 }
                 if (socket.satellite) {
-                    console.log('socket is satellite', socket.satelliteId);
+                    this.doLog('socket is satellite' + socket.satelliteId);
                     for (let i = 0; i < this.satellites.length; i++) {
                         let sat = this.satellites[i];
                         if (sat.satelliteId === socket.satelliteId) {
                             this.satellites.splice(i, 1);
-                            console.log('satellite removed');
+                            this.doLog('satellite removed');
                             break;
                         }
                     }
                 }
                 if (socket.appId) {
-                    console.log('socket is app', socket.appId);
+                    this.doLog('socket is app' + socket.appId);
                     for (let i = 0; i < this.appSockets.length; i++) {
                         let app = this.appSockets[i];
                         if (app.appId === socket.appId) {
                             this.appSockets.splice(i, 1);
-                            console.log('app socket removed');
+                            this.doLog('app socket removed');
                             break;
                         }
                     }
                 }
-                console.log('satellites:');
-                console.log(this.satellites.length);
-                console.log('apps:');
-                console.log(this.appSockets.length);
+                this.doLog('satellites:');
+                this.doLog(this.satellites.length);
+                this.doLog('apps:');
+                this.doLog(this.appSockets.length);
             });
         });
     }
 
     private doStatus() {
-        console.log('calling do status');
+        this.doLog('calling do status');
         if (this.bigRed) {
-            console.log('calling big red get bulb statuses');
+            this.doLog('calling big red get bulb statuses');
             this.bigRed.emit('get_bulb_statuses');
         }
         for (let sat of this.satellites) {
@@ -298,11 +298,11 @@ class SocketControl {
         // For now these actions just grab whatever satellite there is
         let group = <OttoGroup>dbService.findItemById(groupId, OttoItemType.Group);
         if (!group) {
-            console.log('no group found for ', groupId);
+            this.doLog('no group found for ' + groupId);
         } else {
             let sat = dbService.findSatelliteForGroup(group.id);
             if (!sat) {
-                console.log('no sat found for group id ', group.id);
+                this.doLog('no sat found for group id ' + group.id);
             } else {
                 let satSocket: any;
                 for (let socket of this.satellites) {
@@ -321,10 +321,10 @@ class SocketControl {
         return <OttoGroup>dbService.findItemById(sat.group, OttoItemType.Group);
     }
     private findGroupForLightId(lightId: string): OttoGroup {
-        console.log('find gruop for light id ', lightId);
+        this.doLog('find gruop for light id ' + lightId);
         let light = <OttoLight>dbService.findItemById(lightId, OttoItemType.Light);
         if (!light) {
-            console.log('coudl not find light');
+            this.doLog('coudl not find light');
             return null;
         }
         return <OttoGroup>dbService.findItemById(light.group, OttoItemType.Group);
