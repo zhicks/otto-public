@@ -15,7 +15,7 @@ module OttoBigRed {
     console.log(process.argv);
 
     // ------------------------------------------------------------------- Constants
-    const SOCKET_ADDRESS = process.argv && process.argv[2] === 'prod' ? 'http://blackboxjs.com:3500': 'http://localhost:3500';
+    const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://localhost:3500';
     console.log('socket address is ', SOCKET_ADDRESS);
 
     // ------------------------------------------------------------------- Props
