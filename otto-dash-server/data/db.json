@@ -1,4 +1,4 @@
-{"groups":[{"id":"156e9984-d5cf-4fa4-a6a4-5ef964347844","name":"Office","lightTimeout":3600000},{"id":"0862874b-2c06-446b-8846-1f088597b218","name":"Living Room","lightTimeout":1800000},{"id":"5b0d20d7-cc30-4063-a7ac-04f1446b3eec","name":"Dining Room","lightTimeout":15000},{"id":"965d127f-c079-4bbd-8bf3-d016349a71af","name":"Hallway","timeSettings": {
+{"groups":[{"id":"156e9984-d5cf-4fa4-a6a4-5ef964347844","name":"Office","lightTimeout":3600000},{"id":"0862874b-2c06-446b-8846-1f088597b218","name":"Living Room","lightTimeout":1800000},{"id":"5b0d20d7-cc30-4063-a7ac-04f1446b3eec","name":"Dining Room","lightTimeout":1800000},{"id":"965d127f-c079-4bbd-8bf3-d016349a71af","name":"Hallway","timeSettings": {
   "6": {
     "lightTimeout": 60000,
     "brightness": 1
