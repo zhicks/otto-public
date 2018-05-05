@@ -52,7 +52,7 @@ module OttoBigRed {
         hubClient.lights.getAll().then(lights => {
             let matchingHueJayLights = [];
             console.log('hue lights:');
-            console.log(lights);
+            // console.log(lights);
             for (let hueJayLight of lights) {
                 for (let lightId of lightIds) {
                     let uniqueid = hueJayLight.attributes.attributes.uniqueid;
@@ -62,11 +62,12 @@ module OttoBigRed {
                 }
             }
             console.log('matching hue jay lights');
-            console.log(matchingHueJayLights);
+            // console.log(matchingHueJayLights);
             if (matchingHueJayLights.length) {
                 for (let light of matchingHueJayLights) {
                     console.log('brightness change: ', brightness);
-                    light.brightness = 254 * brightness;
+                    light.brightness = Math.round(254 * brightness);
+                    console.log('light brightnes is ', light.brightness);
                     hubClient.lights.save(light);
                 }
             }
@@ -83,7 +84,7 @@ module OttoBigRed {
         hubClient.lights.getAll().then(lights => {
             let matchingHueJayLights = [];
             console.log('hue lights:');
-            console.log(lights);
+            // console.log(lights);
             for (let hueJayLight of lights) {
                 for (let lightId of lightIds.lights) {
                     let uniqueid = hueJayLight.attributes.attributes.uniqueid;
@@ -93,7 +94,7 @@ module OttoBigRed {
                 }
             }
             console.log('matching hue jay lights');
-            console.log(matchingHueJayLights);
+            // console.log(matchingHueJayLights);
             if (matchingHueJayLights.length) {
                 for (let light of matchingHueJayLights) {
                     console.log('turning light on: ', on);
@@ -133,12 +134,11 @@ module OttoBigRed {
         cloudSocket.on('get_bulb_statuses', () => {
             console.log('calling get bulb statuses');
             getLightObjectDatas((lightObjs) => {
-                console.log(lightObjs);
+                // console.log(lightObjs);
                 lightObjs = lightObjs.map(lightObj => {
                     let status = lightObj.on ? OttoObjectStatus.On : OttoObjectStatus.Off;
                     return { id: lightObj.id, status: status }
                 });
-                console.log(lightObjs);
                 cloudSocket.emit('bigred_bulb_statuses', lightObjs);
             });
         });
@@ -149,7 +149,13 @@ module OttoBigRed {
                 cloudSocket.emit('refresh_status');
             });
             if (lightObj.timeSettings) {
-                let hours: string[] = Object.keys(lightObj.timeSettings).sort();
+                let hours: string[] = Object.keys(lightObj.timeSettings).sort((a, b) => {
+                    if (+a > +b) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                });
                 let currentObj: OttoTimeSettings = lightObj.timeSettings[hours[0]];
                 let currentHour = new Date().getHours();
                 hours.forEach(hourString => {
@@ -157,7 +163,6 @@ module OttoBigRed {
                         currentObj = lightObj.timeSettings[hourString];
                     }
                 });
-                // TODO - This hack
                 // -------------------------------------------------------------------
                 // const diningRoomLightId = '00:17:88:01:03:44:bd:8f-0b';
                 // if (lightObj.lights.indexOf(diningRoomLightId) !== -1) {

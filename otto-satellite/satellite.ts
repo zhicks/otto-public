@@ -71,7 +71,13 @@ module OttoSatelliteModule {
             setInterval(() => {
                 if (this.timeSettings) {
                     let currentHour = new Date().getHours();
-                    let hours: string[] = Object.keys(this.timeSettings).sort();
+                    let hours: string[] = Object.keys(this.timeSettings).sort((a, b) => {
+                        if (+a > +b) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    });
                     let currentObj: OttoTimeSettings = this.timeSettings[hours[0]];
                     hours.forEach(hourString => {
                         if (currentHour > +hourString) {
