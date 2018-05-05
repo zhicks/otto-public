@@ -20,6 +20,7 @@ var OttoSatelliteModule;
     var TEMP_TIMEOUT_LENGTH = 5 * 1000;
     var USERNAME = 'sunny';
     var spawn = require('child_process').spawn;
+    var os = require('os');
     var cloudSocket;
     var pir4 = new Gpio(4, 'in', 'both');
     var pir17 = new Gpio(17, 'in', 'both');
@@ -152,8 +153,26 @@ var OttoSatelliteModule;
                     // cloudSocket.emit('pong', { id: this.id });
                 });
                 _this.doLog('saying hello to cloud socket, id: ' + _this.id);
+                var ips = [];
+                try {
+                    var ifaces_1 = os.networkInterfaces();
+                    Object.keys(ifaces_1).forEach(function (ifname) {
+                        var alias = 0;
+                        ifaces_1[ifname].forEach(function (iface) {
+                            if ('IPv4' !== iface.family || iface.internal !== false) {
+                                return;
+                            }
+                            ips.push(iface.address);
+                            ++alias;
+                        });
+                    });
+                }
+                catch (e) {
+                    _this.doLog('error when getting the ip');
+                }
                 cloudSocket.emit('satellite', {
-                    id: _this.id
+                    id: _this.id,
+                    ips: ips
                 });
             });
         };
@@ -168,7 +187,8 @@ var OttoSatelliteModule;
                     if (cloudSocket) {
                         this.doLog("emitting motion to cloud " + pirnum);
                         cloudSocket.emit('sat_mot', {
-                            id: this.id
+                            id: this.id,
+                            pirnum: pirnum
                         });
                     }
                     if (this.motionStatus === constants_1.OttoObjectStatus.On) {

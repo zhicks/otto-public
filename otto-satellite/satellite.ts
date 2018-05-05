@@ -21,6 +21,7 @@ module OttoSatelliteModule {
     const TEMP_TIMEOUT_LENGTH = 5 * 1000;
     let USERNAME = 'sunny';
     const { spawn } = require('child_process');
+    const os = require('os');
     let cloudSocket: any;
 
     const pir4 = new Gpio(4, 'in', 'both');
@@ -52,7 +53,6 @@ module OttoSatelliteModule {
         secondaryInit() {
             this.initMotionDetection();
         }
-
         initServer() {
             app.set('view engine', 'html');
             app.set('port', (process.env.PORT || 3501));
@@ -144,8 +144,25 @@ module OttoSatelliteModule {
                     // cloudSocket.emit('pong', { id: this.id });
                 });
                 this.doLog('saying hello to cloud socket, id: ' + this.id);
+                let ips: string[] = [];
+                try {
+                    const ifaces = os.networkInterfaces();
+                    Object.keys(ifaces).forEach(ifname => {
+                        let alias = 0;
+                        ifaces[ifname].forEach(function (iface) {
+                            if ('IPv4' !== iface.family || iface.internal !== false) {
+                                return;
+                            }
+                            ips.push(iface.address);
+                            ++alias;
+                        });
+                    });
+                } catch (e) {
+                    this.doLog('error when getting the ip');
+                }
                 cloudSocket.emit('satellite', {
-                    id: this.id
+                    id: this.id,
+                    ips: ips
                 });
             });
         }
@@ -159,7 +176,8 @@ module OttoSatelliteModule {
                     if (cloudSocket) {
                         this.doLog(`emitting motion to cloud ${pirnum}`);
                         cloudSocket.emit('sat_mot', {
-                            id: this.id
+                            id: this.id,
+                            pirnum: pirnum
                         });
                     }
                     if (this.motionStatus === OttoObjectStatus.On) {

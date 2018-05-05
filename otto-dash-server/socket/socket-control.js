@@ -101,6 +101,7 @@ var SocketControl = /** @class */ (function () {
                 _this.satellites.push(socket);
                 socket.satellite = true;
                 socket.satelliteId = idObj.id;
+                socket.satelliteIps = idObj.ips || [];
                 var group = _this.findGroupForSatelliteId(idObj.id);
                 socket.emit('info', {
                     timeout: group ? group.lightTimeout : null

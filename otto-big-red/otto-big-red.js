@@ -125,8 +125,10 @@ var OttoBigRed;
             timeout: 15000,
         });
         initSocket();
-        // doScanAndAddNewLights();
+        doScanAndAddNewLights();
         // 830F26
+        // 17EH
+        // 9290011840B
     };
     var doHubInit = function () {
         if (bridgeIp) {

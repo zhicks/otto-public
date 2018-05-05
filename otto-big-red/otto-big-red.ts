@@ -136,8 +136,7 @@ module OttoBigRed {
             timeout:  15000,            // Optional, timeout in milliseconds (15000 is the default)
         });
         initSocket();
-        // doScanAndAddNewLights();
-        // 830F26
+        doScanAndAddNewLights();
     }
     let doHubInit = () => {
         if (bridgeIp) {

@@ -23,6 +23,7 @@ interface HierarchicalGroupData {
   }[],
   satellites: {
     id: string,
+    ips: string[],
     name: string,
     group: HierarchicalGroupData,
     liveMotion: boolean,
@@ -126,7 +127,7 @@ export class HomeComponent implements OnInit {
         }
       }
     });
-    socket.on('sat_mot', (idObj: {id: string}) => {
+    socket.on('sat_mot', (idObj: {id: string, pirnum: number}) => {
       console.log('sat mot');
       if (this.model) {
         for (let group of this.model.groups) {

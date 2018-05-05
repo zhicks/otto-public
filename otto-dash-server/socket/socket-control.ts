@@ -103,12 +103,13 @@ class SocketControl {
                     appSocket.emit('status', status);
                 }
             });
-            socket.on('satellite', (idObj: {id: string}) => {
+            socket.on('satellite', (idObj: {id: string, ips: string[]}) => {
                 this.doLog('satellite connected with id' + idObj.id);
                 dbService.insertSatelliteIfNecessary(idObj.id);
                 this.satellites.push(socket);
                 socket.satellite = true;
                 socket.satelliteId = idObj.id;
+                socket.satelliteIps = idObj.ips || [];
                 let group = this.findGroupForSatelliteId(idObj.id);
                 socket.emit('info', {
                     timeout: group ? group.lightTimeout : null
@@ -238,7 +239,7 @@ class SocketControl {
                     });
                 }
             });
-            socket.on('sat_mot', (idObj: {id: string}) => {
+            socket.on('sat_mot', (idObj: {id: string, pirnum: number}) => {
                 this.appSockets.forEach(appSocket => {
                     appSocket.emit('sat_mot', idObj);
                 });
