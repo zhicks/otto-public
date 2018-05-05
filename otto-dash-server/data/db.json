@@ -3,7 +3,7 @@
     "lightTimeout": 60000,
     "brightness": 1
   },
-  "18": {
+  "20": {
     "lightTimeout": 20000,
     "brightness": 0.2
   }
