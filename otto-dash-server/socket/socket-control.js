@@ -104,7 +104,8 @@ var SocketControl = /** @class */ (function () {
                 socket.satelliteIps = idObj.ips || [];
                 var group = _this.findGroupForSatelliteId(idObj.id);
                 socket.emit('info', {
-                    timeout: group ? group.lightTimeout : null
+                    timeout: group ? group.lightTimeout : null,
+                    timeSettings: group ? group.timeSettings : null
                 });
             });
             socket.on('satellite_motion_status', function (obj) {
@@ -145,7 +146,7 @@ var SocketControl = /** @class */ (function () {
                 _this.updateProgram(true);
             });
             socket.on('app_motion_on', function (groupObj) {
-                _this.doLog('turning motion on for group' + JSON.stringify(groupObj));
+                _this.doLog('turning motion on for group' + groupObj.group);
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
                 if (!satSocket) {
                     _this.doLog('cant find sat socket for turn motion off');
@@ -155,7 +156,7 @@ var SocketControl = /** @class */ (function () {
                 }
             });
             socket.on('app_motion_off', function (groupObj) {
-                _this.doLog('turning motion off for group' + JSON.stringify(groupObj));
+                _this.doLog('turning motion off for group' + groupObj.group);
                 var satSocket = _this.findSatSocketForGroupId(groupObj.group);
                 if (!satSocket) {
                     _this.doLog('cant find sat socket for turn motion off');
@@ -233,8 +234,25 @@ var SocketControl = /** @class */ (function () {
                 else {
                     var lights = db_service_1.dbService.getLightsForGroupId(group.id);
                     var lightIds = lights.map(function (light) { return light.id; });
+                    // TODO: This is a hack for now. It would be a pretty big architechture change where like the lights would belong to metadata groups
+                    // -------------------------------------------------------------------
+                    var hallwayGroupId = '965d127f-c079-4bbd-8bf3-d016349a71af';
+                    var diningRoomLightId = '00:17:88:01:03:44:bd:8f-0b';
+                    if (group.id === hallwayGroupId) {
+                        // If it's 4, we only turn the hallway light on, which is default
+                        // If it's 17, we also turn the dining room light on
+                        console.log('it was hallway group id');
+                        console.log('pir num ');
+                        console.log(idObj.pirnum);
+                        console.log(typeof idObj.pirnum);
+                        if (idObj.pirnum === '17') {
+                            lightIds.push(diningRoomLightId);
+                        }
+                    }
+                    // -------------------------------------------------------------------
                     _this.bigRed && _this.bigRed.emit('turn_lights_on', {
-                        lights: lightIds
+                        lights: lightIds,
+                        timeSettings: group.timeSettings
                     });
                 }
             });

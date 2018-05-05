@@ -6,10 +6,18 @@ export interface OttoDb {
     satellites: OttoSatellite[]
 }
 
+export interface OttoTimeSettings {
+    lightTimeout?: number;
+    brightness?: number
+}
+
 export interface OttoGroup {
     id: string,
     name: string,
-    lightTimeout: number
+    lightTimeout: number,
+    timeSettings?: {
+        [hourTime: string]: OttoTimeSettings
+    }
 }
 
 export interface OttoLoggerMessage {

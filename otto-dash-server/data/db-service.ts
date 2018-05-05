@@ -16,7 +16,6 @@ class DbService {
         // Reading and writing will be sync for now
         let data = fs.readFileSync(DB_FILE_PATH);
         this.dbContent = JSON.parse(data.toString());
-        console.log(this.dbContent);
     }
 
     getStuff() {
@@ -129,7 +128,6 @@ class DbService {
                 break;
         }
         for (let item of arr) {
-            console.log(item);
             if (item.id === id) {
                 return item;
             }

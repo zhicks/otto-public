@@ -1,4 +1,5 @@
 import {OttoObjectStatus} from "../otto-shared/constants";
+import {OttoGroup, OttoTimeSettings} from "../otto-shared/otto-interfaces";
 
 declare const require;
 declare const __dirname;
@@ -46,8 +47,39 @@ module OttoBigRed {
             })
     }
 
+    let setLightsBrightness = (lightIds: string[], brightness: number) => {
+        console.log('seting lights brightness', lightIds, brightness);
+        hubClient.lights.getAll().then(lights => {
+            let matchingHueJayLights = [];
+            console.log('hue lights:');
+            console.log(lights);
+            for (let hueJayLight of lights) {
+                for (let lightId of lightIds) {
+                    let uniqueid = hueJayLight.attributes.attributes.uniqueid;
+                    if (uniqueid === lightId) {
+                        matchingHueJayLights.push(hueJayLight);
+                    }
+                }
+            }
+            console.log('matching hue jay lights');
+            console.log(matchingHueJayLights);
+            if (matchingHueJayLights.length) {
+                for (let light of matchingHueJayLights) {
+                    console.log('brightness change: ', brightness);
+                    light.brightness = 254 * brightness;
+                    hubClient.lights.save(light);
+                }
+            }
+        })
+            .catch(error => {
+                console.log('hue jay error setLightsBrightness');
+                console.log(error);
+            });
+    }
+
     let toggleLights = (lightIds: {lights: string[]}, on: boolean, callback: () => void) => {
         console.log(lightIds);
+        // TODO - Right above is the same code
         hubClient.lights.getAll().then(lights => {
             let matchingHueJayLights = [];
             console.log('hue lights:');
@@ -111,11 +143,31 @@ module OttoBigRed {
             });
         });
 
-        cloudSocket.on('turn_lights_on', (lightIds: {lights: string[]}) => {
+        cloudSocket.on('turn_lights_on', (lightObj: {lights: string[], timeSettings: { [hourTime: string]: OttoTimeSettings }}) => {
             console.log('turn lights on for ids');
-            toggleLights(lightIds, true, () => {
+            toggleLights(lightObj, true, () => {
                 cloudSocket.emit('refresh_status');
             });
+            if (lightObj.timeSettings) {
+                let hours: string[] = Object.keys(lightObj.timeSettings).sort();
+                let currentObj: OttoTimeSettings = lightObj.timeSettings[hours[0]];
+                let currentHour = new Date().getHours();
+                hours.forEach(hourString => {
+                    if (currentHour > +hourString) {
+                        currentObj = lightObj.timeSettings[hourString];
+                    }
+                });
+                // TODO - This hack
+                // -------------------------------------------------------------------
+                // const diningRoomLightId = '00:17:88:01:03:44:bd:8f-0b';
+                // if (lightObj.lights.indexOf(diningRoomLightId) !== -1) {
+                //     lightObj.lights.splice(lightObj.lights.indexOf(diningRoomLightId), 1);
+                // }
+                // -------------------------------------------------------------------
+                if (currentObj.brightness) {
+                    setLightsBrightness(lightObj.lights, currentObj.brightness);
+                }
+            }
         });
 
         cloudSocket.on('turn_lights_off', (lightIds: {lights: string[]}) => {
@@ -136,7 +188,7 @@ module OttoBigRed {
             timeout:  15000,            // Optional, timeout in milliseconds (15000 is the default)
         });
         initSocket();
-        doScanAndAddNewLights();
+        // doScanAndAddNewLights();
     }
     let doHubInit = () => {
         if (bridgeIp) {

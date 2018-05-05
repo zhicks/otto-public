@@ -11,7 +11,6 @@ var DbService = /** @class */ (function () {
         // Reading and writing will be sync for now
         var data = fs.readFileSync(DB_FILE_PATH);
         this.dbContent = JSON.parse(data.toString());
-        console.log(this.dbContent);
     };
     DbService.prototype.getStuff = function () {
         return this.dbContent;
@@ -124,7 +123,6 @@ var DbService = /** @class */ (function () {
         }
         for (var _i = 0, arr_1 = arr; _i < arr_1.length; _i++) {
             var item = arr_1[_i];
-            console.log(item);
             if (item.id === id) {
                 return item;
             }

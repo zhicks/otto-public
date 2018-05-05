@@ -132,11 +132,13 @@ export class HomeComponent implements OnInit {
       if (this.model) {
         for (let group of this.model.groups) {
           group.satellites.forEach(satellite => {
-            clearTimeout(satellite.liveMotionTimeout);
-            satellite.liveMotion = true;
-            satellite.liveMotionTimeout = setTimeout(() => {
-              satellite.liveMotion = false;
-            }, 6000);
+            if (satellite.id === idObj.id) {
+              clearTimeout(satellite.liveMotionTimeout);
+              satellite.liveMotion = true;
+              satellite.liveMotionTimeout = setTimeout(() => {
+                satellite.liveMotion = false;
+              }, 6000);
+            }
           });
         }
       }

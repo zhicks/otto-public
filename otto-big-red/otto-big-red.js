@@ -40,14 +40,47 @@ var OttoBigRed;
             console.log(error);
         });
     };
-    var toggleLights = function (lightIds, on, callback) {
-        console.log(lightIds);
+    var setLightsBrightness = function (lightIds, brightness) {
+        console.log('seting lights brightness', lightIds, brightness);
         hubClient.lights.getAll().then(function (lights) {
             var matchingHueJayLights = [];
             console.log('hue lights:');
             console.log(lights);
             for (var _i = 0, lights_2 = lights; _i < lights_2.length; _i++) {
                 var hueJayLight = lights_2[_i];
+                for (var _a = 0, lightIds_1 = lightIds; _a < lightIds_1.length; _a++) {
+                    var lightId = lightIds_1[_a];
+                    var uniqueid = hueJayLight.attributes.attributes.uniqueid;
+                    if (uniqueid === lightId) {
+                        matchingHueJayLights.push(hueJayLight);
+                    }
+                }
+            }
+            console.log('matching hue jay lights');
+            console.log(matchingHueJayLights);
+            if (matchingHueJayLights.length) {
+                for (var _b = 0, matchingHueJayLights_1 = matchingHueJayLights; _b < matchingHueJayLights_1.length; _b++) {
+                    var light = matchingHueJayLights_1[_b];
+                    console.log('brightness change: ', brightness);
+                    light.brightness = 254 * brightness;
+                    hubClient.lights.save(light);
+                }
+            }
+        })
+            .catch(function (error) {
+            console.log('hue jay error setLightsBrightness');
+            console.log(error);
+        });
+    };
+    var toggleLights = function (lightIds, on, callback) {
+        console.log(lightIds);
+        // TODO - Right above is the same code
+        hubClient.lights.getAll().then(function (lights) {
+            var matchingHueJayLights = [];
+            console.log('hue lights:');
+            console.log(lights);
+            for (var _i = 0, lights_3 = lights; _i < lights_3.length; _i++) {
+                var hueJayLight = lights_3[_i];
                 for (var _a = 0, _b = lightIds.lights; _a < _b.length; _a++) {
                     var lightId = _b[_a];
                     var uniqueid = hueJayLight.attributes.attributes.uniqueid;
@@ -59,8 +92,8 @@ var OttoBigRed;
             console.log('matching hue jay lights');
             console.log(matchingHueJayLights);
             if (matchingHueJayLights.length) {
-                for (var _c = 0, matchingHueJayLights_1 = matchingHueJayLights; _c < matchingHueJayLights_1.length; _c++) {
-                    var light = matchingHueJayLights_1[_c];
+                for (var _c = 0, matchingHueJayLights_2 = matchingHueJayLights; _c < matchingHueJayLights_2.length; _c++) {
+                    var light = matchingHueJayLights_2[_c];
                     console.log('turning light on: ', on);
                     light.on = on;
                     hubClient.lights.save(light);
@@ -103,11 +136,31 @@ var OttoBigRed;
                 cloudSocket.emit('bigred_bulb_statuses', lightObjs);
             });
         });
-        cloudSocket.on('turn_lights_on', function (lightIds) {
+        cloudSocket.on('turn_lights_on', function (lightObj) {
             console.log('turn lights on for ids');
-            toggleLights(lightIds, true, function () {
+            toggleLights(lightObj, true, function () {
                 cloudSocket.emit('refresh_status');
             });
+            if (lightObj.timeSettings) {
+                var hours = Object.keys(lightObj.timeSettings).sort();
+                var currentObj_1 = lightObj.timeSettings[hours[0]];
+                var currentHour_1 = new Date().getHours();
+                hours.forEach(function (hourString) {
+                    if (currentHour_1 > +hourString) {
+                        currentObj_1 = lightObj.timeSettings[hourString];
+                    }
+                });
+                // TODO - This hack
+                // -------------------------------------------------------------------
+                // const diningRoomLightId = '00:17:88:01:03:44:bd:8f-0b';
+                // if (lightObj.lights.indexOf(diningRoomLightId) !== -1) {
+                //     lightObj.lights.splice(lightObj.lights.indexOf(diningRoomLightId), 1);
+                // }
+                // -------------------------------------------------------------------
+                if (currentObj_1.brightness) {
+                    setLightsBrightness(lightObj.lights, currentObj_1.brightness);
+                }
+            }
         });
         cloudSocket.on('turn_lights_off', function (lightIds) {
             console.log('turn lights off for ids');
@@ -125,10 +178,7 @@ var OttoBigRed;
             timeout: 15000,
         });
         initSocket();
-        doScanAndAddNewLights();
-        // 830F26
-        // 17EH
-        // 9290011840B
+        // doScanAndAddNewLights();
     };
     var doHubInit = function () {
         if (bridgeIp) {
@@ -193,8 +243,8 @@ var OttoBigRed;
                 hubClient.lights.getNew()
                     .then(function (lights) {
                     console.log('Found new lights:');
-                    for (var _i = 0, lights_3 = lights; _i < lights_3.length; _i++) {
-                        var light = lights_3[_i];
+                    for (var _i = 0, lights_4 = lights; _i < lights_4.length; _i++) {
+                        var light = lights_4[_i];
                         console.log("Light [" + light.id + "]:");
                         console.log('  Unique Id:', light.uniqueId);
                         console.log('  Model:', light.model.name);

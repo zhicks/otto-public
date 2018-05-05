@@ -1,4 +1,5 @@
 import {OttoObjectStatus} from "../otto-shared/constants";
+import {OttoTimeSettings} from "../otto-shared/otto-interfaces";
 
 module OttoSatelliteModule {
 
@@ -37,6 +38,7 @@ module OttoSatelliteModule {
         motionStatus = OttoObjectStatus.On;
         motionTempOffTimeout: any;
         updateProgramCalled = false;
+        timeSettings: { [hourTime: string]: OttoTimeSettings };
 
         doLog(message: any) {
             console.log(message);
@@ -48,6 +50,7 @@ module OttoSatelliteModule {
         init() {
             this.initServer();
             this.initId();
+            this.initTimeCheckLoop();
             this.initSocket();
         }
         secondaryInit() {
@@ -63,6 +66,25 @@ module OttoSatelliteModule {
         }
         writeBashScript(doProd: boolean) {
             fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript(doProd));
+        }
+        initTimeCheckLoop() {
+            setInterval(() => {
+                if (this.timeSettings) {
+                    let currentHour = new Date().getHours();
+                    let hours: string[] = Object.keys(this.timeSettings).sort();
+                    let currentObj: OttoTimeSettings = this.timeSettings[hours[0]];
+                    hours.forEach(hourString => {
+                        if (currentHour > +hourString) {
+                            currentObj = this.timeSettings[hourString];
+                        }
+                    });
+                    if (currentObj.lightTimeout && currentObj.lightTimeout !== this.timeoutLength) {
+                        this.timeoutLength = currentObj.lightTimeout;
+                        this.doLog('setting different light timeout ' + this.timeoutLength);
+                        this.doLog('my current hour is ' + currentHour);
+                    }
+                }
+            }, 5 * 1000);
         }
         initId() {
             try {
@@ -88,10 +110,13 @@ module OttoSatelliteModule {
             cloudSocket = socketIoClient(SOCKET_ADDRESS);
             cloudSocket.on('connect', () => {
                 this.doLog('connection');
-                cloudSocket.on('info', (infoObj) => {
+                cloudSocket.on('info', (infoObj: { timeout: number, timeSettings: { [hourTime: string]: OttoTimeSettings } }) => {
                     let timeout = infoObj.timeout;
                     this.timeoutLength = timeout || DEFAULT_TIMEOUT;
-                    // this.timeoutLength = DEFAULT_TIMEOUT;
+                    if (infoObj.timeSettings) {
+                        this.doLog('obj has time settings');
+                        this.timeSettings = infoObj.timeSettings;
+                    }
                     this.doLog('got info from cloud socket: ' + JSON.stringify(infoObj));
                     this.doLog('time out length is ' + this.timeoutLength);
                     if (!this.didSecondaryInit) {
@@ -182,7 +207,7 @@ module OttoSatelliteModule {
                     }
                     if (this.motionStatus === OttoObjectStatus.On) {
                         this.doLog('calling motion detected');
-                        this.onMotionDetected();
+                        this.onMotionDetected(pirnum);
                     } else {
                         this.doLog('not calling motion detected');
                     }
@@ -198,7 +223,7 @@ module OttoSatelliteModule {
             });
             this.didSecondaryInit = true;
         }
-        onMotionDetected() {
+        onMotionDetected(pirnum: string) {
             // We only care about the 1 - not the 0.
             // The satellite will send that motion was detected
             // and that its timer is done
@@ -209,7 +234,7 @@ module OttoSatelliteModule {
             } else {
                 // This is new
                 this.doLog('motion timeout did not exist, emitting to cloud socket');
-                cloudSocket.emit('satellite_motion_detected', { id: this.id });
+                cloudSocket.emit('satellite_motion_detected', { id: this.id, pirnum: pirnum });
             }
             this.setMotionTimeout();
         }

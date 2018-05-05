@@ -52,6 +52,7 @@ var OttoSatelliteModule;
         OttoSatellite.prototype.init = function () {
             this.initServer();
             this.initId();
+            this.initTimeCheckLoop();
             this.initSocket();
         };
         OttoSatellite.prototype.secondaryInit = function () {
@@ -68,6 +69,26 @@ var OttoSatelliteModule;
         };
         OttoSatellite.prototype.writeBashScript = function (doProd) {
             fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript(doProd));
+        };
+        OttoSatellite.prototype.initTimeCheckLoop = function () {
+            var _this = this;
+            setInterval(function () {
+                if (_this.timeSettings) {
+                    var currentHour_1 = new Date().getHours();
+                    var hours = Object.keys(_this.timeSettings).sort();
+                    var currentObj_1 = _this.timeSettings[hours[0]];
+                    hours.forEach(function (hourString) {
+                        if (currentHour_1 > +hourString) {
+                            currentObj_1 = _this.timeSettings[hourString];
+                        }
+                    });
+                    if (currentObj_1.lightTimeout && currentObj_1.lightTimeout !== _this.timeoutLength) {
+                        _this.timeoutLength = currentObj_1.lightTimeout;
+                        _this.doLog('setting different light timeout ' + _this.timeoutLength);
+                        _this.doLog('my current hour is ' + currentHour_1);
+                    }
+                }
+            }, 5 * 1000);
         };
         OttoSatellite.prototype.initId = function () {
             try {
@@ -99,7 +120,10 @@ var OttoSatelliteModule;
                 cloudSocket.on('info', function (infoObj) {
                     var timeout = infoObj.timeout;
                     _this.timeoutLength = timeout || DEFAULT_TIMEOUT;
-                    // this.timeoutLength = DEFAULT_TIMEOUT;
+                    if (infoObj.timeSettings) {
+                        _this.doLog('obj has time settings');
+                        _this.timeSettings = infoObj.timeSettings;
+                    }
                     _this.doLog('got info from cloud socket: ' + JSON.stringify(infoObj));
                     _this.doLog('time out length is ' + _this.timeoutLength);
                     if (!_this.didSecondaryInit) {
@@ -193,7 +217,7 @@ var OttoSatelliteModule;
                     }
                     if (this.motionStatus === constants_1.OttoObjectStatus.On) {
                         this.doLog('calling motion detected');
-                        this.onMotionDetected();
+                        this.onMotionDetected(pirnum);
                     }
                     else {
                         this.doLog('not calling motion detected');
@@ -211,7 +235,7 @@ var OttoSatelliteModule;
             });
             this.didSecondaryInit = true;
         };
-        OttoSatellite.prototype.onMotionDetected = function () {
+        OttoSatellite.prototype.onMotionDetected = function (pirnum) {
             // We only care about the 1 - not the 0.
             // The satellite will send that motion was detected
             // and that its timer is done
@@ -223,7 +247,7 @@ var OttoSatelliteModule;
             else {
                 // This is new
                 this.doLog('motion timeout did not exist, emitting to cloud socket');
-                cloudSocket.emit('satellite_motion_detected', { id: this.id });
+                cloudSocket.emit('satellite_motion_detected', { id: this.id, pirnum: pirnum });
             }
             this.setMotionTimeout();
         };
