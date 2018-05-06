@@ -156,10 +156,10 @@ module OttoBigRed {
                         return -1;
                     }
                 });
-                let currentObj: OttoTimeSettings = lightObj.timeSettings[hours[0]];
+                let currentObj: OttoTimeSettings = lightObj.timeSettings[hours[hours.length-1]];
                 let currentHour = new Date().getHours();
                 hours.forEach(hourString => {
-                    if (currentHour > +hourString) {
+                    if (currentHour >= +hourString) {
                         currentObj = lightObj.timeSettings[hourString];
                     }
                 });

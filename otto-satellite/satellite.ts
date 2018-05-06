@@ -78,9 +78,9 @@ module OttoSatelliteModule {
                             return -1;
                         }
                     });
-                    let currentObj: OttoTimeSettings = this.timeSettings[hours[0]];
+                    let currentObj: OttoTimeSettings = this.timeSettings[hours[hours.length-1]];
                     hours.forEach(hourString => {
-                        if (currentHour > +hourString) {
+                        if (currentHour >= +hourString) {
                             currentObj = this.timeSettings[hourString];
                         }
                     });
