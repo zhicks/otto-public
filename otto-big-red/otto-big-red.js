@@ -150,10 +150,10 @@ var OttoBigRed;
                         return -1;
                     }
                 });
-                var currentObj_1 = lightObj.timeSettings[hours[0]];
+                var currentObj_1 = lightObj.timeSettings[hours[hours.length - 1]];
                 var currentHour_1 = new Date().getHours();
                 hours.forEach(function (hourString) {
-                    if (currentHour_1 > +hourString) {
+                    if (currentHour_1 >= +hourString) {
                         currentObj_1 = lightObj.timeSettings[hourString];
                     }
                 });

@@ -75,10 +75,17 @@ var OttoSatelliteModule;
             setInterval(function () {
                 if (_this.timeSettings) {
                     var currentHour_1 = new Date().getHours();
-                    var hours = Object.keys(_this.timeSettings).sort();
-                    var currentObj_1 = _this.timeSettings[hours[0]];
+                    var hours = Object.keys(_this.timeSettings).sort(function (a, b) {
+                        if (+a > +b) {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    });
+                    var currentObj_1 = _this.timeSettings[hours[hours.length - 1]];
                     hours.forEach(function (hourString) {
-                        if (currentHour_1 > +hourString) {
+                        if (currentHour_1 >= +hourString) {
                             currentObj_1 = _this.timeSettings[hourString];
                         }
                     });
