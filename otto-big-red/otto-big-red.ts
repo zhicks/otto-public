@@ -22,7 +22,8 @@ module OttoBigRed {
     // ------------------------------------------------------------------- Props
     let cloudSocket: any;
     let hubClient: any;
-    let bridgeIp = '192.168.1.100';
+    // let bridgeIp = '192.168.1.100';
+    let bridgeIp = null;
 
     // ------------------------------------------------------------------- Stuff
     let getLightObjectDatas = (callback) => {
