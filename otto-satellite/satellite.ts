@@ -24,8 +24,9 @@ module OttoSatelliteModule {
     let USERNAME = 'sunny';
     const { spawn } = require('child_process');
     const os = require('os');
-    const OTTO_LOCAL_SERVER_IP = '192.168.1.102:3501';
+    const OTTO_LOCAL_SERVER_IP = '192.168.1.102:3505';
     let cloudSocket: any;
+    const CAMERA_SATELLITE_ID = '85b4260b-9897-43ac-8c96-814e66eabb40';
 
     const pir4 = new Gpio(4, 'in', 'both');
     const pir17 = new Gpio(17, 'in', 'both');
@@ -68,8 +69,9 @@ module OttoSatelliteModule {
             this.doLog('satellite server started');
         }
         initCamera() {
-            let isCameraSatellite = false; // TODO - Get ID
+            let isCameraSatellite = this.id === CAMERA_SATELLITE_ID;
             if (isCameraSatellite) {
+                this.doLog('am camera satellite');
                 const newSocket = socketIoClient(OTTO_LOCAL_SERVER_IP);
                 satelliteCamera.init(newSocket);
             }
