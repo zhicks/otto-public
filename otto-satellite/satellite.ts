@@ -1,5 +1,6 @@
 import {OttoObjectStatus} from "../otto-shared/constants";
 import {OttoTimeSettings} from "../otto-shared/otto-interfaces";
+import { satelliteCamera } from './satellite-camera';
 
 module OttoSatelliteModule {
 
@@ -23,6 +24,7 @@ module OttoSatelliteModule {
     let USERNAME = 'sunny';
     const { spawn } = require('child_process');
     const os = require('os');
+    const OTTO_LOCAL_SERVER_IP = '192.168.1.102:3501';
     let cloudSocket: any;
 
     const pir4 = new Gpio(4, 'in', 'both');
@@ -52,6 +54,7 @@ module OttoSatelliteModule {
             this.initId();
             this.initTimeCheckLoop();
             this.initSocket();
+            this.initCamera();
         }
         secondaryInit() {
             this.initMotionDetection();
@@ -63,6 +66,13 @@ module OttoSatelliteModule {
                 this.doLog('listening on ' + app.get('port'));
             });
             this.doLog('satellite server started');
+        }
+        initCamera() {
+            let isCameraSatellite = false; // TODO - Get ID
+            if (isCameraSatellite) {
+                const newSocket = socketIoClient(OTTO_LOCAL_SERVER_IP);
+                satelliteCamera.init(newSocket);
+            }
         }
         writeBashScript(doProd: boolean) {
             fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript(doProd));

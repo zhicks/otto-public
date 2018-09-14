@@ -3,9 +3,42 @@ const Image = Canvas.Image;
 
 declare const require;
 
+export interface PoseKeypoint {
+    part: 'nose' | 'leftEye' | 'rightEye' | 'leftEar' | 'rightEar' | 'leftShoulder' | 'rightShoulder' |
+          'leftElbow' | 'rightElbow' | 'leftWrist' | 'rightWrist' | 'leftHip' | 'rightHip' | 'leftKnee' |
+          'rightKnee' | 'leftAnkle' | 'rightAnkle'
+    position: {
+        x: number,
+        y: number
+    },
+    score: number
+}
+
+export interface Pose {
+    keypoints: PoseKeypoint[];
+    score: number;
+}
+
 class OttoGestureAnalysis {
 
-    analyze(imageData: any, tf: any, posenet: any, posenetInstance: any, guiState: any, callback: Function) {
+    variableState = {
+        multiPoseDetection: {
+            outputStride: 16,
+            minPartConfidence: 0.5,
+            minPoseConfidence: 0.5,
+            scoreThreshold: 0.5,
+            nmsRadius: 20.0,
+            maxDetections: 15,
+        },
+        showKeypoints: true,
+        showSkeleton: true
+    };
+
+    changeVariableState(state: any) {
+        this.variableState = state;
+    }
+
+    posenetAnalyze(imageData: any, tf: any, posenet: any, posenetInstance: any, callback: Function) {
         const now1 = Date.now();
         console.log('analyzing');
 
@@ -18,16 +51,16 @@ class OttoGestureAnalysis {
 
         // Nothing from this will change
         const input = tf.fromPixels(canvas);
-        const modelOutputs = posenetInstance.predictForMultiPose(input, guiState.multiPoseDetection.outputStride);
+        const modelOutputs = posenetInstance.predictForMultiPose(input, this.variableState.multiPoseDetection.outputStride);
         let poseAnalysis = posenet.decodeMultiplePoses(
             modelOutputs.heatmapScores, modelOutputs.offsets,
             modelOutputs.displacementFwd, modelOutputs.displacementBwd,
-            guiState.multiPoseDetection.outputStride, guiState.multiPoseDetection.maxDetections,
-            guiState.multiPoseDetection);
+            this.variableState.multiPoseDetection.outputStride, this.variableState.multiPoseDetection.maxDetections,
+            this.variableState.multiPoseDetection);
 
         console.log('image size is', img.width, img.height);
 
-        poseAnalysis.then(function(keypointsAndScores) {
+        poseAnalysis.then((keypointsAndScores: Pose[]) => {
             // console.log(arguments);
             console.log('that took about (in ms):', Date.now() - now1);
 
@@ -39,6 +72,10 @@ class OttoGestureAnalysis {
         });
     }
 
+
+    analyzeGestures(data: Pose[], callback: Function) {
+
+    }
 }
 
 export const ottoGestureAnalysis = new OttoGestureAnalysis();
