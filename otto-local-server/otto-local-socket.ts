@@ -1,4 +1,4 @@
-import { ottoSomething } from "./otto-something";
+import { ottoGestureAnalysis } from './otto-gesture-analysis';
 
 declare const require;
 
@@ -29,48 +29,45 @@ class OttoLocalSocket {
         this.posenet = posenet;
         let io = socketIo(http);
         io.on('connection', socket => {
-            console.log('got connection socket id is ', socket.id);
-            // socket.on('hi', () => {
-            //     socket.emit('test', 'boop');
-            // });
-            // socket.on('disconnect', () => {
-            //     console.log('socket disconnected');
-            // });
+
             socket.on('browser', () => {
                 console.log('browser connected');
                 this.browserSockets[socket.id] = socket;
-                socket.emit('guiState', this.guiState);
+
                 socket.on('guiState', state => {
-                   this.guiState = state;
+                    console.log('got gui state, changing it');
+                    this.guiState = state;
                 });
+
+                socket.emit('guiState', this.guiState);
             });
+
             socket.on('satellite', () => {
                 console.log('satellite connected');
-                socket.on('image', this.asdf.bind(this));
+                socket.on('image', this.onImage.bind(this));
             });
+
             socket.on('disconnect', () => {
-               console.log('trying to remove socket');
                const s = this.browserSockets[socket.id];
                if (s) {
                    console.log('removing browser socket');
                    delete this.browserSockets[socket.id];
+               } else {
+                   console.log('something went wrong removing the browser socket');
                }
             });
+
         });
     }
 
-    asdf(posenetInstance: any, image: any) {
+    onImage(posenetInstance: any, image: any) {
         console.log('got image');
-        // convert to buffer
-        // do analyze
-        // send to browser
-        ottoSomething.analyze(image, this.tf, this.posenet, posenetInstance, this.guiState, (data) => {
+        ottoGestureAnalysis.analyze(image, this.tf, this.posenet, posenetInstance, this.guiState, (data) => {
             for (let key in this.browserSockets) {
                 const browserSocket = this.browserSockets[key];
                 browserSocket.emit('data', {
                     image: image,
-                    // data is score and keypoints
-                    data: data
+                    data: data // data is [score and keypoints]
                 });
             }
         });

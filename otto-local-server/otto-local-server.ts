@@ -39,7 +39,6 @@ app.use(function(req, res, next) {
 });
 // ------------------------------------------------------------------- Static Files
 app.use('/assets', express.static(path.join(__dirname, '../otto-local-client/assets')));
-app.use('/styles', express.static(path.join(__dirname, '../otto-local-client/styles')));
 // ------------------------------------------------------------------- Routing
 app.get('/', (req, res) => {
     res.render('index.html');
@@ -48,17 +47,16 @@ http.listen(app.get('port'), () => {
     console.log('listening on ' + app.get('port'));
 });
 
-console.log('hi local server');
-
+// ------------------------------------------------------------------- Socket
 ottoLocalSocket.init(http, posenet, tf);
-posenet.load().then(function(net) {
-    // console.log('hey tf is ', tf);
+// ------------------------------------------------------------------- Gesture
 
-    // ------------------------------------------------------------------- Temporary testing
+// ------------------------------------------------------------------- Temporary testing
+posenet.load().then(function(net) {
     let imageData = fs.readFileSync('frisbee_2.jpg');
     setInterval(() => {
         console.log('sending image');
-        ottoLocalSocket.asdf(net, imageData);
+        ottoLocalSocket.onImage(net, imageData);
     }, 3000);
 });
 
