@@ -4,7 +4,6 @@
     <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-local-client/assets/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-client/assets/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-something.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-something.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -33,20 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/otto-local-client/assets/main.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="562">
-              <caret line="129" column="49" lean-forward="true" selection-start-line="129" selection-start-column="49" selection-end-line="129" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="otto-local-socket.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-socket.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="70" column="33" lean-forward="true" selection-start-line="70" selection-start-column="33" selection-end-line="70" selection-end-column="33" />
+            <state relative-caret-position="506">
+              <caret line="79" column="37" lean-forward="true" selection-start-line="79" selection-start-column="37" selection-end-line="79" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -54,8 +44,17 @@
       <file leaf-file-name="otto-something.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-something.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="713">
-              <caret line="31" column="15" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
+            <state relative-caret-position="667">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/otto-local-client/assets/main.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="54" column="40" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -64,12 +63,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>make sure</find>
-      <find>und brid</find>
-      <find>bridgeIp</find>
-      <find>turn light</find>
-      <find>init</find>
-      <find>dohubinit</find>
       <find>doScanAndAddNewLights</find>
       <find>timeout</find>
       <find>io(</find>
@@ -93,7 +86,13 @@
       <find>fuck</find>
       <find>canvasContext</find>
       <find>drawres</find>
+      <find>predictForMultiPose</find>
+      <find>modelOutputs</find>
+      <find>heatmapScores</find>
       <find>visualizeOutputs</find>
+      <find>showOffsets</find>
+      <find>drawKeypoints</find>
+      <find>drawResults</find>
     </findStrings>
     <replaceStrings>
       <replace>this.doLog</replace>
@@ -335,7 +334,7 @@
       <workItem from="1530225413317" duration="594000" />
       <workItem from="1534002282802" duration="2800000" />
       <workItem from="1534188851759" duration="47000" />
-      <workItem from="1536877002632" duration="12013000" />
+      <workItem from="1536877002632" duration="14707000" />
     </task>
     <task id="LOCAL-00001" summary="uytiugik">
       <created>1524658925022</created>
@@ -617,11 +616,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536895523827</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="piss">
+      <created>1536897172181</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1536897172181</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84332000" />
+    <option name="totallyTimeSpent" value="87026000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
@@ -634,7 +640,7 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.3290461" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="TypeScript" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12006319" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.12006319" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -702,7 +708,8 @@
     <MESSAGE value="dasdfadfsadsf" />
     <MESSAGE value="fixed hub ip I think" />
     <MESSAGE value="adsfasdfadfsadsfasdfadsfasdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="adsfasdfadfsadsfasdfadsfasdf" />
+    <MESSAGE value="piss" />
+    <option name="LAST_COMMIT_MESSAGE" value="piss" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1032,24 +1039,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-socket.ts">
+    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-something.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="70" column="33" lean-forward="true" selection-start-line="70" selection-start-column="33" selection-end-line="70" selection-end-column="33" />
+        <state relative-caret-position="667">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-something.ts">
+    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-socket.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="713">
-          <caret line="31" column="15" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
+        <state relative-caret-position="506">
+          <caret line="79" column="37" lean-forward="true" selection-start-line="79" selection-start-column="37" selection-end-line="79" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-client/assets/main.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="129" column="49" lean-forward="true" selection-start-line="129" selection-start-column="49" selection-end-line="129" selection-end-column="49" />
+        <state relative-caret-position="350">
+          <caret line="54" column="40" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
         </state>
       </provider>
     </entry>

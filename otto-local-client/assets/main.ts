@@ -42,6 +42,7 @@ socket.on('test', (msg) => {
     console.log('test', msg);
 });
 
+let q = false;
 socket.on('data', (msg: { image: any, data: { keypoints: { score: number, part: string, position: { x: number, y: number } }[], score: number } }) => {
     console.log(msg);
     if (canvasContext) {
@@ -51,9 +52,13 @@ socket.on('data', (msg: { image: any, data: { keypoints: { score: number, part: 
         var imageUrl = URL.createObjectURL( blob );
         var img = new Image;
         img.src = imageUrl;
+        // Need to dipose of the points!
         img.onload = function(){
             // ctx.drawImage(img,0,0); // Or at whatever offset you like
-            canvasContext.drawImage(img, 0, 0, 513, 513);
+            if (!q) {
+                canvasContext.drawImage(img, 0, 0, 513, 513);
+                q = true;
+            }
         };
         $('#imggg')[0].src=img.src;
 
@@ -64,13 +69,13 @@ socket.on('data', (msg: { image: any, data: { keypoints: { score: number, part: 
             canvas, msg.data, guiState.multiPoseDetection.minPartConfidence,
             guiState.multiPoseDetection.minPoseConfidence);
 
-        const {part, showHeatmap, showOffsets, showDisplacements} =
-            guiState.visualizeOutputs;
-        const partId = +part;
-
-        visualizeOutputs(
-            partId, showHeatmap, showOffsets, showDisplacements,
-            canvas.getContext('2d'));
+        // const {part, showHeatmap, showOffsets, showDisplacements} =
+        //     guiState.visualizeOutputs;
+        // const partId = +part;
+        //
+        // visualizeOutputs(
+        //     partId, showHeatmap, showOffsets, showDisplacements,
+        //     canvas.getContext('2d'));
 
 
         // -------------------------------------------------------------------
@@ -104,55 +109,55 @@ function drawResults(canvas, poses, minPartConfidence, minPoseConfidence) {
     });
 }
 
-function visualizeOutputs(partId, drawHeatmaps, drawOffsetVectors, drawDisplacements, ctx) {
-
-    const {heatmapScores, offsets, displacementFwd, displacementBwd} =
-        modelOutputs;
-    const outputStride = +guiState.outputStride;
-
-    const [height, width] = heatmapScores.shape;
-
-    ctx.globalAlpha = 0;
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const score = heatmapScores.get(y, x, partId);
-
-            // to save on performance, don't draw anything with a low score.
-            if (score < 0.05) continue;
-
-            // set opacity of drawn elements based on the score
-            ctx.globalAlpha = score;
-
-            if (drawHeatmaps) {
-                drawPoint(ctx, y * outputStride, x * outputStride, 2, 'yellow');
-            }
-
-            const offsetsVectorY = offsets.get(y, x, partId);
-            const offsetsVectorX = offsets.get(y, x, partId + 17);
-
-            if (drawOffsetVectors) {
-                drawOffsetVector(
-                    ctx, y, x, outputStride, offsetsVectorY, offsetsVectorX);
-            }
-
-            if (drawDisplacements) {
-                // exponentially affect the alpha of the displacements;
-                ctx.globalAlpha *= score;
-
-                drawDisplacementEdgesFrom(
-                    ctx, partId, displacementFwd, outputStride, parentToChildEdges, y,
-                    x, offsetsVectorY, offsetsVectorX);
-
-                drawDisplacementEdgesFrom(
-                    ctx, partId, displacementBwd, outputStride, childToParentEdges, y,
-                    x, offsetsVectorY, offsetsVectorX);
-            }
-        }
-
-        ctx.globalAlpha = 1;
-    }
-
-}
+// function visualizeOutputs(partId, drawHeatmaps, drawOffsetVectors, drawDisplacements, ctx) {
+//
+//     const {heatmapScores, offsets, displacementFwd, displacementBwd} =
+//         modelOutputs;
+//     const outputStride = +guiState.outputStride;
+//
+//     const [height, width] = heatmapScores.shape;
+//
+//     ctx.globalAlpha = 0;
+//     for (let y = 0; y < height; y++) {
+//         for (let x = 0; x < width; x++) {
+//             const score = heatmapScores.get(y, x, partId);
+//
+//             // to save on performance, don't draw anything with a low score.
+//             if (score < 0.05) continue;
+//
+//             // set opacity of drawn elements based on the score
+//             ctx.globalAlpha = score;
+//
+//             if (drawHeatmaps) {
+//                 drawPoint(ctx, y * outputStride, x * outputStride, 2, 'yellow');
+//             }
+//
+//             const offsetsVectorY = offsets.get(y, x, partId);
+//             const offsetsVectorX = offsets.get(y, x, partId + 17);
+//
+//             if (drawOffsetVectors) {
+//                 drawOffsetVector(
+//                     ctx, y, x, outputStride, offsetsVectorY, offsetsVectorX);
+//             }
+//
+//             if (drawDisplacements) {
+//                 // exponentially affect the alpha of the displacements;
+//                 ctx.globalAlpha *= score;
+//
+//                 drawDisplacementEdgesFrom(
+//                     ctx, partId, displacementFwd, outputStride, parentToChildEdges, y,
+//                     x, offsetsVectorY, offsetsVectorX);
+//
+//                 drawDisplacementEdgesFrom(
+//                     ctx, partId, displacementBwd, outputStride, childToParentEdges, y,
+//                     x, offsetsVectorY, offsetsVectorX);
+//             }
+//         }
+//
+//         ctx.globalAlpha = 1;
+//     }
+//
+// }
 
 function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     for (let i = 0; i < keypoints.length; i++) {
