@@ -145,15 +145,9 @@ class OttoGestureAnalysis {
 
 
     analyzeGestures(poses: PoseData[], imgWidth: number, imgHeight: number, callback: Function) {
-        // here we goooooo
-        // right shoulder, right elbow, right wrist
-        // remember the humans array
         let someKindOfData = null;
         poses.forEach(pose => {
             if (pose.score > this.variableState.multiPoseDetection.minPoseConfidence) {
-                // Right arm time!
-                // the elbow needs to be
-                // and don't forget the face rule
                 let thing: any;
                 let neededKeypointRules = thing.thing2;
                 let goodKeypoints: {
@@ -184,10 +178,10 @@ class OttoGestureAnalysis {
                             if (rule.distance) {
                                 let matched = false;
                                 if (rule.distance.x) {
-                                    matched = this.checkDistanceMatch(rule.distance.x, rule, kp, relativeToKeypoint, imgWidth);
+                                    matched = this.checkDistanceMatch('x', rule, kp, relativeToKeypoint, imgWidth);
                                 }
                                 if (rule.distance.y) {
-                                    matched = this.checkDistanceMatch(rule.distance.y, rule, kp, relativeToKeypoint, imgHeight);
+                                    matched = this.checkDistanceMatch('y', rule, kp, relativeToKeypoint, imgHeight);
                                 }
                                 if (!matched) {
                                     break;
@@ -204,13 +198,13 @@ class OttoGestureAnalysis {
         callback(someKindOfData);
     }
 
-    private checkDistanceMatch(distanceObj: OttoGestureRuleDistanceRequirement, rule: OttoGestureRule, kp: PoseDataKeypoint,
+    private checkDistanceMatch(direction: string, rule: OttoGestureRule, kp: PoseDataKeypoint,
                                relativeToKeypoint: PoseDataKeypoint, compareTo: number) {
-        if (rule.distance.y.noMoreThan) {
-            let diff = Math.abs(kp.position.y - relativeToKeypoint.position.y);
-            if (rule.distance.y.noMoreThan.units === '%') {
+        if (rule.distance[direction].noMoreThan) {
+            let diff = Math.abs(kp.position[direction] - relativeToKeypoint.position[direction]);
+            if (rule.distance[direction].noMoreThan.units === '%') {
                 let pct = (diff / compareTo) * 100;
-                if (pct < rule.distance.y.noMoreThan.value) {
+                if (pct < rule.distance[direction].noMoreThan.value) {
                     // We have a match
                     console.log('We have a match with ', kp.part);
                     return true;
