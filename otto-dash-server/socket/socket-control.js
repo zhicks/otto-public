@@ -344,9 +344,9 @@ var SocketControl = /** @class */ (function () {
             else {
                 var satSocket = void 0;
                 for (var _i = 0, _a = this.satellites; _i < _a.length; _i++) {
-                    var socket = _a[_i];
-                    if (socket.satelliteId === sat.id) {
-                        return socket;
+                    var socket_1 = _a[_i];
+                    if (socket_1.satelliteId === sat.id) {
+                        return socket_1;
                     }
                 }
             }

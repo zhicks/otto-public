@@ -185,6 +185,9 @@ var OttoBigRed;
             timeout: 15000,
         });
         initSocket();
+        // getLightObjectDatas((things) => {
+        //     console.log(things);
+        // });
         // doScanAndAddNewLights();
     };
     var doHubInit = function () {
@@ -276,4 +279,5 @@ var OttoBigRed;
     });
     console.log('big red server started');
     doHubInit();
+    // doHubOneTimeInit();
 })(OttoBigRed || (OttoBigRed = {}));

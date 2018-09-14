@@ -9,5 +9,3 @@ If not, it adds it without any information to it.
 If so, it does nothing in particular.
 But after that it sends an 'info' packet to let the sat know its settings.
 (At the moment that info packet is just its timeout)
-// WHEN DOES THAT GET SET
-

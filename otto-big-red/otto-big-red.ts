@@ -194,6 +194,9 @@ module OttoBigRed {
             timeout:  15000,            // Optional, timeout in milliseconds (15000 is the default)
         });
         initSocket();
+        // getLightObjectDatas((things) => {
+        //     console.log(things);
+        // });
         // doScanAndAddNewLights();
     }
     let doHubInit = () => {
@@ -289,6 +292,7 @@ module OttoBigRed {
     });
     console.log('big red server started');
     doHubInit();
+    // doHubOneTimeInit();
 
 }
 

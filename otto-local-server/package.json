@@ -1,0 +1,25 @@
+{
+  "name": "otto-local-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node otto-local-server.js",
+    "tsc": "tsc",
+    "build-and-start": "tsc && node otto-local-server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow-models/posenet": "^0.2.2",
+    "@tensorflow/tfjs": "^0.12.7",
+    "@tensorflow/tfjs-node": "^0.1.17",
+    "body-parser": "^1.18.3",
+    "canvas-prebuilt": "^1.6.11",
+    "express": "^4.16.3",
+    "socket.io": "^2.1.1",
+    "swig": "^1.4.2",
+    "xhr2": "^0.1.4"
+  }
+}
