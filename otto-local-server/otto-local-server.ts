@@ -54,18 +54,18 @@ ottoLocalSocket.init(http, posenet, tf);
 // ------------------------------------------------------------------- Temporary testing
 posenet.load().then(function(net) {
     ottoLocalSocket.setPosenetLocalInstance(net);
-    let imageData = fs.readFileSync('frisbee_2.jpg');
-    let imageData2 = fs.readFileSync('frisbee.jpg');
-    let x = false;
-    setInterval(() => {
-        console.log('sending image');
-        if (!x) {
-            ottoLocalSocket.onImage(imageData);
-        } else {
-            ottoLocalSocket.onImage(imageData2);
-        }
-        x = !x;
-    }, 3000);
+    // let imageData = fs.readFileSync('frisbee_2.jpg');
+    // let imageData2 = fs.readFileSync('frisbee.jpg');
+    // let x = false;
+    // setInterval(() => {
+    //     console.log('sending image');
+    //     if (!x) {
+    //         ottoLocalSocket.onImage(imageData);
+    //     } else {
+    //         ottoLocalSocket.onImage(imageData2);
+    //     }
+    //     x = !x;
+    // }, 3000);
 });
 
 

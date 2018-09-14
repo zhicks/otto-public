@@ -41,6 +41,7 @@ class OttoLocalSocket {
             });
 
             socket.on('disconnect', () => {
+                // TODO - This isn't right
                const s = this.browserSockets[socket.id];
                if (s) {
                    console.log('removing browser socket');

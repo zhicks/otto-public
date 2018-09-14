@@ -22,7 +22,7 @@ var OttoSatelliteModule;
     var USERNAME = 'sunny';
     var spawn = require('child_process').spawn;
     var os = require('os');
-    var OTTO_LOCAL_SERVER_IP = '192.168.1.102:3505';
+    var OTTO_LOCAL_SERVER_IP = 'http://192.168.1.102:3505';
     var cloudSocket;
     var CAMERA_SATELLITE_ID = '85b4260b-9897-43ac-8c96-814e66eabb40';
     var pir4 = new Gpio(4, 'in', 'both');

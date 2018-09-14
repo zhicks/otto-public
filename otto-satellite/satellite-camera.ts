@@ -17,6 +17,7 @@ class SatelliteCamera {
         socket.on('connect', () => {
             console.log('connected to big red');
             console.log('calling take pic just the one time');
+            socket.emit('satellite');
             setTimeout(() => {
                 this.takePic();
             }, 2000);
@@ -29,8 +30,10 @@ class SatelliteCamera {
     takePic() {
         const camProcess = exec('fswebcam -', (error, stdout, stderr) => {
             // console.log(stdout);
+            console.log('took pic');
             if (this.socket) {
                 // not yet
+                console.log('emitting to socket');
                 this.socket.emit('image', stdout);
                 // make sure to crop it
                 // just have big red save it at first
