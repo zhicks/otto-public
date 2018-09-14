@@ -17,7 +17,9 @@ class SatelliteCamera {
         socket.on('connect', () => {
             console.log('connected to big red');
             console.log('calling take pic just the one time');
-            this.takePic();
+            setTimeout(() => {
+                this.takePic();
+            }, 3000);
         });
         // this.takePicInterval = setInterval(() => {
         //     this.takePic();

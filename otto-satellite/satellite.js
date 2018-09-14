@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var constants_1 = require("../otto-shared/constants");
+var satellite_camera_1 = require("./satellite-camera");
 var OttoSatelliteModule;
 (function (OttoSatelliteModule) {
     var path = require('path');
@@ -21,7 +22,9 @@ var OttoSatelliteModule;
     var USERNAME = 'sunny';
     var spawn = require('child_process').spawn;
     var os = require('os');
+    var OTTO_LOCAL_SERVER_IP = '192.168.1.102:3505';
     var cloudSocket;
+    var CAMERA_SATELLITE_ID = '85b4260b-9897-43ac-8c96-814e66eabb40';
     var pir4 = new Gpio(4, 'in', 'both');
     var pir17 = new Gpio(17, 'in', 'both');
     // NEXT: Test watching 17 if there's nothing plugged in before trying anything else
@@ -54,6 +57,7 @@ var OttoSatelliteModule;
             this.initId();
             this.initTimeCheckLoop();
             this.initSocket();
+            this.initCamera();
         };
         OttoSatellite.prototype.secondaryInit = function () {
             this.initMotionDetection();
@@ -66,6 +70,14 @@ var OttoSatelliteModule;
                 _this.doLog('listening on ' + app.get('port'));
             });
             this.doLog('satellite server started');
+        };
+        OttoSatellite.prototype.initCamera = function () {
+            var isCameraSatellite = this.id === CAMERA_SATELLITE_ID;
+            if (isCameraSatellite) {
+                this.doLog('am camera satellite');
+                var newSocket = socketIoClient(OTTO_LOCAL_SERVER_IP);
+                satellite_camera_1.satelliteCamera.init(newSocket);
+            }
         };
         OttoSatellite.prototype.writeBashScript = function (doProd) {
             fs.writeFileSync(BASH_UPDATE_SCRIPT_FILE_PATH, BashScript(doProd));
