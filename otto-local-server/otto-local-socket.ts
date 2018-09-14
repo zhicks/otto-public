@@ -10,10 +10,6 @@ class OttoLocalSocket {
     posenet: any;
     guiState = {
         outputStride: 16,
-        singlePoseDetection: {
-            minPartConfidence: 0.5,
-            minPoseConfidence: 0.5,
-        },
         multiPoseDetection: {
             minPartConfidence: 0.5,
             minPoseConfidence: 0.5,
@@ -22,14 +18,7 @@ class OttoLocalSocket {
             maxDetections: 15,
         },
         showKeypoints: true,
-        showSkeleton: true,
-        showBoundingBox: false,
-        visualizeOutputs: {
-            part: 0,
-            showHeatmap: false,
-            showOffsets: false,
-            showDisplacements: false,
-        },
+        showSkeleton: true
     };
     tf: any;
 
@@ -50,7 +39,10 @@ class OttoLocalSocket {
             socket.on('browser', () => {
                 console.log('browser connected');
                 this.browserSockets[socket.id] = socket;
-                socket.emit('test', 'boop');
+                socket.emit('guiState', this.guiState);
+                socket.on('guiState', state => {
+                   this.guiState = state;
+                });
             });
             socket.on('satellite', () => {
                 console.log('satellite connected');
