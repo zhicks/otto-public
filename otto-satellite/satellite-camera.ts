@@ -16,10 +16,12 @@ class SatelliteCamera {
         this.socket = socket;
         socket.on('connect', () => {
             console.log('connected to big red');
-        });
-        this.takePicInterval = setInterval(() => {
+            console.log('calling take pic just the one time');
             this.takePic();
-        }, FRAME_RATE);
+        });
+        // this.takePicInterval = setInterval(() => {
+        //     this.takePic();
+        // }, 1000 / FRAME_RATE);
     }
 
     takePic() {
@@ -28,6 +30,8 @@ class SatelliteCamera {
             if (this.socket) {
                 // not yet
                 // this.socket.emit('image', stdout);
+                // make sure to crop it
+                // just have big red save it at first
             }
         });
         // camProcess.stdout.on('data', (data) => {

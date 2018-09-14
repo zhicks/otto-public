@@ -1,4 +1,4 @@
-import { ottoGestureAnalysis, Pose } from './otto-gesture-analysis';
+import { ottoGestureAnalysis, PoseData } from './otto-gesture-analysis';
 
 declare const require;
 
@@ -55,7 +55,7 @@ class OttoLocalSocket {
 
     onImage(image: any) {
         console.log('got image');
-        ottoGestureAnalysis.posenetAnalyze(image, this.tf, this.posenet, this.posenetLocalInstance, (data: Pose[]) => {
+        ottoGestureAnalysis.posenetAnalyze(image, this.tf, this.posenet, this.posenetLocalInstance, (data: { poses: PoseData[], imgDims: { w: number, h: number }}) => {
             // If there are browsers open, send em this data
             for (let key in this.browserSockets) {
                 const browserSocket = this.browserSockets[key];
@@ -66,10 +66,12 @@ class OttoLocalSocket {
             }
 
             // Detect gestures
-            ottoGestureAnalysis.analyzeGestures(data, (someKindOfData => {
-                for (let key in this.browserSockets) {
-                    const browserSocket = this.browserSockets[key];
-                    browserSocket.emit('something', someKindOfData)
+            ottoGestureAnalysis.analyzeGestures(data.poses, data.imgDims.w, data.imgDims.h, (someKindOfData => {
+                if (someKindOfData) {
+                    for (let key in this.browserSockets) {
+                        const browserSocket = this.browserSockets[key];
+                        browserSocket.emit('something', someKindOfData)
+                    }
                 }
             }));
         });

@@ -114,7 +114,7 @@ class DomHandler {
         this.setupGui();
     }
 
-    onData(msg: { image: any, data: { keypoints: { score: number, part: string, position: { x: number, y: number } }[], score: number } }) {
+    onData(msg: { image: any, poses }) {
         console.log(msg);
         let image = msg.image;
         let arrayBufferView = new Uint8Array( image );
@@ -124,7 +124,7 @@ class DomHandler {
         img.src = imageUrl;
         img.onload = () => {
             this.canvasContext.drawImage(img, 0, 0, 513, 513);
-            drawHandler.drawResults(this.$canvas[0], msg.data, this.guiState.multiPoseDetection.minPartConfidence, this.guiState.multiPoseDetection.minPoseConfidence);
+            drawHandler.drawResults(this.$canvas[0], msg.poses, this.guiState.multiPoseDetection.minPartConfidence, this.guiState.multiPoseDetection.minPoseConfidence);
         };
     }
     setupGui() {
@@ -206,28 +206,3 @@ $(document).ready(() => {
     domHandler.init();
     socketHandler.init();
 });
-
-
-// ------------------------------------------------------------------- ???????????
-// export async function renderToCanvas(a, ctx) {
-//     const [height, width] = a.shape;
-//     const imageData = new ImageData(width, height);
-//     const data = await a.data();
-//     for (let i = 0; i < height * width; ++i) {
-//         const j = i * 4;
-//         const k = i * 3;
-//         imageData.data[j + 0] = data[k + 0];
-//         imageData.data[j + 1] = data[k + 1];
-//         imageData.data[j + 2] = data[k + 2];
-//         imageData.data[j + 3] = 255;
-//     }
-//     ctx.putImageData(imageData, 0, 0);
-// }
-//
-// function renderImageToCanvas(image, size, canvas) {
-//     canvas.width = size[0];
-//     canvas.height = size[1];
-//     const ctx = canvas.getContext('2d');
-//     ctx.drawImage(image, 0, 0);
-// }
-//
