@@ -30,9 +30,8 @@ class OttoSomething {
             keypointsAndScores.forEach(k => {
                 console.log('score is', k.score);
             });
-            console.log('for now, using first');
 
-            callback(keypointsAndScores[0]);
+            callback(keypointsAndScores);
         });
 
 
