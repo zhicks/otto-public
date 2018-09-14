@@ -7,8 +7,24 @@
     <style type='text/css'>
 
         body {
-            background-color: #222 !important;
+            background-color: #111 !important;
             color: #CCC !important;
+            padding: 2rem;
+        }
+        #multi {
+            display: flex;
+        }
+        .other-list {
+            padding: 1rem;
+        }
+        .big-text {
+            font-size: 4rem;
+            color: white;
+            margin-top: 1rem;
+        }
+        /*dat.gui override*/
+        .dg.a {
+            margin-top: 2rem !important;
         }
 
     </style>
@@ -21,6 +37,10 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
+    <script type="text/javascript" src="/assets/dat.gui.min.js"></script>
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <script src="https://unpkg.com/@tensorflow-models/posenet"></script>
+
 </head>
 
 <body>
@@ -28,22 +48,23 @@
         <div id='results'>
             <div id="multi">
                 <canvas id="maincanvas"></canvas>
+                <div id="details-list" class="other-list">
+                    <ul>
+                        <li>Other</li>
+                        <li>Details</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div>
-        <div>hi</div>
-        <div>
-            <img src="" alt="" id="imggg">
-        </div>
+
+    <div class="big-text">
+        <span id="display-params">Big text</span>
     </div>
-    <div class="footer">
-        <div class="footer-text">
-            <p>
-                Footer
-            </p>
-        </div>
+    <div class="big-text" style="color: orange; font-weight: bold;">
+        <span id="display-params2">Big text2</span>
     </div>
+
     <script src="/assets/main.js"></script>
 </body>
 

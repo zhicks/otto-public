@@ -18,11 +18,11 @@ class OttoGestureAnalysis {
 
         // Nothing from this will change
         const input = tf.fromPixels(canvas);
-        const modelOutputs = posenetInstance.predictForMultiPose(input, guiState.outputStride);
+        const modelOutputs = posenetInstance.predictForMultiPose(input, guiState.multiPoseDetection.outputStride);
         let poseAnalysis = posenet.decodeMultiplePoses(
             modelOutputs.heatmapScores, modelOutputs.offsets,
             modelOutputs.displacementFwd, modelOutputs.displacementBwd,
-            guiState.outputStride, guiState.multiPoseDetection.maxDetections,
+            guiState.multiPoseDetection.outputStride, guiState.multiPoseDetection.maxDetections,
             guiState.multiPoseDetection);
 
         console.log('image size is', img.width, img.height);

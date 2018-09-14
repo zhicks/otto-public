@@ -1,9 +1,8 @@
 declare const io;
 declare const $;
 
-import * as posenet from '@tensorflow-models/posenet';
-import * as tf from '@tensorflow/tfjs';
-import dat from 'dat.gui';
+declare const posenet;
+declare const dat;
 
 let socketHandler: SocketHandler;
 let drawHandler: DrawHandler;
@@ -95,8 +94,8 @@ class DomHandler {
     canvasContext: any;
     gui: any;
     guiState = {
-        outputStride: 16,
         multiPoseDetection: {
+            outputStride: 16,
             minPartConfidence: 0.1,
             minPoseConfidence: 0.1,
             scoreThreshold: 0.1,
@@ -123,15 +122,10 @@ class DomHandler {
         let imageUrl = URL.createObjectURL( blob );
         let img = new Image;
         img.src = imageUrl;
-        // Need to dipose of the points!
         img.onload = () => {
-            // ctx.drawImage(img,0,0); // Or at whatever offset you like
-            // renderImageToCanvas(image, [513, 513], canvas); ????
             this.canvasContext.drawImage(img, 0, 0, 513, 513);
+            drawHandler.drawResults(this.$canvas[0], msg.data, this.guiState.multiPoseDetection.minPartConfidence, this.guiState.multiPoseDetection.minPoseConfidence);
         };
-        $('#imggg')[0].src=img.src;
-        let canvas = this.$canvas[0];
-        drawHandler.drawResults(canvas, msg.data, this.guiState.multiPoseDetection.minPartConfidence, this.guiState.multiPoseDetection.minPoseConfidence);
     }
     setupGui() {
         const gui = this.gui = new dat.GUI();
@@ -139,8 +133,11 @@ class DomHandler {
         // the layers in the neural network. The lower the value of the output stride
         // the higher the accuracy but slower the speed, the higher the value the
         // faster the speed but lower the accuracy.
-        gui.add(this.guiState, 'outputStride', [8, 16, 32]).onChange((outputStride) => {
-            this.guiState.outputStride = +outputStride;
+        const multiPoseDetection = gui.addFolder('Pose Estimation');
+        multiPoseDetection.open();
+
+        multiPoseDetection.add(this.guiState.multiPoseDetection, 'outputStride', [8, 16, 32]).onChange((outputStride) => {
+            this.guiState.multiPoseDetection.outputStride = +outputStride;
             this.sendGuiStateToServer();
         });
 
@@ -148,8 +145,6 @@ class DomHandler {
         // pose (i.e. a person detected in a frame)
         // Min part confidence: the confidence that a particular estimated keypoint
         // position is accurate (i.e. the elbow's position)
-        const multiPoseDetection = gui.addFolder('Multi Pose Estimation');
-        multiPoseDetection.open();
         multiPoseDetection
             .add(this.guiState.multiPoseDetection, 'minPartConfidence', 0.0, 1.0)
             .onChange(this.sendGuiStateToServer.bind(this));
@@ -167,11 +162,11 @@ class DomHandler {
             .step(1)
             .onChange(this.sendGuiStateToServer.bind(this));
 
-        gui.add(this.guiState, 'showKeypoints').onChange(this.sendGuiStateToServer.bind(this));
-        gui.add(this.guiState, 'showSkeleton').onChange(this.sendGuiStateToServer.bind(this));
+        const visual = gui.addFolder('Visual');
+        visual.open();
 
-        // multiPoseDetection.open();
-        console.log('should we multi pose detection open?');
+        visual.add(this.guiState, 'showKeypoints').onChange(this.sendGuiStateToServer.bind(this));
+        visual.add(this.guiState, 'showSkeleton').onChange(this.sendGuiStateToServer.bind(this));
     }
 
     updateGuiStateFromSocket(state: any) {
@@ -185,9 +180,17 @@ class DomHandler {
                 this.guiState[key] = state[key];
             }
         }
+        // Top level
         for (let i in domHandler.gui.__controllers) {
             this.gui.__controllers[i].updateDisplay();
         }
+        // Folders
+        for (let i in domHandler.gui.__folders) {
+            for (let j in domHandler.gui.__folders[i].__controllers) {
+                domHandler.gui.__folders[i].__controllers[j].updateDisplay();
+            }
+        }
+        // Why is dat.gui like this
     }
 
     private sendGuiStateToServer() {

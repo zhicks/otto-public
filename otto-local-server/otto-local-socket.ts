@@ -9,8 +9,8 @@ class OttoLocalSocket {
     browserSockets: any = {};
     posenet: any;
     guiState = {
-        outputStride: 16,
         multiPoseDetection: {
+            outputStride: 16,
             minPartConfidence: 0.5,
             minPoseConfidence: 0.5,
             scoreThreshold: 0.5,
