@@ -24,7 +24,7 @@ module OttoSatelliteModule {
     let USERNAME = 'sunny';
     const { spawn } = require('child_process');
     const os = require('os');
-    const OTTO_LOCAL_SERVER_IP = '192.168.1.102:3505';
+    const OTTO_LOCAL_SERVER_IP = 'http://192.168.1.102:3505';
     let cloudSocket: any;
     const CAMERA_SATELLITE_ID = '85b4260b-9897-43ac-8c96-814e66eabb40';
 

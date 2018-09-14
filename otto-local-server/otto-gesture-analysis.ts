@@ -129,9 +129,9 @@ class OttoGestureAnalysis {
             // console.log(arguments);
             console.log('that took about (in ms):', Date.now() - now1);
 
-            keypointsAndScores.forEach(k => {
-                console.log('score is', k.score);
-            });
+            // keypointsAndScores.forEach(k => {
+            //     console.log('score is', k.score);
+            // });
 
             callback({
                 poses: keypointsAndScores,

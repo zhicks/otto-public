@@ -19,7 +19,7 @@ class SatelliteCamera {
             console.log('calling take pic just the one time');
             setTimeout(() => {
                 this.takePic();
-            }, 3000);
+            }, 2000);
         });
         // this.takePicInterval = setInterval(() => {
         //     this.takePic();
@@ -28,10 +28,10 @@ class SatelliteCamera {
 
     takePic() {
         const camProcess = exec('fswebcam -', (error, stdout, stderr) => {
-            console.log(stdout);
+            // console.log(stdout);
             if (this.socket) {
                 // not yet
-                // this.socket.emit('image', stdout);
+                this.socket.emit('image', stdout);
                 // make sure to crop it
                 // just have big red save it at first
             }
