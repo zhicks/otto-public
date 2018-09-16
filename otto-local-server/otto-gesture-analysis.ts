@@ -1,7 +1,9 @@
 const Canvas = require('canvas-prebuilt');
+const fs = require('fs');
 const Image = Canvas.Image;
 
 declare const require;
+declare const Buffer;
 
 // ------------------------------------------------------------------- Interfaces
 // enum PoseDataPart {
@@ -109,7 +111,15 @@ class OttoGestureAnalysis {
 
         // Image / canvas creation
         const img = new Image();
-        img.src = imageData;
+        console.log('length is');
+        console.log(imageData.length);
+        // img.src = new Buffer(imageData, 'base64');
+        // img.src = new Buffer(imageData);
+        img.src = 'data:image/jpeg;base64,' + imageData;
+        console.log('got it');
+        // fs.writeFileSync('test.jpg', new Buffer(imageData));
+        console.log(img.src.length);
+        // console.log(imageData);
         const canvas = new Canvas(img.width, img.height);
         const context = canvas.getContext('2d');
         context.drawImage(img, 0, 0, img.width, img.height);
@@ -129,11 +139,12 @@ class OttoGestureAnalysis {
             // console.log(arguments);
             console.log('that took about (in ms):', Date.now() - now1);
 
-            // keypointsAndScores.forEach(k => {
-            //     console.log('score is', k.score);
-            // });
+            keypointsAndScores.forEach(k => {
+                console.log('score is', k.score);
+            });
 
             callback({
+                img: canvas.toDataURL(),
                 poses: keypointsAndScores,
                 imgDims: {
                     w: img.width,

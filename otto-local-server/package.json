@@ -15,6 +15,7 @@
     "@tensorflow-models/posenet": "^0.2.2",
     "@tensorflow/tfjs": "^0.12.7",
     "@tensorflow/tfjs-node": "^0.1.17",
+    "@tensorflow/tfjs-node-gpu": "^0.1.17",
     "body-parser": "^1.18.3",
     "canvas-prebuilt": "^1.6.11",
     "express": "^4.16.3",

@@ -16,32 +16,27 @@ class SatelliteCamera {
         this.socket = socket;
         socket.on('connect', () => {
             console.log('connected to big red');
-            console.log('calling take pic just the one time');
+            // console.log('calling take pic just the one time');
             socket.emit('satellite');
-            setTimeout(() => {
-                this.takePic();
-            }, 2000);
+            // setTimeout(() => {
+            //     this.takePic();
+            // }, 2000);
         });
-        // this.takePicInterval = setInterval(() => {
-        //     this.takePic();
-        // }, 1000 / FRAME_RATE);
+        this.takePicInterval = setInterval(() => {
+            console.log('taking pic');
+            this.takePic();
+        }, 3000); // 1000 / FRAME_RATE);
     }
 
     takePic() {
-        const camProcess = exec('fswebcam -', (error, stdout, stderr) => {
+        const camProcess = exec('fswebcam --crop 280x280 --no-banner - | base64', (error, stdout, stderr) => {
             // console.log(stdout);
-            console.log('took pic');
+            console.log('took pic', stdout.length);
             if (this.socket) {
-                // not yet
                 console.log('emitting to socket');
                 this.socket.emit('image', stdout);
-                // make sure to crop it
-                // just have big red save it at first
             }
         });
-        // camProcess.stdout.on('data', (data) => {
-        //    console.log(data);
-        // });
     }
 
 }

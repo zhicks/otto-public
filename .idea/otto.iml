@@ -5,6 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/otto-dash-client/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/otto-dash-server/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/otto-local-server/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/otto-satellite/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />

@@ -114,17 +114,31 @@ class DomHandler {
         this.setupGui();
     }
 
-    onData(msg: { image: any, poses }) {
+    onData(msg: { image: any, data: { poses: any[], imgDims: { w: number, h: number }, img: any } }) {
         console.log(msg);
         let image = msg.image;
-        let arrayBufferView = new Uint8Array( image );
-        let blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
-        let imageUrl = URL.createObjectURL( blob );
+        // let arrayBufferView = new Uint8Array( image );
+        // let blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
+        // let imageUrl = URL.createObjectURL( blob );
+        // let img = new Image;
+        // img.src = imageUrl;
+        // img.onload = () => {
+        //     const w = msg.data.imgDims.w;
+        //     const h = msg.data.imgDims.h;
+        //     this.$canvas[0].width = w;
+        //     this.$canvas[0].height = h;
+        //     this.canvasContext.drawImage(img, 0, 0, w, h);
+        //     drawHandler.drawResults(this.$canvas[0], msg.data.poses, this.guiState.multiPoseDetection.minPartConfidence, this.guiState.multiPoseDetection.minPoseConfidence);
+        // };
         let img = new Image;
-        img.src = imageUrl;
+        img.src = msg.data.img;
         img.onload = () => {
-            this.canvasContext.drawImage(img, 0, 0, 513, 513);
-            drawHandler.drawResults(this.$canvas[0], msg.poses, this.guiState.multiPoseDetection.minPartConfidence, this.guiState.multiPoseDetection.minPoseConfidence);
+            const w = msg.data.imgDims.w;
+            const h = msg.data.imgDims.h;
+            this.$canvas[0].width = w;
+            this.$canvas[0].height = h;
+            this.canvasContext.drawImage(img, 0, 0, w, h);
+            drawHandler.drawResults(this.$canvas[0], msg.data.poses, this.guiState.multiPoseDetection.minPartConfidence, this.guiState.multiPoseDetection.minPoseConfidence);
         };
     }
     setupGui() {

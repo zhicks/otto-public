@@ -2,6 +2,7 @@ import { ottoGestureAnalysis, PoseData } from './otto-gesture-analysis';
 
 declare const require;
 
+const fs = require('fs');
 const socketIo = require('socket.io');
 
 class OttoLocalSocket {
@@ -56,12 +57,14 @@ class OttoLocalSocket {
 
     onImage(image: any) {
         console.log('got image');
-        ottoGestureAnalysis.posenetAnalyze(image, this.tf, this.posenet, this.posenetLocalInstance, (data: { poses: PoseData[], imgDims: { w: number, h: number }}) => {
+        // console.log(image);
+        // fs.writeFileSync('imgtest.txt', image);
+        ottoGestureAnalysis.posenetAnalyze(image, this.tf, this.posenet, this.posenetLocalInstance, (data: { poses: PoseData[], img: any, imgDims: { w: number, h: number }}) => {
             // If there are browsers open, send em this data
             for (let key in this.browserSockets) {
                 const browserSocket = this.browserSockets[key];
                 browserSocket.emit('data', {
-                    image: image,
+                    image: data.img,
                     data: data
                 });
             }
