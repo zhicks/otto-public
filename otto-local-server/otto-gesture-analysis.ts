@@ -106,52 +106,58 @@ class OttoGestureAnalysis {
     }
 
     posenetAnalyze(imageData: any, tf: any, posenet: any, posenetInstance: any, callback: Function) {
-        const now1 = Date.now();
-        console.log('analyzing');
+        try {
+            const now1 = Date.now();
+            console.log('analyzing');
 
-        // Image / canvas creation
-        const img = new Image();
-        console.log('length is');
-        console.log(imageData.length);
-        // img.src = new Buffer(imageData, 'base64');
-        // img.src = new Buffer(imageData);
-        img.src = 'data:image/jpeg;base64,' + imageData;
-        console.log('got it');
-        // fs.writeFileSync('test.jpg', new Buffer(imageData));
-        console.log(img.src.length);
-        // console.log(imageData);
-        const canvas = new Canvas(img.width, img.height);
-        const context = canvas.getContext('2d');
-        context.drawImage(img, 0, 0, img.width, img.height);
+            // Image / canvas creation
+            const img = new Image();
+            console.log('length is');
+            console.log(imageData.length);
+            // img.src = new Buffer(imageData, 'base64');
+            // img.src = new Buffer(imageData);
+            img.src = 'data:image/jpeg;base64,' + imageData;
+            console.log('got it');
+            // fs.writeFileSync('test.jpg', new Buffer(imageData));
+            console.log(img.src.length);
+            // console.log(imageData);
+            const canvas = new Canvas(img.width, img.height);
+            const context = canvas.getContext('2d');
+            context.drawImage(img, 0, 0, img.width, img.height);
 
-        // Nothing from this will change
-        const input = tf.fromPixels(canvas);
-        const modelOutputs = posenetInstance.predictForMultiPose(input, this.variableState.multiPoseDetection.outputStride);
-        let poseAnalysis = posenet.decodeMultiplePoses(
-            modelOutputs.heatmapScores, modelOutputs.offsets,
-            modelOutputs.displacementFwd, modelOutputs.displacementBwd,
-            this.variableState.multiPoseDetection.outputStride, this.variableState.multiPoseDetection.maxDetections,
-            this.variableState.multiPoseDetection);
+            // Nothing from this will change
+            const input = tf.fromPixels(canvas);
+            const modelOutputs = posenetInstance.predictForMultiPose(input, this.variableState.multiPoseDetection.outputStride);
+            let poseAnalysis = posenet.decodeMultiplePoses(
+                modelOutputs.heatmapScores, modelOutputs.offsets,
+                modelOutputs.displacementFwd, modelOutputs.displacementBwd,
+                this.variableState.multiPoseDetection.outputStride, this.variableState.multiPoseDetection.maxDetections,
+                this.variableState.multiPoseDetection);
 
-        console.log('image size is', img.width, img.height);
+            console.log('image size is', img.width, img.height);
 
-        poseAnalysis.then((keypointsAndScores: PoseData[]) => {
-            // console.log(arguments);
-            console.log('that took about (in ms):', Date.now() - now1);
+            poseAnalysis.then((keypointsAndScores: PoseData[]) => {
+                // console.log(arguments);
+                console.log('that took about (in ms):', Date.now() - now1);
 
-            keypointsAndScores.forEach(k => {
-                console.log('score is', k.score);
+                keypointsAndScores.forEach(k => {
+                    console.log('score is', k.score);
+                });
+
+                callback({
+                    img: canvas.toDataURL(),
+                    poses: keypointsAndScores,
+                    imgDims: {
+                        w: img.width,
+                        h: img.height
+                    }
+                });
             });
-
-            callback({
-                img: canvas.toDataURL(),
-                poses: keypointsAndScores,
-                imgDims: {
-                    w: img.width,
-                    h: img.height
-                }
-            });
-        });
+        } catch (e) {
+            console.log('there was an error with the image');
+            console.log(e);
+            console.log('gonna try again');
+        }
     }
 
 
