@@ -26,12 +26,14 @@ declare const Buffer;
 //     rightAnkle = 'rightAnkle'
 // }
 
-type PoseDataPart = 'nose' | 'leftEye' | 'rightEye' | 'leftEar' | 'rightEar' | 'leftShoulder' | 'rightShoulder' |
-    'leftElbow' | 'rightElbow' | 'leftWrist' | 'rightWrist' | 'leftHip' | 'rightHip' | 'leftKnee' |
-    'rightKnee' | 'leftAnkle' | 'rightAnkle';
+// TODO - The RPis apparently cant handle this atm
+// type PoseDataPart = 'nose' | 'leftEye' | 'rightEye' | 'leftEar' | 'rightEar' | 'leftShoulder' | 'rightShoulder' |
+//     'leftElbow' | 'rightElbow' | 'leftWrist' | 'rightWrist' | 'leftHip' | 'rightHip' | 'leftKnee' |
+//     'rightKnee' | 'leftAnkle' | 'rightAnkle';
 
 export interface PoseDataKeypoint {
-    part: PoseDataPart,
+    // part: PoseDataPart, // TODO
+    part: string,
     position: {
         x: number,
         y: number
