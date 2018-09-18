@@ -25,14 +25,14 @@ class SatelliteCamera {
         this.takePicInterval = setInterval(() => {
             console.log('taking pic');
             this.takePic();
-        }, 3000); // 1000 / FRAME_RATE);
+        }, 1000 / FRAME_RATE);
     }
 
     takePic() {
         const camProcess = exec('fswebcam --crop 280x280 --no-banner - | base64', (error, stdout, stderr) => {
             // console.log(stdout);
             console.log('took pic', stdout.length);
-            if (this.socket) {
+            if (stdout.length && this.socket) {
                 console.log('emitting to socket');
                 this.socket.emit('image', stdout);
             }

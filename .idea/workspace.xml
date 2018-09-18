@@ -2,96 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_0_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_0_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_depthwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_depthwise_depthwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_pointwise_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_pointwise_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_1_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_1_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_2_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_2_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_1_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_1_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_2_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_2_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_1_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_1_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_2_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_2_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_1_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_1_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_2_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_2_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_1_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_1_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_2_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_2_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_1_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_1_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_2_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_2_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_1_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_1_weights" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_2_biases" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_2_weights" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/otto.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/otto.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-client/assets/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-local-client/assets/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-client/assets/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-client/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-socket.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-local-socket.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-satellite/satellite-camera.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-satellite/satellite-camera.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -112,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="otto-local-server.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="otto-local-server.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-server.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="80" column="38" selection-start-line="80" selection-start-column="31" selection-end-line="80" selection-end-column="38" />
+            <state relative-caret-position="442">
+              <caret line="79" column="25" lean-forward="true" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -124,31 +39,17 @@
       <file leaf-file-name="otto-local-socket.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-socket.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="61" column="36" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="36" />
+            <state relative-caret-position="115">
+              <caret line="55" column="11" lean-forward="true" selection-start-line="55" selection-start-column="11" selection-end-line="55" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tsconfig.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/otto-local-server/tsconfig.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tsconfig.app.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/otto-dash-client/src/tsconfig.app.json">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="otto-gesture-analysis.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="otto-gesture-analysis.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="631">
-              <caret line="158" column="43" selection-start-line="158" selection-start-column="43" selection-end-line="158" selection-end-column="43" />
+            <state relative-caret-position="356">
+              <caret line="117" column="42" lean-forward="true" selection-start-line="117" selection-start-column="42" selection-end-line="117" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -156,8 +57,8 @@
       <file leaf-file-name="checkpoint_loader.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-server/node_modules/@tensorflow-models/posenet/dist/checkpoint_loader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="82" selection-start-line="82" selection-end-line="82" />
+            <state relative-caret-position="414">
+              <caret line="81" column="45" lean-forward="true" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -186,8 +87,8 @@
       <file leaf-file-name="main.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-client/assets/main.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="123" column="30" lean-forward="true" selection-start-line="123" selection-start-column="30" selection-end-line="123" selection-end-column="30" />
+            <state relative-caret-position="161">
+              <caret line="142" column="16" lean-forward="true" selection-start-line="142" selection-start-column="16" selection-end-line="142" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -195,8 +96,17 @@
       <file leaf-file-name="satellite-camera.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-satellite/satellite-camera.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
-              <caret line="14" column="23" lean-forward="true" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
+            <state relative-caret-position="115">
+              <caret line="11" column="18" lean-forward="true" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="satellite.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="402">
+              <caret line="26" column="61" lean-forward="true" selection-start-line="26" selection-start-column="61" selection-end-line="26" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -205,9 +115,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>PoseDataPart</find>
-      <find>initcamera</find>
-      <find>initca</find>
       <find>ID_FILE_PATH</find>
       <find>OTTO_LOCAL_SERVER_IP</find>
       <find>satellite</find>
@@ -224,7 +131,6 @@
       <find>'data</find>
       <find>poses</find>
       <find>msg</find>
-      <find>image</find>
       <find>getVariable</find>
       <find>variableNames</find>
       <find>getCheckpointManifest</find>
@@ -235,6 +141,10 @@
       <find>checkpointManifest</find>
       <find>img</find>
       <find>onImage</find>
+      <find>init</find>
+      <find>image</find>
+      <find>Gpio</find>
+      <find>pir17</find>
     </findStrings>
     <replaceStrings>
       <replace>this.doLog</replace>
@@ -291,13 +201,13 @@
         <option value="$PROJECT_DIR$/otto-satellite/package.json" />
         <option value="$PROJECT_DIR$/otto-satellite/satellite.ts" />
         <option value="$PROJECT_DIR$/otto-local-server/tsconfig.json" />
+        <option value="$PROJECT_DIR$/otto-local-client/index.html" />
+        <option value="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" />
         <option value="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" />
         <option value="$PROJECT_DIR$/otto-local-server/node_modules/@tensorflow-models/posenet/dist/checkpoint_loader.js" />
-        <option value="$PROJECT_DIR$/otto-local-client/index.html" />
         <option value="$PROJECT_DIR$/otto-local-server/otto-local-socket.ts" />
         <option value="$PROJECT_DIR$/otto-local-client/assets/main.ts" />
         <option value="$PROJECT_DIR$/otto-satellite/satellite-camera.ts" />
-        <option value="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" />
       </list>
     </option>
   </component>
@@ -359,6 +269,32 @@
             <path>
               <item name="otto" type="b2602c69:ProjectViewProjectNode" />
               <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-big-red" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-big-red" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-big-red" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="tsc" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-big-red" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="tsc" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
               <item name="otto-local-client" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -383,12 +319,60 @@
               <item name="otto" type="b2602c69:ProjectViewProjectNode" />
               <item name="otto" type="462c0819:PsiDirectoryNode" />
               <item name="otto-local-server" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-server" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="@tensorflow-models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-server" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="@tensorflow-models" type="462c0819:PsiDirectoryNode" />
+              <item name="posenet" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-server" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="@tensorflow-models" type="462c0819:PsiDirectoryNode" />
+              <item name="posenet" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-server" type="462c0819:PsiDirectoryNode" />
               <item name="otto-gesture-analysis.ts" type="620a8d5e:NestingTreeNode" />
             </path>
             <path>
               <item name="otto" type="b2602c69:ProjectViewProjectNode" />
               <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-server" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-server.ts" type="620a8d5e:NestingTreeNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-server" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-local-socket.ts" type="620a8d5e:NestingTreeNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
               <item name="otto-satellite" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="otto" type="462c0819:PsiDirectoryNode" />
+              <item name="otto-satellite" type="462c0819:PsiDirectoryNode" />
+              <item name="satellite.ts" type="620a8d5e:NestingTreeNode" />
             </path>
             <path>
               <item name="otto" type="b2602c69:ProjectViewProjectNode" />
@@ -471,27 +455,6 @@
       <workItem from="1536877002632" duration="14707000" />
       <workItem from="1536953305997" duration="624000" />
       <workItem from="1536953958914" duration="620000" />
-    </task>
-    <task id="LOCAL-00001" summary="uytiugik">
-      <created>1524658925022</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1524658925022</updated>
-    </task>
-    <task id="LOCAL-00002" summary="asdfasdf">
-      <created>1524745264487</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1524745264487</updated>
-    </task>
-    <task id="LOCAL-00003" summary="asdfasdff">
-      <created>1524745512941</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1524745512941</updated>
     </task>
     <task id="LOCAL-00004" summary="updated paths">
       <created>1524745703146</created>
@@ -815,11 +778,32 @@
       <option name="project" value="LOCAL" />
       <updated>1537058019296</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="asdadsfasddsfadfsadfsadfs">
+      <created>1537058138557</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1537058138558</updated>
+    </task>
+    <task id="LOCAL-00051" summary="asdadsfasddsfadfsadfsadfsasfadsfdfs">
+      <created>1537058186325</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1537058186325</updated>
+    </task>
+    <task id="LOCAL-00052" summary="adsadsadfsadfs">
+      <created>1537058947227</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1537058947227</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116625000" />
+    <option name="totallyTimeSpent" value="122048000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -910,7 +894,9 @@
     <MESSAGE value="qqqqqqqqqqqqq" />
     <MESSAGE value="stuff" />
     <MESSAGE value="asdadsfasddsfadfsadfsadfs" />
-    <option name="LAST_COMMIT_MESSAGE" value="asdadsfasddsfadfsadfsadfs" />
+    <MESSAGE value="asdadsfasddsfadfsadfsadfsasfadsfdfs" />
+    <MESSAGE value="adsadsadfsadfs" />
+    <option name="LAST_COMMIT_MESSAGE" value="adsadsadfsadfs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -918,13 +904,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/logs/logs.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/otto-dash-client/src/app/logs/logs.component.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
@@ -1158,13 +1137,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="75" column="34" selection-start-line="75" selection-start-column="34" selection-end-line="75" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="805">
@@ -1210,13 +1182,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-server/node_modules/@tensorflow-models/posenet/dist/checkpoint_loader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="82" selection-start-line="82" selection-end-line="82" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-client/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="644">
@@ -1227,38 +1192,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-server.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="80" column="38" selection-start-line="80" selection-start-column="31" selection-end-line="80" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-socket.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="61" column="36" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-client/assets/main.ts">
+    <entry file="file://$PROJECT_DIR$/otto-local-server/node_modules/@tensorflow-models/posenet/dist/checkpoint_loader.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
-          <caret line="123" column="30" lean-forward="true" selection-start-line="123" selection-start-column="30" selection-end-line="123" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite-camera.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="14" column="23" lean-forward="true" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
+          <caret line="81" column="45" lean-forward="true" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="631">
-          <caret line="158" column="43" selection-start-line="158" selection-start-column="43" selection-end-line="158" selection-end-column="43" />
+        <state relative-caret-position="356">
+          <caret line="117" column="42" lean-forward="true" selection-start-line="117" selection-start-column="42" selection-end-line="117" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-local-client/assets/main.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="142" column="16" lean-forward="true" selection-start-line="142" selection-start-column="16" selection-end-line="142" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-socket.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="55" column="11" lean-forward="true" selection-start-line="55" selection-start-column="11" selection-end-line="55" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite-camera.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="11" column="18" lean-forward="true" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-big-red/node_modules/tsc/bin/typescriptServices.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="724">
+          <caret line="1430" column="8" selection-start-line="1430" selection-start-column="8" selection-end-line="1430" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-satellite/satellite.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="26" column="61" lean-forward="true" selection-start-line="26" selection-start-column="61" selection-end-line="26" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-local-server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="79" column="25" lean-forward="true" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
         </state>
       </provider>
     </entry>

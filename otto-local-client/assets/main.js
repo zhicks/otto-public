@@ -100,7 +100,6 @@ var DomHandler = /** @class */ (function () {
     DomHandler.prototype.onData = function (msg) {
         var _this = this;
         console.log(msg);
-        var image = msg.image;
         // let arrayBufferView = new Uint8Array( image );
         // let blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
         // let imageUrl = URL.createObjectURL( blob );

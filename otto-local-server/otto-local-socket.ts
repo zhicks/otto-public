@@ -19,7 +19,7 @@ class OttoLocalSocket {
         this.posenet = posenet;
         let io = socketIo(http);
         io.on('connection', socket => {
-
+            console.log('io on connection');
             socket.on('browser', () => {
                 console.log('browser connected');
                 this.browserSockets[socket.id] = socket;
@@ -35,6 +35,7 @@ class OttoLocalSocket {
             socket.on('satellite', () => {
                 console.log('satellite connected');
                 socket.on('image', image => {
+                    console.log('on image hi');
                     if (this.posenetLocalInstance) {
                         this.onImage(image);
                     }
@@ -64,7 +65,7 @@ class OttoLocalSocket {
             for (let key in this.browserSockets) {
                 const browserSocket = this.browserSockets[key];
                 browserSocket.emit('data', {
-                    image: data.img,
+                    // image: data.img,
                     data: data
                 });
             }

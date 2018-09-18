@@ -116,7 +116,6 @@ class DomHandler {
 
     onData(msg: { image: any, data: { poses: any[], imgDims: { w: number, h: number }, img: any } }) {
         console.log(msg);
-        let image = msg.image;
         // let arrayBufferView = new Uint8Array( image );
         // let blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
         // let imageUrl = URL.createObjectURL( blob );
@@ -143,6 +142,7 @@ class DomHandler {
     }
     setupGui() {
         const gui = this.gui = new dat.GUI();
+
         // Output stride:  Internally, this parameter affects the height and width of
         // the layers in the neural network. The lower the value of the output stride
         // the higher the accuracy but slower the speed, the higher the value the

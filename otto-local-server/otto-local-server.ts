@@ -71,6 +71,7 @@ ottoLocalSocket.init(http, posenet, tf);
 
 // ------------------------------------------------------------------- Temporary testing
 posenet.load().then(function(net) {
+    console.log('posenet loaded');
     ottoLocalSocket.setPosenetLocalInstance(net);
     // let imageData = fs.readFileSync('frisbee_2.jpg');
     // let imageData2 = fs.readFileSync('frisbee.jpg');
