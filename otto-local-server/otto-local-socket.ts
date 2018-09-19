@@ -20,6 +20,9 @@ class OttoLocalSocket {
         let io = socketIo(http);
         io.on('connection', socket => {
             console.log('io on connection');
+
+            socket.on('tempOnData', this.tempOnData.bind(this));
+
             socket.on('browser', () => {
                 console.log('browser connected');
                 this.browserSockets[socket.id] = socket;
@@ -71,19 +74,45 @@ class OttoLocalSocket {
             }
 
             // Detect gestures
-            ottoGestureAnalysis.analyzeGestures(data.poses, data.imgDims.w, data.imgDims.h, (someKindOfData => {
-                if (someKindOfData) {
-                    for (let key in this.browserSockets) {
-                        const browserSocket = this.browserSockets[key];
-                        browserSocket.emit('something', someKindOfData)
-                    }
-                }
-            }));
+            // ottoGestureAnalysis.analyzeGestures(data.poses, data.imgDims.w, data.imgDims.h, (someKindOfData => {
+            //     if (someKindOfData) {
+            //         for (let key in this.browserSockets) {
+            //             const browserSocket = this.browserSockets[key];
+            //             browserSocket.emit('something', someKindOfData)
+            //         }
+            //     }
+            // }));
         });
     }
 
     setPosenetLocalInstance(net: any) {
         this.posenetLocalInstance = net;
+    }
+
+    /*
+        bigred ts main file -> ottobigredcamera.ts
+        ottobigredcamera -> hands an image (video frame) to otto gesture analysis
+        otto gesture analysis determines the pose, angles, and if any actions need to be taken
+        hands it to this socket class for it to hand to the browser
+        hands the browser the image, the pose data, and some state objects that would be
+        useful for the browser to show.
+
+        But in the meantime, it will work like:
+        browser takes the picture, sends the pose data to the socket
+        gesture analysis determines the angles and it any actions need to be taken
+        hands it to this socket class for it to hand to the browser
+        hands the browser some state objects that would be
+        useful for the browser to know.
+     */
+    tempOnData(data) {
+        ottoGestureAnalysis.analyzeGestures(data);
+    }
+
+    tempSendState(gestureState) {
+        for (let key in this.browserSockets) {
+            const browserSocket = this.browserSockets[key];
+            browserSocket.emit('gestureState', gestureState);
+        }
     }
 }
 
