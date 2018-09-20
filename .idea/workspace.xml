@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="buncha stuff">
+    <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" afterDir="false" />
     </list>
@@ -65,8 +65,8 @@
       <file leaf-file-name="otto-gesture-analysis.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="352" column="70" selection-start-line="352" selection-start-column="70" selection-end-line="352" selection-end-column="70" />
+            <state relative-caret-position="425">
+              <caret line="757" column="28" lean-forward="true" selection-start-line="757" selection-start-column="28" selection-end-line="757" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -123,13 +123,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>scale ges</find>
-      <find>stop listening</find>
-      <find>doSomeTimer</find>
-      <find>hitRateSuccess</find>
-      <find>quandrants</find>
-      <find>console.log(qu</find>
-      <find>quandra</find>
       <find>this.ges</find>
       <find>gesturestate</find>
       <find>this.gestureState.matchingParts</find>
@@ -151,8 +144,15 @@
       <find>arm is up</find>
       <find>handleges</find>
       <find>TEMP_scaleTimeout</find>
+      <find>SuccessfulHitData</find>
+      <find>commandListenerInitiatorObject</find>
       <find>successfulHits</find>
+      <find>doScaleAnalyze</find>
       <find>TEMP_armIsUpTimeout</find>
+      <find>$f</find>
+      <find>TEMP_lastAverages</find>
+      <find>gestures:</find>
+      <find>distance</find>
     </findStrings>
     <replaceStrings>
       <replace>this.doLog</replace>
@@ -455,13 +455,6 @@
       <workItem from="1536877002632" duration="14707000" />
       <workItem from="1536953305997" duration="624000" />
       <workItem from="1536953958914" duration="620000" />
-    </task>
-    <task id="LOCAL-00008" summary="asdfsfas">
-      <created>1524761429023</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1524761429023</updated>
     </task>
     <task id="LOCAL-00009" summary="asdff">
       <created>1524761753123</created>
@@ -799,11 +792,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537416320751</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="before mucking it up too much">
+      <created>1537476230156</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1537476230156</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="162509000" />
+    <option name="totallyTimeSpent" value="166353000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -873,7 +873,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/otto-dash-client" />
     </ignored-roots>
-    <MESSAGE value="updated paths" />
     <MESSAGE value="pp" />
     <MESSAGE value="asdfasdf" />
     <MESSAGE value="asdfsfas" />
@@ -898,7 +897,8 @@
     <MESSAGE value="some testt stuff" />
     <MESSAGE value="lots of changes" />
     <MESSAGE value="buncha stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="buncha stuff" />
+    <MESSAGE value="before mucking it up too much" />
+    <option name="LAST_COMMIT_MESSAGE" value="before mucking it up too much" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1248,8 +1248,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="352" column="70" selection-start-line="352" selection-start-column="70" selection-end-line="352" selection-end-column="70" />
+        <state relative-caret-position="425">
+          <caret line="757" column="28" lean-forward="true" selection-start-line="757" selection-start-column="28" selection-end-line="757" selection-end-column="28" />
         </state>
       </provider>
     </entry>

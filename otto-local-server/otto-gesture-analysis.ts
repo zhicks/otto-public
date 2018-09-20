@@ -90,6 +90,14 @@ interface OttoGesture {
     }
 }
 
+interface SuccessfulHitData {
+    [partString: string]: {
+        part: string,
+        x: number,
+        y: number
+    }
+}
+
 const gestures: OttoGesture[] = [
     {
         name: 'Arm is up',
@@ -104,7 +112,7 @@ const gestures: OttoGesture[] = [
                 partRelativeTo: 'leftElbow',
                 angle: {
                     degreeFrom: 0,
-                    degreeTo: 20
+                    degreeTo: 30
                 }
             },
             leftElbow: {
@@ -159,6 +167,7 @@ const gestures: OttoGesture[] = [
 ];
 
 // ------------------------------------------------------------------- Class
+
 class OttoGestureAnalysis {
 
     variableState = {
@@ -185,14 +194,14 @@ class OttoGestureAnalysis {
     }
 
     gestureState = {
-        $f: {
-            // TODO Convert this to understand diff arms
-          lastArmPos: {
-              // shoulder: { x: null, y: null },
-              leftElbow: { x: null, y: null },
-              leftWrist: { x: null, y: null }
-          }
-        },
+        // $f: {
+        //   lastArmPos: {
+        //       // shoulder: { x: null, y: null },
+        //       leftElbow: { x: null, y: null },
+        //       leftWrist: { x: null, y: null }
+        //   }
+        // },
+        TEMP_lastAverages: null,
         armsUp: {
             left: false,
             right: false
@@ -203,12 +212,10 @@ class OttoGestureAnalysis {
         timeRelative: {
             commandListenInitiator: {
                 hitRate: 0,
-                successfulHits: <{
-                    [partString: string]: {
-                        x: number,
-                        y: number
-                    }
-                }[]>[],
+                // for every successful arm is up recognition within the timeframe, this will have leftShoulder, leftElbow and leftWrist
+                // or at least (leftElbow and leftWrist)
+                // those objects will have x and y, which will be averaged.
+                successfulHits: <SuccessfulHitData[]> [],
                 timerAmount: 400
             },
             commandListener: {
@@ -338,6 +345,7 @@ class OttoGestureAnalysis {
                         this.gestureState.listeningForCommand = true;
                         console.log('listening for commands');
                         this.gestureState.shouldRenameOneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent = false;
+                        this.doScaleAnalyze();
                     }
                     commandListenerInitiatorObject.successfulHits = [];
                     commandListenerInitiatorObject.hitRate = 0;
@@ -345,29 +353,31 @@ class OttoGestureAnalysis {
                     // We call this even if we're not listening for commands
                     this.doSomeTimer();
                     // console.log('here');
+
+
                 }, commandListenerInitiatorObject.timerAmount);
             }
 
-            // Ok so we're listening for a command, we don't care at all about the timer
-            // after we start (and it's gone), we instead care about another timer.
-            let successfulHitObj: { part: string, x: number, y: number }[] = [];
-            commandListenerInitiatorObject.successfulHits.push({
-
+            let successfulHitData: SuccessfulHitData = {};
+            let partsOfInterest: {
+                [partString: string]: 1
+            } = {};
+            (<any>Object).values(gesture.rules).forEach(r => {
+                partsOfInterest[r.part] = 1;
+                if (r.partRelativeTo) {
+                    partsOfInterest[r.partRelativeTo] = 1;
+                }
             });
+            pose.keypoints.filter(k => !!partsOfInterest[k.part]).forEach(k =>
+                successfulHitData[k.part] = {
+                    x: k.position.x,
+                    y: k.position.y,
+                    part: k.part
+                }
+            );
+            commandListenerInitiatorObject.successfulHits.push(successfulHitData);
         }
 
-
-        /*
-            when we swing the arm to the right, the arm is no longer 'up'.
-            but let's assume that the arm can be up as well until we get
-            facial recognition.
-            so the 700ms timer wants to go on, but it's killed.
-            we start a new timer of maybe a second. this timer says
-            'ok cool i'm issuing this type of command and not listening
-            to anything else you're doing for a second.'
-            but it will still be looking for an arm up. because we want it
-            to go right back to blue if we want to.
-         */
 
         /*
         NEW:
@@ -413,16 +423,17 @@ class OttoGestureAnalysis {
                 quarter of the height of their elbow to wrist distance and the
                 angle needs to be decreasing maybe.
              */
-            if (gesture.type === 'scale') {
-                // if (!this.timers.TEMP_scaleTimeout) {
-                //     console.log('listening for scale gesture');
-                // }
-                // clearTimeout(this.timers.TEMP_scaleTimeout);
-                // this.timers.TEMP_scaleTimeout = setTimeout(() => {
-                //    console.log('time out for scale timeout');
-                //     this.timers.TEMP_scaleTimeout = null;
-                // }, 200);
-            }
+            // Ignore that above. Taken care of with the 500ms timer
+            // if (gesture.type === 'scale') {
+            //     // if (!this.timers.TEMP_scaleTimeout) {
+            //     //     console.log('listening for scale gesture');
+            //     // }
+            //     // clearTimeout(this.timers.TEMP_scaleTimeout);
+            //     // this.timers.TEMP_scaleTimeout = setTimeout(() => {
+            //     //    console.log('time out for scale timeout');
+            //     //     this.timers.TEMP_scaleTimeout = null;
+            //     // }, 200);
+            // }
         }
 
     }
@@ -483,6 +494,7 @@ class OttoGestureAnalysis {
             console.log('stop listening to commands, this may get called even if were not listening and thats ok');
             this.timers.commandListenerTimer = null;
             this.gestureState.listeningForCommand = false;
+            this.gestureState.TEMP_lastAverages = null;
         }, this.gestureState.timeRelative.commandListener.timerAmount);
     }
 
@@ -552,14 +564,14 @@ class OttoGestureAnalysis {
         // console.log('poses matches? ', matchingRuleCount === rulesAsArray.length);
         if (matchingRuleCount === rulesAsArray.length) {
             // TODO - Bad code, will work for now
-            if (gesture.name === 'Arm is up') {
-                // TODO Also pose.keypoints find is obviously ineffecient, but keypointsWithHighEnoughScore does not contain leftWrist
-                // @ts-ignore
-                this.gestureState.$f.lastArmPos.leftElbow = pose.keypoints.find(p => p.part === 'leftElbow').position;
-                // @ts-ignore
-                // TODO btw that ts ignore requirement is tsconfig, not webstorm
-                this.gestureState.$f.lastArmPos.leftWrist = pose.keypoints.find(p => p.part === 'leftWrist').position;
-            }
+            // if (gesture.name === 'Arm is up') {
+            //     // TODO Also pose.keypoints find is obviously ineffecient, but keypointsWithHighEnoughScore does not contain leftWrist
+            //     // @ts-ignore
+            //     this.gestureState.$f.lastArmPos.leftElbow = pose.keypoints.find(p => p.part === 'leftElbow').position;
+            //     // @ts-ignore
+            //     // TODO btw that ts ignore requirement is tsconfig, not webstorm
+            //     this.gestureState.$f.lastArmPos.leftWrist = pose.keypoints.find(p => p.part === 'leftWrist').position;
+            // }
             return true;
         }
         return false;
@@ -694,6 +706,68 @@ class OttoGestureAnalysis {
 
     private radToDeg(x) {
         return x / Math.PI * 180;
+    }
+
+    private doScaleAnalyze() {
+        // We only got here if the arm is up (real time), listening for commands (timer), and the success hits were more than half of the hit rate
+        // And it comes directly from the timer that says we should listen to commands.
+        let commandListenerInitiatorObject = this.gestureState.timeRelative.commandListenInitiator;
+        // commandListenerInitiatorObject.successfulHits
+        // we need to average the successful hits
+        // if the average is above the original by a certain amount, but no more than another amount, it counts as 'up'
+        let sums = {
+            leftShoulder: { x: 0, y: 0},
+            leftElbow: { x: 0, y: 0},
+            leftWrist: { x: 0, y: 0},
+        };
+        // console.log('successful hits is');
+        // console.log(commandListenerInitiatorObject.successfulHits.length);
+        commandListenerInitiatorObject.successfulHits.forEach(h => {
+            for (let key in sums) {
+                sums[key].x += h[key].x;
+                sums[key].y += h[key].y;
+            }
+        });
+        const len = commandListenerInitiatorObject.successfulHits.length;
+        let currentAverages = {
+            leftShoulder: {
+                x: sums.leftShoulder.x / len,
+                y: sums.leftShoulder.y / len,
+            },
+            leftElbow: {
+                x: sums.leftElbow.x / len,
+                y: sums.leftElbow.y / len,
+            },
+            leftWrist: {
+                x: sums.leftWrist.x / len,
+                y: sums.leftWrist.y / len,
+            },
+        }
+        // console.log('averages is');
+        // console.log(averages);
+        let lastAverages: typeof currentAverages = this.gestureState.TEMP_lastAverages;
+        if (lastAverages) {
+            let elbowAbove = false;
+            let wristAbove = false;
+
+            // This number should always be positive because it's only called if arm is up
+            let lengthOfForearm = currentAverages.leftElbow.y - currentAverages.leftWrist.y;
+            let elbowDiff = Math.abs(currentAverages.leftElbow.y - lastAverages.leftElbow.y) > (lengthOfForearm/8);
+            let wristDiff = Math.abs(currentAverages.leftWrist.y - lastAverages.leftWrist.y) > (lengthOfForearm/8);
+
+            if (elbowDiff) {
+                // console.log('elbow above');
+                elbowAbove = true;
+            }
+            if (wristDiff) {
+                // console.log('wrist above');
+                wristAbove = true;
+            }
+            if (elbowAbove && wristAbove) {
+                console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+            }
+        }
+        this.gestureState.TEMP_lastAverages = currentAverages;
     }
 }
 
