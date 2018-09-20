@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="">
+    <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="buncha stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-socket.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-local-socket.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -67,8 +65,8 @@
       <file leaf-file-name="otto-gesture-analysis.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="182" column="32" selection-start-line="182" selection-start-column="32" selection-end-line="182" selection-end-column="32" />
+            <state relative-caret-position="672">
+              <caret line="352" column="70" selection-start-line="352" selection-start-column="70" selection-end-line="352" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -125,36 +123,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>listening for comm</find>
-      <find>armIsUpTimer</find>
-      <find>todo</find>
-      <find>commandListenerTimer</find>
-      <find>oneTimeCommandTimerForVisualPurposes</find>
-      <find>stop listening to co</find>
-      <find>listening for comma</find>
-      <find>listening for commands</find>
-      <find>stop listening to</find>
-      <find>sUpTimer = null</find>
-      <find>listeningfor</find>
-      <find>listeningForCommand =</find>
-      <find>this.gestureState.listeningForCommand</find>
-      <find>listeningForCommand</find>
+      <find>scale ges</find>
       <find>stop listening</find>
-      <find>gestures</find>
-      <find>one time</find>
-      <find>analysis</find>
-      <find>doesPoseSatisfyGesture</find>
-      <find>deciding if</find>
       <find>doSomeTimer</find>
-      <find>doing gesture</find>
-      <find>done with the one</find>
-      <find>doing ges</find>
-      <find>we do not</find>
-      <find>done with</find>
-      <find>done with o</find>
-      <find>doing gest</find>
-      <find>doGestureAction</find>
-      <find>shouldRenameOneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent</find>
+      <find>hitRateSuccess</find>
+      <find>quandrants</find>
+      <find>console.log(qu</find>
+      <find>quandra</find>
+      <find>this.ges</find>
+      <find>gesturestate</find>
+      <find>this.gestureState.matchingParts</find>
+      <find>handleGestureMatch</find>
+      <find>match</find>
+      <find>handleg</find>
+      <find>gesturematch</find>
+      <find>satisfyg</find>
+      <find>keypointsWithHighEnoughScore</find>
+      <find>ignore</find>
+      <find>lastArmPos</find>
+      <find>partRelativeTo</find>
+      <find>gest</find>
+      <find>armsUp</find>
+      <find>TEMParmIsUp</find>
+      <find>tempArmIsUp</find>
+      <find>TEMP_armIsUp</find>
+      <find>scale</find>
+      <find>arm is up</find>
+      <find>handleges</find>
+      <find>TEMP_scaleTimeout</find>
+      <find>successfulHits</find>
+      <find>TEMP_armIsUpTimeout</find>
     </findStrings>
     <replaceStrings>
       <replace>this.doLog</replace>
@@ -457,13 +455,6 @@
       <workItem from="1536877002632" duration="14707000" />
       <workItem from="1536953305997" duration="624000" />
       <workItem from="1536953958914" duration="620000" />
-    </task>
-    <task id="LOCAL-00007" summary="asdfsfas">
-      <created>1524746243296</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1524746243296</updated>
     </task>
     <task id="LOCAL-00008" summary="asdfsfas">
       <created>1524761429023</created>
@@ -801,11 +792,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537395143928</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="buncha stuff">
+      <created>1537416320751</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1537416320751</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="148884000" />
+    <option name="totallyTimeSpent" value="162509000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -875,7 +873,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/otto-dash-client" />
     </ignored-roots>
-    <MESSAGE value="asdfasdff" />
     <MESSAGE value="updated paths" />
     <MESSAGE value="pp" />
     <MESSAGE value="asdfasdf" />
@@ -900,7 +897,8 @@
     <MESSAGE value="before doing away with the pi camera stuff" />
     <MESSAGE value="some testt stuff" />
     <MESSAGE value="lots of changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="lots of changes" />
+    <MESSAGE value="buncha stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="buncha stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1250,8 +1248,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="182" column="32" selection-start-line="182" selection-start-column="32" selection-end-line="182" selection-end-column="32" />
+        <state relative-caret-position="672">
+          <caret line="352" column="70" selection-start-line="352" selection-start-column="70" selection-end-line="352" selection-end-column="70" />
         </state>
       </provider>
     </entry>
