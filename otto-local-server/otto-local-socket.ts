@@ -11,6 +11,7 @@ class OttoLocalSocket {
     posenet: any;
     tf: any;
     posenetLocalInstance: any;
+    tempSocket;
 
     constructor() {}
 
@@ -21,6 +22,8 @@ class OttoLocalSocket {
         io.on('connection', socket => {
             console.log('io on connection');
 
+            // this.browserSockets[socket.id] = socket; // temp!
+            this.tempSocket = socket;
             socket.on('tempOnData', this.tempOnData.bind(this));
 
             socket.on('browser', () => {
@@ -47,6 +50,7 @@ class OttoLocalSocket {
 
             socket.on('disconnect', () => {
                 // TODO - This isn't right
+                console.log('socket on disconnect');
                const s = this.browserSockets[socket.id];
                if (s) {
                    console.log('removing browser socket');
@@ -105,14 +109,21 @@ class OttoLocalSocket {
         useful for the browser to know.
      */
     tempOnData(data) {
+        // console.log('temp on data');
         ottoGestureAnalysis.analyzeGestures(data);
     }
 
     tempSendState(gestureState) {
-        for (let key in this.browserSockets) {
-            const browserSocket = this.browserSockets[key];
-            browserSocket.emit('gestureState', gestureState);
-        }
+        // console.log('sending state 2');
+        // for (let key in this.browserSockets) {
+        //     // console.log('key in browsersockets');
+        //     const browserSocket = this.browserSockets[key];
+        //     browserSocket.emit('gestureState', gestureState);
+        // }
+        this.tempSocket.emit('gestureState', gestureState);
+        // this.tempSocket.emit('gestureState', {
+        //     test: 'hi'
+        // });
     }
 }
 

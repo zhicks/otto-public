@@ -50,20 +50,25 @@ export interface PoseData {
 
 // ------------------------------------------------------------------- Gestures
 
-interface OttoGestureRuleDistanceRequirement {
-    noMoreThan?: {
-        value: number,
-        units: string
-    }
-}
+// interface OttoGestureRuleDistanceRequirement {
+//     noMoreThan?: {
+//         value: number,
+//         units: string
+//     }
+// }
 
 interface OttoGestureRule {
-    // Keyed on part.part
-    part: PoseDataKeypoint,
-    partRelativeTo: PoseDataKeypoint,
-    distance: {
-        x?: OttoGestureRuleDistanceRequirement,
-        y?: OttoGestureRuleDistanceRequirement
+    // Keyed on part
+    part: string, // PoseDataKeypoint,
+    partRelativeTo: string, //PoseDataKeypoint,
+    // distance: {
+    //     x?: OttoGestureRuleDistanceRequirement,
+    //     y?: OttoGestureRuleDistanceRequirement
+    // }
+    angle: {
+        quandrant?: [number, number],
+        degreeFrom: number,
+        degreeTo: number
     }
 }
 
@@ -88,7 +93,54 @@ interface OttoGesture {
 }
 
 const gestures: OttoGesture[] = [
-
+    {
+        name: 'arm is up',
+        type: 'commandListener',
+        commandListenInitiator: {
+            arm: 'right'
+        },
+        rules: {
+            leftShoulder: {
+                part: 'leftShoulder',
+                partRelativeTo: 'leftElbow',
+                angle: {
+                    degreeFrom: 0,
+                    degreeTo: 20
+                }
+            },
+            leftElbow: {
+                part: 'leftElbow',
+                partRelativeTo: 'leftWrist',
+                angle: {
+                    // TODO - Needs quandrants
+                    degreeFrom: 60,
+                    degreeTo: 90
+                }
+            }
+        }
+    },
+    {
+        name: 'switch songs',
+        type: 'one time',
+        rules: {
+            leftShoulder: {
+                part: 'leftShoulder',
+                partRelativeTo: 'leftElbow',
+                angle: {
+                    degreeFrom: 0,
+                    degreeTo: 20
+                }
+            },
+            leftElbow: {
+                part: 'leftElbow',
+                partRelativeTo: 'leftWrist',
+                angle: {
+                    degreeFrom: 0,
+                    degreeTo: 40
+                }
+            }
+        }
+    }
 ];
 
 // ------------------------------------------------------------------- Class
@@ -107,28 +159,37 @@ class OttoGestureAnalysis {
         showSkeleton: true
     };
 
+    // Wanted this to be in gesture state but will have to keep track of it (serialization gives stack overflow)
+    timers = {
+        armIsUpTimer: null,
+        commandListenerTimer: null,
+        oneTimeCommandTimerForVisualAndPotentiallyTimeWise: null,
+        tempTimeout: null
+    }
+
     gestureState = {
         // ruleNames: [],
         armsUp: {
             left: false,
             right: false
         },
-        oneTimeCommandIndicator: false,
+        // oneTimeCommandIndicator: false,
         listeningForCommand: false,
+        shouldRenameOneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent: false,
         timeRelative: {
             commandListenInitiator: {
                 hitRate: 0,
                 hitRateSuccess: 0,
-                timer: null,
-                timerAmount: 500
+                timerAmount: 400
             },
             commandListener: {
-                timer: null,
-                timerAmount: 700,
-                oneTimeCommandTimerForVisualPurposes: null,
-                oneTimeCommandTimerForVisualPurposesAmount: 1000
+                timerAmount: 1000, // TODO - there is a lot of tweaking here on multiple parameters
+                oneTimeCommandTimerForVisualAndPotentiallyTimeWiseAmount: 1000
             }
-        }
+        },
+        // angles: {
+        //
+        // }
         // lightState: {
         //
         // }
@@ -141,18 +202,22 @@ class OttoGestureAnalysis {
 
     analyzeGestures(poses: PoseData[]) {
 
+        // console.log('analyze gestures');
         this.gestureState.timeRelative.commandListenInitiator.hitRate++;
 
-        gestures.forEach(gesture => {
+        // console.log('gestures', gestures.length);
+        gestures.forEach((gesture, i) => {
 
-            poses.forEach(pose => {
-
-                const doesMatch = this.doesPoseSatisfyGesture(gesture, pose);
-                if (doesMatch) {
-                    this.handleGestureMatch(gesture);
+            for (let pose of poses) {
+                if (pose.score > 0.15) { // TODO - Pose score
+                    const doesMatch = this.doesPoseSatisfyGesture(gesture, pose);
+                    if (doesMatch) {
+                        this.handleGestureMatch(gesture);
+                        // For now, if we match on any one pose, that's all we need
+                        break;
+                    }
                 }
-
-            });
+            }
 
         });
 
@@ -249,6 +314,7 @@ class OttoGestureAnalysis {
     }
 
     private sendGestureState() {
+        // console.log('sending state');
         ottoLocalSocket.tempSendState(this.gestureState);
     }
 
@@ -264,6 +330,77 @@ class OttoGestureAnalysis {
         // need to be well separated! becuase we want to be able
         // to come back to blue after giving a command.
 
+        // NEW:
+        // when it sees an arm up it starts a timer of 500ms
+        // if the arm was already up it just resets that timer (this part!)
+        // when it sees an arm up it starts a timer of 500ms -> listen
+
+
+
+        // // new
+        // if (gesture.commandListenInitiator) {
+        //     this.gestureState.armsUp[gesture.commandListenInitiator.arm] = true;
+        //     // console.log('arm is up');
+        //     // TODO - arm up is never set to false - we'll have to go outside the function for that
+        //     let commandListenerInitiatorObject = this.gestureState.timeRelative.commandListenInitiator;
+        //     // either the arm is up or not for every 500ms. this is not the timer that determines
+        //     // if it's an action that should be delivered (although it is the timer that determines
+        //     // that the arms is down -- those two things together will be slightly complicated).
+        //     // when the arm goes from up to not, we look at one time commands.
+        //     // if "noLongerListeningToCommands"
+        //     // we raise the arm back up and its listening for commands again - the green has
+        //     // nothing to do with it.
+        //
+        //     // every 500ms, we check to see if that 'queue' (hitRate) means we still have the arm up
+        //     //
+        //     // if (!this.timers.armIsUpTimer) {
+        //     //     // IF we already have a timer going we'll keep it going - 500ms - it is appropriate I think
+        //     //     console.log('listening for commands, setting timeout');
+        //     //     clearTimeout(this.timers.armIsUpTimer);
+        //     //     this.timers.armIsUpTimer = setTimeout(() => {
+        //     //         clearTimeout(this.timers.armIsUpTimer);
+        //     //         this.timers.armIsUpTimer = null;
+        //     //         console.log('arm is def no longer up, no longer listening for commands');
+        //     //     }, commandListenerInitiatorObject.timerAmount);
+        //     // }
+        //
+        //     // console.log('listening for commands, setting timeout');
+        //     if (!this.timers.tempTimeout) {
+        //
+        //         this.timers.tempTimeout = setTimeout(() => {
+        //             if (commandListenerInitiatorObject.hitRateSuccess > commandListenerInitiatorObject.hitRate / 2) {
+        //                 console.log('arm is finally up right?');
+        //             }
+        //
+        //             commandListenerInitiatorObject.hitRateSuccess = 0;
+        //             commandListenerInitiatorObject.hitRate = 0;
+        //         }, 2000);
+        //     }
+        //
+        //     commandListenerInitiatorObject.hitRateSuccess++;
+        //
+        //     // clearTimeout(this.timers.armIsUpTimer);
+        //     // this.timers.armIsUpTimer = setTimeout(() => {
+        //     //     clearTimeout(this.timers.armIsUpTimer);
+        //     //     this.timers.armIsUpTimer = null;
+        //     //     console.log('arm is def no longer up, no longer listening for commands');
+        //     // }, commandListenerInitiatorObject.timerAmount);
+        // }
+
+
+
+
+
+
+
+
+        // turns out all this code is alright - there is a 500ms (~) delay between 'stop listeing for command'
+        // and 'listen for command' - but it does not matter because we're using a different timer. the timer
+        // here deserves to be called 'armIsUp', and it will affect listening for commands (and nothing else
+        // should).
+        // when we get the (right now) 'listen for command', it will start or restart a timer of 700ms
+        // to listen for commands. Every time. When we get a (right now) 'stop listening for command', it
+        // does nothing - time will take care of the rest.
         if (gesture.commandListenInitiator) {
             // we'd put the state in here - like 'armsUp[gesture.something] = true
             this.gestureState.armsUp[gesture.commandListenInitiator.arm] = true;
@@ -272,19 +409,26 @@ class OttoGestureAnalysis {
             // If we're already listening for a command, there's another timer that will set
             // it to not listening anymore. We only care about the timer to determine that
             // we should listen.
-            if (!this.gestureState.listeningForCommand && !commandListenerInitiatorObject.timer) {
-                console.log('starting timer for command listener initiator');
-                commandListenerInitiatorObject.timer = setTimeout(() => {
-                    console.log('expiring this timeout for command listener initiator');
-                    this.clearTimeout(commandListenerInitiatorObject, 'timer');
-                    if (!this.gestureState.listeningForCommand) {
-                        if (commandListenerInitiatorObject.hitRateSuccess > commandListenerInitiatorObject.hitRate / 2) {
-                            // this.handleGestureAction(gesture);
-                            this.listenForCommand();
-                        }
+            if (!this.timers.armIsUpTimer) {
+                // console.log('starting timer for command listener initiator');
+                // console.log('deciding if we should listen for commands');
+                this.timers.armIsUpTimer = setTimeout(() => {
+                    // console.log('expiring this timeout for command listener initiator');
+
+                    clearTimeout(this.timers.armIsUpTimer);
+                    this.timers.armIsUpTimer = null;
+                    if (commandListenerInitiatorObject.hitRateSuccess > commandListenerInitiatorObject.hitRate / 2) {
+                        // this.handleGestureAction(gesture);
+                        // this.listenForCommandAgainIfNecess();
+                        this.gestureState.listeningForCommand = true;
+                        console.log('listening for commands');
+                        this.gestureState.shouldRenameOneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent = false;
                     }
                     commandListenerInitiatorObject.hitRateSuccess = 0;
                     commandListenerInitiatorObject.hitRate = 0;
+
+                    // We call this even if we're not listening for commands
+                    this.doSomeTimer();
                 }, commandListenerInitiatorObject.timerAmount);
             }
 
@@ -292,6 +436,7 @@ class OttoGestureAnalysis {
             // after we start (and it's gone), we instead care about another timer.
             commandListenerInitiatorObject.hitRateSuccess++;
         }
+
 
         /*
             when we swing the arm to the right, the arm is no longer 'up'.
@@ -316,78 +461,128 @@ class OttoGestureAnalysis {
         it doesn't.
          */
 
-        let commandListenerObject = this.gestureState.timeRelative.commandListener;
-        if (gesture.type === 'one time') {
-            this.stopListeningForCommand();
-            this.gestureState.oneTimeCommandIndicator = true;
-            commandListenerObject.oneTimeCommandTimerForVisualPurposes = setTimeout(() => {
-                console.log('clearing blocked timer');
-                this.clearTimeout(commandListenerObject, 'oneTimeCommandTimerForVisualPurposes');
-                if (!this.gestureState.listeningForCommand) {
-                    this.gestureState.oneTimeCommandIndicator = false;
+        else if (this.gestureState.listeningForCommand && !this.gestureState.shouldRenameOneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent) {
+            // we do NOT want to call this if this has been called more recently than an armIsUp timer thing
+            if (gesture.type === 'one time') {
+                let commandListenerObject = this.gestureState.timeRelative.commandListener;
+                // this.stopListeningForCommand();
+                // this.gestureState.oneTimeCommandIndicator = true;
+                if (!this.timers.oneTimeCommandTimerForVisualAndPotentiallyTimeWise) {
+                    // at this point, the gesture is not quite
+                    this.timers.oneTimeCommandTimerForVisualAndPotentiallyTimeWise = setTimeout(() => {
+                        // console.log('clearing blocked timer');
+                        // clearTimeout(this.timers.oneTimeCommandTimerForVisualAndPotentiallyTimeWise);
+                        this.timers.oneTimeCommandTimerForVisualAndPotentiallyTimeWise = null;
+                        console.log('--- done with the one time command for visual purposes');
+                        // if (!this.gestureState.listeningForCommand) {
+                        //     this.gestureState.oneTimeCommandIndicator = false;
+                        // }
+                    }, commandListenerObject.oneTimeCommandTimerForVisualAndPotentiallyTimeWiseAmount); // This is just for display purposes
+                    if (!this.gestureState.shouldRenameOneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent) {
+                        // It may already be true
+                        this.doGestureAction(gesture);
+                    }
+                    this.gestureState.shouldRenameOneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent = true;
                 }
-            }, commandListenerObject.oneTimeCommandTimerForVisualPurposesAmount); // This is just for display purposes
-            this.doGestureAction(gesture);
-        }
-
-        /*
-            now when we do volume control - we check to see if it's blue,
-            and if it is, we're keeping a close eye on the position and
-            angle of the elbow to wrist. it needs to be 'arm is up' (according
-            to that timer up there). each frame needs to be within one
-            quarter of the height of their elbow to wrist distance and the
-            angle needs to be decreasing maybe.
-         */
-        if (gesture.type === 'scale') {
-            if (this.gestureState.listeningForCommand) {
-                console.log('listening for scale gesture');
             }
+
+            /*
+                now when we do volume control - we check to see if it's blue,
+                and if it is, we're keeping a close eye on the position and
+                angle of the elbow to wrist. it needs to be 'arm is up' (according
+                to that timer up there). each frame needs to be within one
+                quarter of the height of their elbow to wrist distance and the
+                angle needs to be decreasing maybe.
+             */
+            // if (gesture.type === 'scale') {
+            //     if (this.gestureState.listeningForCommand) {
+            //         console.log('listening for scale gesture');
+            //     }
+            // }
         }
 
+
     }
 
-    private listenForCommand() {
-        // easy. when it lands, we don't care about that timer anymore.
-        // we want the light to stay on as long as the arm is up.
-        //     so the new timer here is one, say 700ms, that gets reset
-        // every time we get a new 'arm is up.' when the arm goes down,
-        //     that 700ms will expire and the light goes off.
-        //     this is also the same timer that, if active, means the
-        // we're listening for a command, and so the switch and volume
-        // controls depend on this timer.
-        this.gestureState.listeningForCommand = true;
-        let commandListenerObject = this.gestureState.timeRelative.commandListener;
-        this.clearTimeout(commandListenerObject, 'timer');
-        commandListenerObject.timer = setTimeout(() => {
-            console.log('command listener timeout, clearing');
-            this.stopListeningForCommand();
-        }, commandListenerObject.timerAmount);
-    }
+    // private listenForCommandAgainIfNecess() {
+    //
+    //     // new: problem is that it stops the listening for the command and we have another half second
+    //     // the timer is fine - it needs to call this again
+    //     // so it shouldnt be stopped
+    //
+    //
+    //     // arm up -> timer after a while agrees -> listeningForCommand = true
+    //     // after 700ms, we check again. isArmStillUp may be the way to go.
+    //     // more importantly: we get pose data ever 1/25 of a second
+    //     // for every one of those, if the arm is still up (score?),
+    //     // we clear the timeout to stopListening
+    //     // this function should get called every time, but stopListening should not
+    //
+    //
+    //
+    //
+    //
+    //
+    //     console.log('listen for command');
+    //     // easy. when it lands, we don't care about that timer anymore.
+    //     // we want the light to stay on as long as the arm is up.
+    //     //     so the new timer here is one, say 700ms, that gets reset
+    //     // every time we get a new 'arm is up.' when the arm goes down,
+    //     //     that 700ms will expire and the light goes off.
+    //     //     this is also the same timer that, if active, means the
+    //     // we're listening for a command, and so the switch and volume
+    //     // controls depend on this timer.
+    //     this.gestureState.listeningForCommand = true;
+    //     // let commandListenerObject = this.gestureState.timeRelative.commandListener;
+    //
+    //     // we're gonna set another timer that makes listeningForCommand untrue
+    //
+    //     // clearTimeout(this.timers.commandListenerTimer);
+    //     // this.timers.commandListenerTimer = setTimeout(() => {
+    //     //     // console.log('command listener timeout, clearing');
+    //     //     // this.stopListeningForCommand();
+    //     //
+    //     // }, commandListenerObject.timerAmount);
+    // }
 
     private doGestureAction(gesture: OttoGesture) {
-        console.log('doing gesture ', gesture.name);
+        console.log('+++ doing gesture', gesture.name);
     }
 
-    private stopListeningForCommand() {
-        this.gestureState.listeningForCommand = false;
+    private doSomeTimer() {
+        // if at any point in 500ms we decide the arm is up, this is called.
+        // it is the only thing that will make listening for command false.
+        // note that listeningForCommand is tied to two different timers! by design.
+
+        // console.log('do some timer');
+        clearTimeout(this.timers.commandListenerTimer);
+        this.timers.commandListenerTimer = setTimeout(() => {
+            console.log('stop listening to commands');
+            this.timers.commandListenerTimer = null;
+            this.gestureState.listeningForCommand = false;
+        }, this.gestureState.timeRelative.commandListener.timerAmount);
     }
 
-    private clearTimeout(timeoutObj: any, timeoutVar: string) {
-        clearTimeout(timeoutObj[timeoutVar]);
-        timeoutObj[timeoutVar] = null;
-    }
+    // private stopListeningForCommand() {
+    //     console.log('stop listening for command');
+    //     this.gestureState.listeningForCommand = false;
+    // }
 
     private doesPoseSatisfyGesture(gesture: OttoGesture, pose: PoseData) {
 
+        // console.log('does pose satisfy');
         let rulesAsArray = (<any>Object).values(gesture.rules);
         let keypointsWithHighEnoughScore: {
             [part: string]: PoseDataKeypoint
         } = {};
+        let matchingRuleCount = 0;
 
         // Find the keypoints in this pose that have a high enough confidence
         for (let kp of pose.keypoints) {
             if (rulesAsArray.find(t => t.part === kp.part)) {
-                if (kp.score > this.variableState.multiPoseDetection.minPartConfidence) {
+                // let minPartConfidence = this.variableState.multiPoseDetection.minPartConfidence;
+                let minPartConfidence = 0.1; // TODO - Part score
+                if (kp.score > minPartConfidence) {
                     keypointsWithHighEnoughScore[kp.part] = kp;
                 }
             }
@@ -396,13 +591,15 @@ class OttoGestureAnalysis {
         // If we've got the same amount of keypoints with high enough score as the amount of rules (which are for each part)
         if (Object.keys(keypointsWithHighEnoughScore).length === rulesAsArray.length) {
             // Here we're confident about where the body parts are - now we see if they match the rules
-            let matchingRuleCount = 0;
             for (let part in keypointsWithHighEnoughScore) {
                 const kp = keypointsWithHighEnoughScore[part];
                 const rule = gesture.rules[kp.part];
                 // @ts-ignore
-                let relativeToKeypoint = pose.keypoints.find(p => p.part === rule.partRelativeTo.part);
+                let relativeToKeypoint = pose.keypoints.find(p => p.part === rule.partRelativeTo);
                 if (relativeToKeypoint) {
+
+                    // here
+
                     // if (rule.distance) {
                     //     let matched = false;
                     //     if (rule.distance.x) {
@@ -419,14 +616,19 @@ class OttoGestureAnalysis {
                     // }
 
                     // doAngle(goodKeypoints[part], relativeToKeypoint);
+                    let degree = this.recordAngle(rule, keypointsWithHighEnoughScore[part], relativeToKeypoint);
 
-                    // assume match for now
-                    return true;
+                    if (degree > rule.angle.degreeFrom && degree < rule.angle.degreeTo) {
+                        matchingRuleCount++;
+                    } else {
+                        break;
+                    }
                 }
             }
         }
 
-        return false;
+        // console.log('poses matches? ', matchingRuleCount === rulesAsArray.length);
+        return matchingRuleCount === rulesAsArray.length;
     }
 
     // private checkDistanceMatch(direction: string, rule: OttoGestureRule, kp: PoseDataKeypoint,
@@ -501,6 +703,60 @@ class OttoGestureAnalysis {
             console.log(e);
             console.log('gonna try again');
         }
+    }
+
+    private recordAngle(rule: OttoGestureRule, poseDataKeypoint: PoseDataKeypoint, relativeToKeypoint: PoseDataKeypoint) {
+        // console.log('record angle');
+        let pos1 = poseDataKeypoint.position;
+        let pos2 = relativeToKeypoint.position;
+        let dir = {
+            x: pos2.x > pos1.x ? 1 : -1,
+            y: pos2.y < pos1.y ? 1 : -1
+        };
+        let deg: number;
+        if (dir.x === 1 && dir.y === 1) {
+            let a = this.distance(pos1.x, pos1.y, pos2.x, pos1.y);
+            let b = this.distance(pos1.x, pos1.y, pos2.x, pos2.y);
+            let c = this.distance(pos2.x, pos2.y, pos2.x, pos1.y);
+            deg = this.solveAngle(a, b, c);
+        } else if (dir.x === -1 && dir.y === 1) {
+            let a = this.distance(pos2.x, pos1.y, pos1.x, pos1.y);
+            let b = this.distance(pos2.x, pos2.y, pos2.x, pos1.y);
+            let c = this.distance(pos2.x, pos2.y, pos1.x, pos1.y);
+            deg = this.solveAngle(a, c, b);
+        } else if (dir.x === -1 && dir.y === -1) {
+            let a = this.distance(pos2.x, pos2.y, pos1.x, pos2.y);
+            let b = this.distance(pos2.x, pos2.y, pos1.x, pos1.y);
+            let c = this.distance(pos1.x, pos1.y, pos1.x, pos2.y);
+            deg = this.solveAngle(b, c, a);
+        } else if (dir.x === 1 && dir.y === -1) {
+            let a = this.distance(pos2.x, pos2.y, pos1.x, pos2.y);
+            let b = this.distance(pos1.x, pos1.y, pos1.x, pos2.y);
+            let c = this.distance(pos1.x, pos1.y, pos2.x, pos2.y);
+            deg = this.solveAngle(a, c, b);
+        }
+
+        // not great code but we can take the parts we know about here and put em on the map
+        // this.gestureState.angles[rule.part + '-' + rule.partRelativeTo] = deg;
+        return deg;
+    }
+
+    private distance(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
+    }
+
+    private solveAngle(a, b, c) {
+        const temp = (a * a + b * b - c * c) / (2 * a * b);
+        if (temp >= -1 && 0.9999999 >= temp)
+            return this.radToDeg(Math.acos(temp));
+        else if (1 >= temp)  // Explained in https://www.nayuki.io/page/numerically-stable-law-of-cosines
+            return this.radToDeg(Math.sqrt((c * c - (a - b) * (a - b)) / (a * b)));
+        else
+            return null;
+    }
+
+    private radToDeg(x) {
+        return x / Math.PI * 180;
     }
 }
 
