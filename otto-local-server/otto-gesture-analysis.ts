@@ -1,4 +1,5 @@
 import { ottoLocalSocket } from "./otto-local-socket";
+import { ottoSpotifyController } from "./otto-spotify-controller";
 
 const Canvas = require('canvas-prebuilt');
 const fs = require('fs');
@@ -112,7 +113,7 @@ const gestures: OttoGesture[] = [
                 partRelativeTo: 'leftElbow',
                 angle: {
                     degreeFrom: 0,
-                    degreeTo: 30
+                    degreeTo: 45
                 }
             },
             leftElbow: {
@@ -231,6 +232,7 @@ class OttoGestureAnalysis {
         //
         // }
     }
+    private TEMPwaitForSpotifyCommandSoNoRepeatsTooFast = false;
 
     changeVariableState(state: any) {
         this.variableState = state;
@@ -481,6 +483,9 @@ class OttoGestureAnalysis {
 
     private doGestureAction(gesture: OttoGesture) {
         console.log('+++ doing gesture', gesture.name);
+        if (gesture.name === 'switch songs') {
+            ottoSpotifyController.nextSong();
+        }
     }
 
     private doSomeTimer() {
@@ -747,24 +752,47 @@ class OttoGestureAnalysis {
         // console.log(averages);
         let lastAverages: typeof currentAverages = this.gestureState.TEMP_lastAverages;
         if (lastAverages) {
-            let elbowAbove = false;
-            let wristAbove = false;
+
+            // Making this number smaller means a bigger area of 'thats ok lets do the command'
+            const dividingFactor = 8;
 
             // This number should always be positive because it's only called if arm is up
             let lengthOfForearm = currentAverages.leftElbow.y - currentAverages.leftWrist.y;
-            let elbowDiff = Math.abs(currentAverages.leftElbow.y - lastAverages.leftElbow.y) > (lengthOfForearm/8);
-            let wristDiff = Math.abs(currentAverages.leftWrist.y - lastAverages.leftWrist.y) > (lengthOfForearm/8);
 
-            if (elbowDiff) {
-                // console.log('elbow above');
-                elbowAbove = true;
+            let elbowUp;
+            let wristUp;
+            let elbowDown;
+            let wristDown;
+
+            if (currentAverages.leftWrist.y < lastAverages.leftWrist.y) {
+                // We've gone up
+                elbowUp = Math.abs(lastAverages.leftElbow.y - currentAverages.leftElbow.y) > (lengthOfForearm / dividingFactor);
+                wristUp = Math.abs(lastAverages.leftWrist.y - currentAverages.leftWrist.y) > (lengthOfForearm / dividingFactor);
+            } else {
+                // We've gone down
+                elbowDown = Math.abs(currentAverages.leftElbow.y - lastAverages.leftElbow.y) > (lengthOfForearm / dividingFactor);
+                wristDown = Math.abs(currentAverages.leftWrist.y - lastAverages.leftWrist.y) > (lengthOfForearm / dividingFactor);
             }
-            if (wristDiff) {
-                // console.log('wrist above');
-                wristAbove = true;
+
+            if (elbowUp && wristUp) {
+                console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    UP');
+                if (!this.TEMPwaitForSpotifyCommandSoNoRepeatsTooFast) {
+                    setTimeout(() => {
+                        this.TEMPwaitForSpotifyCommandSoNoRepeatsTooFast = false;
+                    }, 100);
+                    this.TEMPwaitForSpotifyCommandSoNoRepeatsTooFast = true;
+                    ottoSpotifyController.volumeUp();
+                }
             }
-            if (elbowAbove && wristAbove) {
-                console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+            if (elbowDown && wristDown) {
+                console.log('                  -----------------------------------------         DOWN');
+                if (!this.TEMPwaitForSpotifyCommandSoNoRepeatsTooFast) {
+                    setTimeout(() => {
+                        this.TEMPwaitForSpotifyCommandSoNoRepeatsTooFast = false;
+                    }, 100);
+                    this.TEMPwaitForSpotifyCommandSoNoRepeatsTooFast = true;
+                    ottoSpotifyController.volumeDown();
+                }
             }
         }
         this.gestureState.TEMP_lastAverages = currentAverages;

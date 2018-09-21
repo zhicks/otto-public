@@ -1,4 +1,5 @@
 import { ottoLocalSocket } from "./otto-local-socket";
+import { ottoSpotifyController } from "./otto-spotify-controller";
 
 declare const require;
 declare const __dirname;
@@ -66,10 +67,13 @@ http.listen(app.get('port'), () => {
 });
 
 // ------------------------------------------------------------------- Socket
+
+ottoSpotifyController.init();
 ottoLocalSocket.init(http, posenet, tf);
 // ------------------------------------------------------------------- Gesture
 
 // ------------------------------------------------------------------- Temporary testing
+
 // posenet.load().then(function(net) {
 //     console.log('posenet loaded');
 //     ottoLocalSocket.setPosenetLocalInstance(net);
