@@ -4,63 +4,32 @@ declare const require;
 
 let volume = 50;
 const ACTIVE = true;
+const fs = require('fs');
+const TOKEN_WRITE_PATH = './spotify-refresh-token.txt';
 
 class OttoSpotifyController {
 
     spotifyApi: any;
 
     init() {
-        // var scopes = ['user-read-private', 'user-read-email', 'user-modify-playback-state'],
-        //     redirectUri = 'https://example.com/callback',
-        //     clientId = 'd0ff16d46f7141d78e84e6037c141245',
-        //     state = 'some-state-of-my-choice';
-        let spotifyApi = this.spotifyApi = new SpotifyWebApi({
+        const spotifyApi = this.spotifyApi = new SpotifyWebApi({
             clientId: 'd0ff16d46f7141d78e84e6037c141245',
             clientSecret: '736905969562471295271581faf80742',
             redirectUri: 'http://www.example.com/callback'
         });
-        // var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
-        // console.log(authorizeURL);
 
-        let code = 'AQAqnv72ZtYX4hNNuEa91EUMuTNnBeKJNSCMEoIv2n6o-p6uTmp3FZ_olae8NfNzS_uHu_0mUzrEVs58JMN38y6-tBDD023TqfiPRfjnWsZLWvWS1WpXNbzfVyVQSTCvmcSfO29a5GtFAAF0xRacyt7oFXFqU5NluHh4jzvprAo7qNVAZSW-rmIcKEmVrydFe41bYXFUdyYn9Tqe2IQ-pXLyi_-6jJNt4YUWJzw-OR0UjVvn5fesiAF1p7EQPrIHXZ1lTwqKtLXjdlKZ2FX3hYUJxyr7qTw';
-        //
-        spotifyApi.authorizationCodeGrant(code).then(
-            function(data) {
-                console.log('The token expires in ' + data.body['expires_in']);
-                console.log('The access token is ' + data.body['access_token']);
-                console.log('The refresh token is ' + data.body['refresh_token']);
-
-                // Set the access token on the API object to use it in later calls
-                spotifyApi.setAccessToken(data.body['access_token']);
-                spotifyApi.setRefreshToken(data.body['refresh_token']);
-            },
-            function(err) {
-                console.log('Something went wrong!', err);
-            }
-        );
+        const refreshToken = fs.readFileSync(TOKEN_WRITE_PATH).toString();
+        console.log('spotify refresh token read: ', refreshToken);
+        spotifyApi.setRefreshToken(refreshToken);
 
         setInterval(() => {
-            console.log('refreshing spotify token');
-            spotifyApi.refreshAccessToken().then(
-                function(data) {
-                    console.log('The access token has been refreshed!');
-
-                    // Save the access token so that it's used in future calls
-                    spotifyApi.setAccessToken(data.body['access_token']);
-                },
-                function(err) {
-                    console.log('Could not refresh access token', err);
-                }
-            );
+            this.refreshAccessToken();
         }, 30 * 60 * 1000);
+        this.refreshAccessToken();
 
-        // let accessToken = 'BQBJoLYG0Heq3y0HbywYqOWcnKlPc7QSCmvAZG-g0eyeR76VyNySNi1FLaUhZU8xYG1Oru_qolaqgTOQIU322Hs0WEH1wYlwPKkGLu_vLW-B6p9AwtUbNgF9eqZaECb1JELPgz6ATS580fEy--tT8ew1vacaTA3A3eUA';
-        // // The refresh token is AQBiq6391AT2JTq5Wmx4s5MYUjcXH3ToB_S1tKQ59Yf0qQ1NMZVL7xUHqx8kzazZQZrCAXBE8uDwUfYefWE5bqT7UZvV9wyQ8GUSW3DhtyKOgVaW58j_x8j5jyu5cAYWl0R9Ng
-        // spotifyApi.setAccessToken(accessToken);
-
-        // const accessToken = 'BQA1ETJ05rlxlTfn411tOGUdihMX5umw-KAYk8qxeB7_QAWks-_aZPAI2Nomls1rRaill7MIQ3t-SV1xXxm4t4i6Lub5H9JNr90sjBG_sCKKLh1pNtyAblxwFZc2Hd69OCqgBn2matoNqCK-I8IuNGC88ErDgDiuifWp';
-        // spotifyApi.setAccessToken(accessToken);
-
+        // For setup:
+        // this.oneTimeGetAuthCode();
+        // this.oneTimeTokenRetrieval
     }
 
     nextSong() {
@@ -89,6 +58,65 @@ class OttoSpotifyController {
                 console.log('down volume', res);
             });
         }
+    }
+
+    private refreshAccessToken() {
+        console.log('refreshing spotify token');
+        this.spotifyApi.refreshAccessToken().then(
+            function(data) {
+                console.log('The access token has been refreshed!');
+                this.spotifyApi.setAccessToken(data.body['access_token']);
+            },
+            function(err) {
+                console.log('Could not refresh access token', err);
+            }
+        );
+    }
+
+    // To obtain a code
+    // Steps: call this, follow the URL it logs out in a browser,
+    // accept and see where it forwarded you to in the navigation pane,
+    // take that code and call oneTimeTokenRetrieval.
+    // That will write the access token and refresh token to a file
+    // in here. Every time it's refreshed it will then rewrite it
+    // to that file.
+    private oneTimeGetAuthCode() {
+        const scopes = ['user-read-private', 'user-read-email', 'user-modify-playback-state'],
+            redirectUri = 'https://example.com/callback',
+            clientId = 'd0ff16d46f7141d78e84e6037c141245',
+            state = 'some-state-of-my-choice';
+        const authorizeURL = this.spotifyApi.createAuthorizeURL(scopes, state);
+        console.log(authorizeURL);
+    }
+
+    private oneTimeTokenRetrieval() {
+        const code = '';
+        this.spotifyApi.authorizationCodeGrant(code).then(
+            function(data) {
+                console.log('Spotify: The token expires in ' + data.body['expires_in']);
+                console.log('Spotify: The access token is ' + data.body['access_token']);
+                console.log('Spotify: The refresh token is ' + data.body['refresh_token']);
+
+                // Set the access token on the API object to use it in later calls
+                this.spotifyApi.setAccessToken(data.body['access_token']);
+                this.spotifyApi.setRefreshToken(data.body['refresh_token']);
+
+                this.writeToken(data.body['refresh_token']);
+            },
+            function(err) {
+                console.log('Something went wrong!', err);
+            }
+        );
+    }
+
+    private writeToken(refreshToken: string) {
+        fs.writeFile(TOKEN_WRITE_PATH, refreshToken, err => {
+            if (err) {
+                console.log('there was an error writing the token');
+            } else {
+                console.log('spotify: wrote refresh token');
+            }
+        });
     }
 
 }
