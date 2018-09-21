@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-local-server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/otto-local-server/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -65,20 +62,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="otto-gesture-analysis.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="otto-gesture-analysis.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="485" column="46" lean-forward="true" selection-start-line="485" selection-start-column="46" selection-end-line="485" selection-end-column="46" />
+            <state relative-caret-position="649">
+              <caret line="571" selection-start-line="571" selection-end-line="571" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="otto-spotify-controller.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="otto-spotify-controller.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="56" column="41" selection-start-line="56" selection-start-column="41" selection-end-line="56" selection-end-column="41" />
+            <state relative-caret-position="920">
+              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
             </state>
           </provider>
         </entry>
@@ -126,9 +123,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>match</find>
-      <find>handleg</find>
-      <find>gesturematch</find>
       <find>satisfyg</find>
       <find>keypointsWithHighEnoughScore</find>
       <find>ignore</find>
@@ -156,6 +150,9 @@
       <find>gestures:</find>
       <find>TEMPwaitForSpotifyCommandSoNoRepeatsTooFast</find>
       <find>one time</find>
+      <find>doesPoseSatisfyGesture</find>
+      <find>leftEar</find>
+      <find>!== '</find>
     </findStrings>
     <replaceStrings>
       <replace>this.doLog</replace>
@@ -222,8 +219,8 @@
         <option value="$PROJECT_DIR$/otto-local-server/node_modules/livecam/livecam.js" />
         <option value="$PROJECT_DIR$/otto-local-server/otto-local-socket.ts" />
         <option value="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" />
-        <option value="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" />
         <option value="$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts" />
+        <option value="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" />
       </list>
     </option>
   </component>
@@ -428,13 +425,6 @@
       <workItem from="1536877002632" duration="14707000" />
       <workItem from="1536953305997" duration="624000" />
       <workItem from="1536953958914" duration="620000" />
-    </task>
-    <task id="LOCAL-00010" summary="asdff">
-      <created>1524762283914</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1524762283914</updated>
     </task>
     <task id="LOCAL-00011" summary="asdff">
       <created>1524762369754</created>
@@ -772,11 +762,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537483152290</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="buncha good spotify stuff">
+      <created>1537535513141</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1537535513142</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="173246000" />
+    <option name="totallyTimeSpent" value="174806000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -847,7 +844,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/otto-dash-client" />
     </ignored-roots>
-    <MESSAGE value="asdfasdf" />
     <MESSAGE value="asdfsfas" />
     <MESSAGE value="asdff" />
     <MESSAGE value="asdfasdfds" />
@@ -872,7 +868,8 @@
     <MESSAGE value="buncha stuff" />
     <MESSAGE value="before mucking it up too much" />
     <MESSAGE value="good stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="good stuff" />
+    <MESSAGE value="buncha good spotify stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="buncha good spotify stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1213,17 +1210,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
+    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="485" column="46" lean-forward="true" selection-start-line="485" selection-start-column="46" selection-end-line="485" selection-end-column="46" />
+        <state relative-caret-position="920">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts">
+    <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="56" column="41" selection-start-line="56" selection-start-column="41" selection-end-line="56" selection-end-column="41" />
+        <state relative-caret-position="649">
+          <caret line="571" selection-start-line="571" selection-end-line="571" />
         </state>
       </provider>
     </entry>

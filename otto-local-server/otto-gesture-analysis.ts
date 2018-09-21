@@ -62,6 +62,7 @@ interface OttoGestureRule {
     // Keyed on part
     part: string,
     partRelativeTo?: string,
+    minScore?: number,
     angle?: {
         quandrants?: [number, number][],
         degreeFrom: number,
@@ -124,6 +125,14 @@ const gestures: OttoGesture[] = [
                     degreeFrom: 60,
                     degreeTo: 90
                 }
+            },
+            leftEar: {
+                part: 'leftEar',
+                minScore: 0.4
+            },
+            rightEar: {
+                part: 'rightEar',
+                minScore: 0.4
             }
         }
     },
@@ -535,22 +544,32 @@ class OttoGestureAnalysis {
                 for (let part in keypointsWithinRuleThatHaveHighEnoughScore) {
                     const kp = keypointsWithinRuleThatHaveHighEnoughScore[part];
                     const rule = gesture.rules[kp.part];
-                    // @ts-ignore
-                    let relativeToKeypoint = pose.keypoints.find(p => p.part === rule.partRelativeTo);
-                    if (relativeToKeypoint) {
-                        let angleInfo = this.recordAngle(rule, keypointsWithinRuleThatHaveHighEnoughScore[part], relativeToKeypoint);
-                        let degreesMatch = angleInfo.degree > rule.angle.degreeFrom && angleInfo.degree < rule.angle.degreeTo;
-                        let quandrantsMatch = true;
-                        if (rule.angle.quandrants) {
-                            quandrantsMatch = false;
-                            for (let q of rule.angle.quandrants) {
-                                if (q[0] === angleInfo.quandrant[0] && q[1] === angleInfo.quandrant[1]) {
-                                    quandrantsMatch = true;
-                                    break;
+                    if (rule.partRelativeTo) {
+                        // Relative checking
+                        // @ts-ignore
+                        let relativeToKeypoint = pose.keypoints.find(p => p.part === rule.partRelativeTo);
+                        if (relativeToKeypoint) {
+                            let angleInfo = this.recordAngle(rule, keypointsWithinRuleThatHaveHighEnoughScore[part], relativeToKeypoint);
+                            let degreesMatch = angleInfo.degree > rule.angle.degreeFrom && angleInfo.degree < rule.angle.degreeTo;
+                            let quandrantsMatch = true;
+                            if (rule.angle.quandrants) {
+                                quandrantsMatch = false;
+                                for (let q of rule.angle.quandrants) {
+                                    if (q[0] === angleInfo.quandrant[0] && q[1] === angleInfo.quandrant[1]) {
+                                        quandrantsMatch = true;
+                                        break;
+                                    }
                                 }
                             }
+                            if (degreesMatch && quandrantsMatch) {
+                                matchingRuleCount++;
+                            } else {
+                                break;
+                            }
                         }
-                        if (degreesMatch && quandrantsMatch) {
+                    } else {
+                        // Min score checking
+                        if (kp.score > rule.minScore) {
                             matchingRuleCount++;
                         } else {
                             break;
@@ -568,13 +587,10 @@ class OttoGestureAnalysis {
 
         // console.log('poses matches? ', matchingRuleCount === rulesAsArray.length);
         if (matchingRuleCount === rulesAsArray.length) {
-            // TODO - Bad code, will work for now
             // if (gesture.name === 'Arm is up') {
-            //     // TODO Also pose.keypoints find is obviously ineffecient, but keypointsWithHighEnoughScore does not contain leftWrist
             //     // @ts-ignore
             //     this.gestureState.$f.lastArmPos.leftElbow = pose.keypoints.find(p => p.part === 'leftElbow').position;
             //     // @ts-ignore
-            //     // TODO btw that ts ignore requirement is tsconfig, not webstorm
             //     this.gestureState.$f.lastArmPos.leftWrist = pose.keypoints.find(p => p.part === 'leftWrist').position;
             // }
             return true;
