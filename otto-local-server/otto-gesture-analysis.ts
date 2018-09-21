@@ -83,7 +83,7 @@ const gestures: OttoGesture[] = [
                 part: 'leftElbow',
                 partRelativeTo: 'leftWrist',
                 angle: {
-                    quandrants: [ [1, 1], [-1, 1] ],
+                    quandrants: [ [-1, 1] ],
                     degreeFrom: 60,
                     degreeTo: 90
                 }
@@ -99,9 +99,33 @@ const gestures: OttoGesture[] = [
         }
     },
     {
-        name: 'switch songs',
+        name: 'Next song',
         type: 'one time',
         color: 'deeppink',
+        rules: {
+            leftShoulder: {
+                part: 'leftShoulder',
+                partRelativeTo: 'leftElbow',
+                angle: {
+                    degreeFrom: 0,
+                    degreeTo: 20
+                }
+            },
+            leftElbow: {
+                part: 'leftElbow',
+                partRelativeTo: 'leftWrist',
+                angle: {
+                    quandrants: [ [1, 1] ],
+                    degreeFrom: 0,
+                    degreeTo: 40
+                }
+            }
+        }
+    },
+    {
+        name: 'Play pause',
+        type: 'one time',
+        color: 'magenta',
         rules: {
             leftShoulder: {
                 part: 'leftShoulder',
@@ -157,6 +181,7 @@ class OttoGestureAnalysis {
         commandInitiatorTime: 400,
         commandTimeout: 1000,
         oneTimeCommandTimeout: 1000,
+        scaleGestureActionDebounceTime: 100,
         // Making this number smaller means a bigger area of 'thats ok lets do the command'
         scaleMovementDividingFactor: 8
     };
@@ -177,7 +202,7 @@ class OttoGestureAnalysis {
             }
         },
         matchingParts: [],
-        spotifyDebounce: false
+        scaleGestureActionDebounce: false
     }
 
     timers = {
@@ -303,8 +328,10 @@ class OttoGestureAnalysis {
 
     private doGestureAction(gesture: OttoGesture) {
         console.log('+++ doing gesture', gesture.name);
-        if (gesture.name === 'switch songs') {
+        if (gesture.name === 'Next song') {
             ottoSpotifyController.nextSong();
+        } else if (gesture.name === 'Pause play') {
+            ottoSpotifyController.pausePlay();
         }
     }
 
@@ -445,21 +472,21 @@ class OttoGestureAnalysis {
 
             if (elbowUp && wristUp) {
                 console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    UP');
-                if (!this.gestureState.spotifyDebounce) {
+                if (!this.gestureState.scaleGestureActionDebounce) {
                     setTimeout(() => {
-                        this.gestureState.spotifyDebounce = false;
-                    }, 100);
-                    this.gestureState.spotifyDebounce = true;
+                        this.gestureState.scaleGestureActionDebounce = false;
+                    }, this.variableState.scaleGestureActionDebounceTime);
+                    this.gestureState.scaleGestureActionDebounce = true;
                     ottoSpotifyController.volumeUp();
                 }
             }
             if (elbowDown && wristDown) {
                 console.log('                  -----------------------------------------         DOWN');
-                if (!this.gestureState.spotifyDebounce) {
+                if (!this.gestureState.scaleGestureActionDebounce) {
                     setTimeout(() => {
-                        this.gestureState.spotifyDebounce = false;
-                    }, 100);
-                    this.gestureState.spotifyDebounce = true;
+                        this.gestureState.scaleGestureActionDebounce = false;
+                    }, this.variableState.scaleGestureActionDebounceTime);
+                    this.gestureState.scaleGestureActionDebounce = true;
                     ottoSpotifyController.volumeDown();
                 }
             }

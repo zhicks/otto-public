@@ -60,6 +60,23 @@ class OttoSpotifyController {
         }
     }
 
+    pausePlay() {
+        this.spotifyApi.pause()
+            .then(() => {
+                console.log('pause was successful');
+            })
+            .catch(() => {
+                console.log('pause was not successful, calling resume');
+                this.spotifyApi.play()
+                    .then(() => {
+                        console.log('play was successful');
+                    })
+                    .catch(() => {
+                        console.log('play was not successful');
+                    });
+            });
+    }
+
     private refreshAccessToken() {
         console.log('refreshing spotify token');
         this.spotifyApi.refreshAccessToken().then(
