@@ -76,25 +76,25 @@ const gestures: OttoGesture[] = [
                 partRelativeTo: 'leftElbow',
                 angle: {
                     degreeFrom: 0,
-                    degreeTo: 45
+                    degreeTo: 53
                 }
             },
             leftElbow: {
                 part: 'leftElbow',
                 partRelativeTo: 'leftWrist',
                 angle: {
-                    quandrants: [ [-1, 1] ],
-                    degreeFrom: 60,
+                    quandrants: [ [-1, 1], [1, 1] ],
+                    degreeFrom: 50,
                     degreeTo: 90
                 }
             },
             leftEar: {
                 part: 'leftEar',
-                minScore: 0.4
+                minScore: 0.3
             },
             rightEar: {
                 part: 'rightEar',
-                minScore: 0.4
+                minScore: 0.3
             }
         }
     },
@@ -117,7 +117,31 @@ const gestures: OttoGesture[] = [
                 angle: {
                     quandrants: [ [1, 1] ],
                     degreeFrom: 0,
-                    degreeTo: 40
+                    degreeTo: 36
+                }
+            }
+        }
+    },
+    {
+        name: 'Change color',
+        type: 'one time',
+        color: 'yellow',
+        rules: {
+            rightShoulder: {
+                part: 'rightShoulder',
+                partRelativeTo: 'rightElbow',
+                angle: {
+                    degreeFrom: 0,
+                    degreeTo: 20
+                }
+            },
+            leftElbow: {
+                part: 'rightElbow',
+                partRelativeTo: 'rightWrist',
+                angle: {
+                    quandrants: [ [-1, 1] ],
+                    degreeFrom: 0,
+                    degreeTo: 36
                 }
             }
         }
@@ -139,14 +163,15 @@ const gestures: OttoGesture[] = [
                 part: 'leftElbow',
                 partRelativeTo: 'leftWrist',
                 angle: {
+                    quandrants: [ [-1, 1] ],
                     degreeFrom: 0,
-                    degreeTo: 40
+                    degreeTo: 36
                 }
             }
         }
     },
     {
-        name: 'up volume',
+        name: 'volume',
         type: 'scale',
         color: 'orange',
         rules: {
@@ -154,6 +179,19 @@ const gestures: OttoGesture[] = [
                 part: 'leftElbow'
             },
             leftWrist: {
+                part: 'leftWrist'
+            }
+        }
+    },
+    {
+        name: 'lights level',
+        type: 'scale',
+        color: 'purple',
+        rules: {
+            rightElbow: {
+                part: 'leftElbow'
+            },
+            rightWrist: {
                 part: 'leftWrist'
             }
         }
@@ -178,12 +216,14 @@ class OttoGestureAnalysis {
         showKeypoints: true,
         showSkeleton: true,
         // new variables that should be in the UI
-        commandInitiatorTime: 400,
+        commandInitiatorTime: 600,
         commandTimeout: 1000,
         oneTimeCommandTimeout: 1000,
-        scaleGestureActionDebounceTime: 100,
-        // Making this number smaller means a bigger area of 'thats ok lets do the command'
-        scaleMovementDividingFactor: 8
+        scaleGestureActionDebounceTime: 50,
+        // Making this number bigger means a bigger area of 'thats ok lets do the command'
+        scaleMovementDividingFactor: 16,
+        noLongerConsiderScaleActionsTimerAmount: 80,
+        scaleCheckIfShouldDoActionTimerAmount: 160
     };
 
     gestureState = {
@@ -206,10 +246,25 @@ class OttoGestureAnalysis {
     }
 
     timers = {
+        // Timer starts and when it's done will determine if we should start listening for commands
         armIsUpAndFaceIsLookingTimer: null,
+
+        // Determines if we should listen for commands, which may be the case even if the arm isn't up
         commandListenerTimer: null,
-        oneTimeCommandTimerForVisualAndPotentiallyTimeWise: null,
-        fasterArmIsUpTimerUsedForScaleGestures: null // TODO I'm not sure we need this one. Then again we decided we probably need a different timer
+
+        // Specifically for one time commands that should turn the light green for a second
+        oneTimeCommandTimerForVisualPurposes: null,
+
+        // Runs for X time. When it's done, it determines if enough movement has happened (and also not too much)
+        // for a scale action. It does not get reset - it runs essentially on an interval as long as the arm is up.
+        // Pretty much just like the armIsUpAndFaceIsLooking timer
+        scaleCheckIfShouldDoActionTimer: null,
+        
+        // This timer is specifically for when you put your arm down, you don't want the scale to think it's going down.
+        // It gets cleared / reset for every frame that the arm is up.
+        // It should always be smaller than the timer amount for determining that a scale action has happened,
+        // otherwise, the action could take place and this timer is useless.
+        noLongerConsiderScaleActionsTimer: null
     }
 
     changeVariableState(state: any) {
@@ -260,15 +315,24 @@ class OttoGestureAnalysis {
     }
 
     private handleGestureMatch(gesture: OttoGesture, pose: PoseData) {
-
+        // This function gets hit every frame.
         if (gesture.commandListenInitiator) {
-            clearTimeout(this.timers.fasterArmIsUpTimerUsedForScaleGestures);
-            this.timers.fasterArmIsUpTimerUsedForScaleGestures = setTimeout(() => {
-               console.log('arm no longer considered up for gestures');
-                this.timers.fasterArmIsUpTimerUsedForScaleGestures = null;
-            }, 100);
-            this.gestureState.armsUp[gesture.commandListenInitiator.arm] = true;
+            clearTimeout(this.timers.noLongerConsiderScaleActionsTimer);
+            this.timers.noLongerConsiderScaleActionsTimer = setTimeout(() => {
+               this.timers.noLongerConsiderScaleActionsTimer = null;
+            }, this.variableState.noLongerConsiderScaleActionsTimerAmount);
+
             let commandListenerInitiatorObject = this.gestureState.timeRelative.commandListenInitiator;
+            if (!this.timers.scaleCheckIfShouldDoActionTimer) {
+                this.timers.scaleCheckIfShouldDoActionTimer = setTimeout(() => {
+                    if (commandListenerInitiatorObject.successfulHits.length > commandListenerInitiatorObject.hitRate / 2) {
+                        this.doScaleAnalyze(gesture);
+                    }
+                    this.timers.scaleCheckIfShouldDoActionTimer = null;
+                }, this.variableState.scaleCheckIfShouldDoActionTimerAmount);
+            }
+
+            this.gestureState.armsUp[gesture.commandListenInitiator.arm] = true;
             if (!this.timers.armIsUpAndFaceIsLookingTimer) {
                 // console.log('starting timer for command listener initiator');
                 this.timers.armIsUpAndFaceIsLookingTimer = setTimeout(() => {
@@ -279,7 +343,6 @@ class OttoGestureAnalysis {
                         this.gestureState.listeningForCommand = true;
                         console.log('listening for commands');
                         this.gestureState.oneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent = false;
-                        this.doScaleAnalyze();
                     }
                     commandListenerInitiatorObject.successfulHits = [];
                     commandListenerInitiatorObject.hitRate = 0;
@@ -311,9 +374,9 @@ class OttoGestureAnalysis {
         } else if (this.gestureState.listeningForCommand && !this.gestureState.oneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent) {
             // we do NOT want to call this if this has been called more recently than an armIsUp timer thing
             if (gesture.type === 'one time') {
-                if (!this.timers.oneTimeCommandTimerForVisualAndPotentiallyTimeWise) {
-                    this.timers.oneTimeCommandTimerForVisualAndPotentiallyTimeWise = setTimeout(() => {
-                        this.timers.oneTimeCommandTimerForVisualAndPotentiallyTimeWise = null;
+                if (!this.timers.oneTimeCommandTimerForVisualPurposes) {
+                    this.timers.oneTimeCommandTimerForVisualPurposes = setTimeout(() => {
+                        this.timers.oneTimeCommandTimerForVisualPurposes = null;
                         console.log('--- done with the one time command for visual purposes');
                     }, this.variableState.oneTimeCommandTimeout); // This is just for display purposes
                     if (!this.gestureState.oneTimeGestureHasBeenCalledMoreRecentlyThanShouldListenForCommandsEvent) {
@@ -326,12 +389,26 @@ class OttoGestureAnalysis {
         }
     }
 
-    private doGestureAction(gesture: OttoGesture) {
+    private doGestureAction(gesture: OttoGesture, tempDirection?: string) {
         console.log('+++ doing gesture', gesture.name);
         if (gesture.name === 'Next song') {
             ottoSpotifyController.nextSong();
-        } else if (gesture.name === 'Pause play') {
+        } else if (gesture.name === 'Play pause') {
             ottoSpotifyController.pausePlay();
+        } else if (gesture.name === 'Change color') {
+            tempLightStuff.changeColor();
+        } else if (gesture.name === 'volume') {
+            if (tempDirection === 'up') {
+                ottoSpotifyController.volumeUp();
+            } else {
+                ottoSpotifyController.volumeDown();
+            }
+        } else if (gesture.name === 'lights level') {
+            if (tempDirection === 'up') {
+                tempLightStuff.changeLevelUp();
+            } else {
+                tempLightStuff.changeLevelDown();
+            }
         }
     }
 
@@ -406,18 +483,18 @@ class OttoGestureAnalysis {
                     }
                 }
             } else {
-                return this.gestureState.listeningForCommand && this.timers.fasterArmIsUpTimerUsedForScaleGestures;
+                return this.gestureState.listeningForCommand && this.timers.noLongerConsiderScaleActionsTimer;
             }
         }
 
         return matchingRuleCount === rulesAsArray.length;
     }
 
-    private doScaleAnalyze() {
+    private doScaleAnalyze(gesture: OttoGesture) {
         // This code is very specific and not generic - a to do for one day
 
-        // We only got here if the arm is up (real time), listening for commands (timer), and the success hits were more than half of the hit rate
-        // And it comes directly from the timer that says we should listen to commands.
+        // We only got here if the arm is up (real time), listening for commands, the arm hasn't been put down too quickly,
+        // and the success hits were more than half of the hit rate
         let commandListenerInitiatorObject = this.gestureState.timeRelative.commandListenInitiator;
         // we need to average the successful hits
         // if the average is above the original by a certain amount, but no more than another amount, it counts as 'up'
@@ -471,23 +548,23 @@ class OttoGestureAnalysis {
             }
 
             if (elbowUp && wristUp) {
-                console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    UP');
+                console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO    UP');
                 if (!this.gestureState.scaleGestureActionDebounce) {
                     setTimeout(() => {
                         this.gestureState.scaleGestureActionDebounce = false;
                     }, this.variableState.scaleGestureActionDebounceTime);
                     this.gestureState.scaleGestureActionDebounce = true;
-                    ottoSpotifyController.volumeUp();
+                    this.doGestureAction(gesture, 'up');
                 }
             }
             if (elbowDown && wristDown) {
-                console.log('                  -----------------------------------------         DOWN');
+                console.log('``````````````````````````````````````````````````````````         DOWN');
                 if (!this.gestureState.scaleGestureActionDebounce) {
                     setTimeout(() => {
                         this.gestureState.scaleGestureActionDebounce = false;
                     }, this.variableState.scaleGestureActionDebounceTime);
                     this.gestureState.scaleGestureActionDebounce = true;
-                    ottoSpotifyController.volumeDown();
+                    this.doGestureAction(gesture, 'down');
                 }
             }
         }
@@ -626,3 +703,40 @@ export const ottoGestureAnalysis = new OttoGestureAnalysis();
 //     }
 //     return false;
 // }
+
+class TempLightStuff {
+
+    colors = [
+        'white',
+        'red and so on'
+    ]
+    currentColor = '';
+    currentLevel = 50;
+
+    init() {
+        this.currentColor = this.colors[0];
+    }
+
+    changeColor() {
+        let index = this.colors.findIndex(c => this.currentColor === c);
+        if (index > this.colors.length) {
+            index = 0;
+        }
+        this.currentColor = this.colors[index];
+    }
+
+    changeLevelUp() {
+        this.currentLevel += 7;
+        this.currentLevel = Math.min(this.currentLevel, 100);
+
+    }
+
+    changeLevelDown() {
+        this.currentLevel -= 7;
+        this.currentLevel = Math.max(this.currentLevel, 30);
+
+    }
+
+}
+const tempLightStuff = new TempLightStuff();
+tempLightStuff.init();

@@ -107,8 +107,8 @@
       <file leaf-file-name="otto-gesture-analysis.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="655">
-              <caret line="183" column="44" selection-start-line="183" selection-start-column="44" selection-end-line="183" selection-end-column="44" />
+            <state relative-caret-position="327">
+              <caret line="173" column="21" selection-start-line="173" selection-start-column="15" selection-end-line="173" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -116,8 +116,8 @@
       <file leaf-file-name="otto-spotify-controller.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="57" column="48" lean-forward="true" selection-start-line="57" selection-start-column="48" selection-end-line="57" selection-end-column="48" />
+            <state relative-caret-position="322">
+              <caret line="44" column="23" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -165,24 +165,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>armsUp</find>
-      <find>TEMParmIsUp</find>
-      <find>tempArmIsUp</find>
-      <find>TEMP_armIsUp</find>
-      <find>scale</find>
-      <find>arm is up</find>
-      <find>handleges</find>
-      <find>TEMP_scaleTimeout</find>
-      <find>SuccessfulHitData</find>
-      <find>commandListenerInitiatorObject</find>
-      <find>successfulHits</find>
-      <find>doScaleAnalyze</find>
-      <find>TEMP_armIsUpTimeout</find>
-      <find>$f</find>
-      <find>TEMP_lastAverages</find>
-      <find>distance</find>
-      <find>gesture:</find>
-      <find>gestures:</find>
       <find>TEMPwaitForSpotifyCommandSoNoRepeatsTooFast</find>
       <find>one time</find>
       <find>doesPoseSatisfyGesture</find>
@@ -191,10 +173,28 @@
       <find>ottoGestureAnalysis</find>
       <find>setRefreshToken</find>
       <find>switch songs</find>
-      <find>doGestureAction</find>
       <find>spotifyDebounce</find>
       <find>dogestr</find>
       <find>scaleDebounce</find>
+      <find>handleGestureMatch</find>
+      <find>fasterArmIsUpTimerUsedForScaleGestures</find>
+      <find>armIsUpAndFaceIsLookingTimer</find>
+      <find>scaleCheckIfShouldDoActionTimerAmount</find>
+      <find>oneTimeCommandTimerForVisualAndPotentiallyTimeWise</find>
+      <find>noLongerConsiderScaleActionsTimer</find>
+      <find>-------</find>
+      <find>.4</find>
+      <find>variable</find>
+      <find>scaleGestureActionDebounceTime</find>
+      <find>Play pause</find>
+      <find>dogesture</find>
+      <find>lay paus</find>
+      <find>Change color</find>
+      <find>doScaleAnalyze</find>
+      <find>doGestureAction</find>
+      <find>level</find>
+      <find>lights level</find>
+      <find>volume</find>
     </findStrings>
     <replaceStrings>
       <replace>this.doLog</replace>
@@ -206,6 +206,8 @@
       <replace>Next song</replace>
       <replace>scaleDebounce</replace>
       <replace>scaleGestureActionDebounce</replace>
+      <replace>noLongerConsiderScaleActionsTimer</replace>
+      <replace>oneTimeCommandTimerForVisualPurposes</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\Zack\otto\otto-dash-client\src</dir>
@@ -473,13 +475,6 @@
       <workItem from="1536953305997" duration="624000" />
       <workItem from="1536953958914" duration="620000" />
       <workItem from="1537552092312" duration="3398000" />
-    </task>
-    <task id="LOCAL-00011" summary="asdff">
-      <created>1524762369754</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1524762369754</updated>
     </task>
     <task id="LOCAL-00012" summary="asdfasdfds">
       <created>1524762707725</created>
@@ -817,11 +812,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537535513142</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="before messing with scaling">
+      <created>1537566913373</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1537566913373</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="179324000" />
+    <option name="totallyTimeSpent" value="183728000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -890,7 +892,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/otto-dash-client" />
     </ignored-roots>
-    <MESSAGE value="asdff" />
     <MESSAGE value="asdfasdfds" />
     <MESSAGE value="&#10;adsfadsfasdf" />
     <MESSAGE value="asdfadsfsdf" />
@@ -915,7 +916,8 @@
     <MESSAGE value="good stuff" />
     <MESSAGE value="buncha good spotify stuff" />
     <MESSAGE value="got looking at requirement working" />
-    <option name="LAST_COMMIT_MESSAGE" value="got looking at requirement working" />
+    <MESSAGE value="before messing with scaling" />
+    <option name="LAST_COMMIT_MESSAGE" value="before messing with scaling" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
@@ -1221,15 +1223,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="57" column="48" lean-forward="true" selection-start-line="57" selection-start-column="48" selection-end-line="57" selection-end-column="48" />
+        <state relative-caret-position="322">
+          <caret line="44" column="23" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="183" column="44" selection-start-line="183" selection-start-column="44" selection-end-line="183" selection-end-column="44" />
+        <state relative-caret-position="327">
+          <caret line="173" column="21" selection-start-line="173" selection-start-column="15" selection-end-line="173" selection-end-column="21" />
         </state>
       </provider>
     </entry>
