@@ -12,6 +12,8 @@ import {FormsModule} from "@angular/forms";
 import {SatelliteComponent} from "./satellite/satellite.component";
 import {LightComponent} from "./light/light.component";
 import {LogsComponent} from "./logs/logs.component";
+import { LEDMatrixBoardComponent } from 'app/led-matrix-board/led-matrix-board.component';
+import { MakeTextComponent } from 'app/led-matrix-board/make-text-component/make-text.component';
 
 const routing: ModuleWithProviders = RouterModule.forRoot([
   {
@@ -47,6 +49,11 @@ const routing: ModuleWithProviders = RouterModule.forRoot([
     component: LightComponent
   },
   {
+    path: 'board',
+    component: LEDMatrixBoardComponent,
+    data: { test: 'hi' }
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
@@ -60,7 +67,9 @@ const routing: ModuleWithProviders = RouterModule.forRoot([
     GroupComponent,
     SatelliteComponent,
     LightComponent,
-    LogsComponent
+    LogsComponent,
+    LEDMatrixBoardComponent,
+    MakeTextComponent
   ],
   imports: [
     BrowserModule,

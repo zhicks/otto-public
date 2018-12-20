@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {ApiService} from "./api/api.service";
-import {Router} from "@angular/router";
+import {ApiService} from './api/api.service';
+import {Router, ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -10,9 +10,15 @@ import {Router} from "@angular/router";
 })
 export class AppComponent {
 
-  constructor(
+  hideHeader = false;
 
-  ) {}
+  constructor(
+    private route: ActivatedRoute
+  ) {
+    if (window.location.pathname.indexOf('board') > -1) {
+      this.hideHeader = true;
+    }
+  }
 
 
 }
