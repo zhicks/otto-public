@@ -3,7 +3,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 declare const require;
 
 let volume = 50;
-const ACTIVE = true;
+const ACTIVE = false;
 const fs = require('fs');
 const TOKEN_WRITE_PATH = './spotify-refresh-token.txt';
 
@@ -42,7 +42,7 @@ class OttoSpotifyController {
 
     volumeUp() {
         if (ACTIVE) {
-            volume += 20;
+            volume += 7;
             volume = Math.min(volume, 100);
             this.spotifyApi.setVolume(volume, null, (res) => {
                 console.log('upped volume', res);
@@ -58,6 +58,23 @@ class OttoSpotifyController {
                 console.log('down volume', res);
             });
         }
+    }
+
+    pausePlay() {
+        this.spotifyApi.pause()
+            .then(() => {
+                console.log('pause was successful');
+            })
+            .catch(() => {
+                console.log('pause was not successful, calling resume');
+                this.spotifyApi.play()
+                    .then(() => {
+                        console.log('play was successful');
+                    })
+                    .catch(() => {
+                        console.log('play was not successful');
+                    });
+            });
     }
 
     private refreshAccessToken() {
