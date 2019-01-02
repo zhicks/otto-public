@@ -63,11 +63,24 @@ class SocketControl {
         let io = socketIo(http);
         io.on('connection', socket => {
             this.doLog('connection');
-            socket.on('kathleen_board', (ip: string) => {
-               this.doLog('kathleen board connected ip is');
-               this.doLog(ip);
+            socket.on('kathleen_board_app', () => {
+                if (!socket.appId) {
+                    socket.appId = uuidv4();
+                    this.appSockets.push(socket);
+                }
+                socket.emit('kathleen_board_ip', this.kathleenBoard && this.kathleenBoard.boardIp);
+                if (this.kathleenBoard) {
+                    this.kathleenBoard.emit('giveIp');
+                }
+            });
+            socket.on('kathleen_board', () => {
+               this.doLog('kathleen board connected');
                this.kathleenBoard = socket;
                this.kathleenBoard.kathleenBoard = true;
+            });
+            socket.on('kathleen_board_ip', (ip: string) => {
+                this.doLog(ip);
+                this.kathleenBoard.boardIp = ip;
             });
             socket.on('bigred', () => {
                 this.doLog('big red connected');

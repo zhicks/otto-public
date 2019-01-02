@@ -48,6 +48,10 @@ export class LEDMatrixBoardComponent {
 
   ngOnInit() {
     this.socket = this.apiService.socket;
+    this.socket.on('kathleen_board_ip', (ip: string) => {
+      console.log('ip is', ip);
+    });
+    this.socket.emit('kathleen_board_app');
     let saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
       this.saved = JSON.parse(saved) || [];

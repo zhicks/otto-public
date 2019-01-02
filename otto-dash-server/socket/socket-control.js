@@ -50,10 +50,19 @@ var SocketControl = /** @class */ (function () {
         var io = socketIo(http);
         io.on('connection', function (socket) {
             _this.doLog('connection');
-            socket.on('kathleen_board', function () {
-                _this.doLog('kathleen board connected');
+            socket.on('kathleen_board_app', function () {
+                if (!socket.appId) {
+                    socket.appId = uuidv4();
+                    _this.appSockets.push(socket);
+                }
+                socket.emit('kathleen_board_ip', _this.kathleenBoard && _this.kathleenBoard.boardIp);
+            });
+            socket.on('kathleen_board', function (ip) {
+                _this.doLog('kathleen board connected ip is');
+                _this.doLog(ip);
                 _this.kathleenBoard = socket;
                 _this.kathleenBoard.kathleenBoard = true;
+                _this.kathleenBoard.boardIp = ip.ip;
             });
             socket.on('bigred', function () {
                 _this.doLog('big red connected');

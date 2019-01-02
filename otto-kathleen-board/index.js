@@ -69,6 +69,9 @@ let cloudSocket;
 cloudSocket = socketIoClient(SOCKET_ADDRESS);
 cloudSocket.on('connect', () => {
     console.log('connection');
+    cloudSocket.on('giveIp', function() {
+       cloudSocket.emit('kathleen_board_ip', ipAddress);
+    });
     cloudSocket.emit('kathleen_board', {
         ip: ipAddress
     });
