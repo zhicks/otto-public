@@ -54,7 +54,7 @@ function writeText(str) {
     	//console.log('error', error);
 	    //console.log('stdout', stdout);
 	    //console.log('stderr', stderr);
-    });buildLedMatrixOptions
+    });
 }
 
 function displayTime() {
