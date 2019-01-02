@@ -51,7 +51,9 @@ var SocketControl = /** @class */ (function () {
         io.on('connection', function (socket) {
             _this.doLog('connection');
             socket.on('kathleen_board', function () {
-                console.log('kathleen board connected');
+                _this.doLog('kathleen board connected');
+                _this.kathleenBoard = socket;
+                _this.kathleenBoard.kathleenBoard = true;
             });
             socket.on('bigred', function () {
                 _this.doLog('big red connected');
@@ -221,6 +223,11 @@ var SocketControl = /** @class */ (function () {
                 }
                 socket.emit('log_dump', logDump);
             });
+            socket.on('app_sendBoardMessage', function (obj) {
+                _this.doLog('message received');
+                console.log(obj);
+                _this.kathleenBoard && _this.kathleenBoard.emit('message', obj);
+            });
             socket.on('sat_log', function (log) {
                 _this.loggers[log.id] = _this.loggers[log.id] || new OttoLogger(log.id, constants_1.OttoItemType.Satellite, false);
                 var messageObj = _this.loggers[log.id].log(log.msg);
@@ -285,6 +292,10 @@ var SocketControl = /** @class */ (function () {
                 if (socket.bigRed) {
                     _this.bigRed = null;
                     _this.doLog('big red disconnect');
+                }
+                if (socket.kathleenBoard) {
+                    _this.kathleenBoard = null;
+                    _this.doLog('kathleen board disconnect');
                 }
                 if (socket.satellite) {
                     _this.doLog('socket is satellite' + socket.satelliteId);
