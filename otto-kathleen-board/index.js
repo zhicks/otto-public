@@ -1,5 +1,4 @@
-// make it broadcast IP
-// get it to pull this code down and augment as we go
+// make it go to clock after some time
 // make it run at startup
 // should probably backup the actual C++ soon
 // get it on blackbox

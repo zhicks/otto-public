@@ -56,13 +56,20 @@ var SocketControl = /** @class */ (function () {
                     _this.appSockets.push(socket);
                 }
                 socket.emit('kathleen_board_ip', _this.kathleenBoard && _this.kathleenBoard.boardIp);
+                if (_this.kathleenBoard) {
+                    console.log('emitting give ip');
+                    _this.kathleenBoard.emit('giveIp');
+                }
             });
-            socket.on('kathleen_board', function (ip) {
-                _this.doLog('kathleen board connected ip is');
-                _this.doLog(ip);
+            socket.on('kathleen_board', function () {
+                _this.doLog('kathleen board connected');
                 _this.kathleenBoard = socket;
                 _this.kathleenBoard.kathleenBoard = true;
-                _this.kathleenBoard.boardIp = ip.ip;
+            });
+            socket.on('kathleen_board_ip', function (ip) {
+                console.log('got ip i think');
+                _this.doLog(ip);
+                _this.kathleenBoard.boardIp = ip;
             });
             socket.on('bigred', function () {
                 _this.doLog('big red connected');

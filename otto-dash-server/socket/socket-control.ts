@@ -70,6 +70,7 @@ class SocketControl {
                 }
                 socket.emit('kathleen_board_ip', this.kathleenBoard && this.kathleenBoard.boardIp);
                 if (this.kathleenBoard) {
+                    console.log('emitting give ip');
                     this.kathleenBoard.emit('giveIp');
                 }
             });
@@ -79,6 +80,7 @@ class SocketControl {
                this.kathleenBoard.kathleenBoard = true;
             });
             socket.on('kathleen_board_ip', (ip: string) => {
+                console.log('got ip i think');
                 this.doLog(ip);
                 this.kathleenBoard.boardIp = ip;
             });

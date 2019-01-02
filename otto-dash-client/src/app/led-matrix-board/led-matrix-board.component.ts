@@ -41,6 +41,7 @@ export class LEDMatrixBoardComponent {
   previousTextAreaContent = '';
   saved: SavedData[] = [];
   socket: any;
+  boardIp = 'refresh for ip';
 
   constructor(
     private apiService: ApiService
@@ -50,6 +51,7 @@ export class LEDMatrixBoardComponent {
     this.socket = this.apiService.socket;
     this.socket.on('kathleen_board_ip', (ip: string) => {
       console.log('ip is', ip);
+      this.boardIp = ip;
     });
     this.socket.emit('kathleen_board_app');
     let saved = localStorage.getItem(LOCAL_STORAGE_KEY);
