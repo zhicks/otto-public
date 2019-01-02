@@ -4,7 +4,7 @@
     <div class="color-picker">
 
       <div id="slider-horiz" style="height: 200px; width: 16px;"></div><br />
-      <a href="#colored_sketch" id="box" data-color="" style="border: 1px solid black; width: 30px; height: 30px; background: #000; display: inline-block;"></a>
+      <a href="#colored_sketch" id="box" data-color="" style="border: 1px solid black; width: 30px; height: 30px; background: #FFF; display: inline-block;"></a>
 
     </div>
   </div>
@@ -13,14 +13,24 @@
 
     <div *ngIf="activeTab === 'write'">
       <div class="preview-area">
-        Preview
+        <div *ngFor="let row of friendlyTextAreaWithData">
+          <div style="display: inline-block" *ngFor="let val of row" [style.color]="'rgb(' + val.color[0] + ',' + val.color[1] + ',' + val.color[2] + ')'" [style.margin-right]="val.character === ' ' ? '0.5rem' : 0">
+            {{val.character}}
+          </div>
+        </div>
       </div>
       <div class="text-area-wrapper">
         <textarea name="" id="" cols="30" rows="4" [(ngModel)]="textAreaContent" (ngModelChange)="textAreaChanged($event)"></textarea>
       </div>
+      <div class="buttons-wrapper">
+        <button (click)="sendClicked()">Send</button>
+        <button (click)="saveClicked()">Save</button>
+      </div>
     </div>
     <div *ngIf="activeTab === 'saved'">
-      Saved
+      <div *ngFor="let data of saved" (click)="applySave(data)">
+        <div>{{data.date | date:'long'}}</div>
+      </div>
     </div>
 
   </div>

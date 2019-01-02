@@ -3,7 +3,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 declare const require;
 
 let volume = 50;
-const ACTIVE = false;
+const ACTIVE = true;
 const fs = require('fs');
 const TOKEN_WRITE_PATH = './spotify-refresh-token.txt';
 
@@ -29,7 +29,7 @@ class OttoSpotifyController {
 
         // For setup:
         // this.oneTimeGetAuthCode();
-        // this.oneTimeTokenRetrieval
+        // this.oneTimeTokenRetrieval();
     }
 
     nextSong() {
@@ -42,7 +42,7 @@ class OttoSpotifyController {
 
     volumeUp() {
         if (ACTIVE) {
-            volume += 7;
+            volume += 16;
             volume = Math.min(volume, 100);
             this.spotifyApi.setVolume(volume, null, (res) => {
                 console.log('upped volume', res);
@@ -52,7 +52,7 @@ class OttoSpotifyController {
 
     volumeDown() {
         if (ACTIVE) {
-            volume -= 5;
+            volume -= 12;
             volume = Math.max(volume, 30);
             this.spotifyApi.setVolume(volume, null, (res) => {
                 console.log('down volume', res);
@@ -80,11 +80,11 @@ class OttoSpotifyController {
     private refreshAccessToken() {
         console.log('refreshing spotify token');
         this.spotifyApi.refreshAccessToken().then(
-            function(data) {
+            (data) => {
                 console.log('The access token has been refreshed!');
                 this.spotifyApi.setAccessToken(data.body['access_token']);
             },
-            function(err) {
+            (err) => {
                 console.log('Could not refresh access token', err);
             }
         );
@@ -107,9 +107,9 @@ class OttoSpotifyController {
     }
 
     private oneTimeTokenRetrieval() {
-        const code = '';
+        const code = 'AQDI1UjxH4r7iOQUWuF4L7tDgdhCfNjxUS7SaSRC608qNB4RHl87fs2j6WyL-Ffk7pkbWF9y9WPQL47k90_MDtZvVVUl-zaQeHxVLx19jEPuwFUblDi71du5E6rujzkbkP6skKRVyha-fUu6RWclOMmDFa3lq9dSqfiplVCiKU93q8-8TgFenF1MDx2S9IDmiFHvXfGF19xnVhDdiUl0uGGzU4C1NLU1rraKut0lXIrTc1JdnI1lqkJ9LFhCLoi3-SSvtFTlwI7RSGx3FjaWiRKBelK9HkU';
         this.spotifyApi.authorizationCodeGrant(code).then(
-            function(data) {
+            (data) => {
                 console.log('Spotify: The token expires in ' + data.body['expires_in']);
                 console.log('Spotify: The access token is ' + data.body['access_token']);
                 console.log('Spotify: The refresh token is ' + data.body['refresh_token']);
@@ -120,7 +120,7 @@ class OttoSpotifyController {
 
                 this.writeToken(data.body['refresh_token']);
             },
-            function(err) {
+            (err) => {
                 console.log('Something went wrong!', err);
             }
         );

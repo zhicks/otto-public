@@ -5,8 +5,12 @@ const Canvas = require('canvas-prebuilt');
 const fs = require('fs');
 const Image = Canvas.Image;
 
+let huejay = require('huejay');
+
 declare const require;
 declare const Buffer;
+
+const TEMP_IS_LIGHTS_INSTEAD_OF_SPOTIFY = false;
 
 // ------------------------------------------------------------------- Interfaces
 
@@ -122,30 +126,30 @@ const gestures: OttoGesture[] = [
             }
         }
     },
-    {
-        name: 'Change color',
-        type: 'one time',
-        color: 'yellow',
-        rules: {
-            rightShoulder: {
-                part: 'rightShoulder',
-                partRelativeTo: 'rightElbow',
-                angle: {
-                    degreeFrom: 0,
-                    degreeTo: 20
-                }
-            },
-            leftElbow: {
-                part: 'rightElbow',
-                partRelativeTo: 'rightWrist',
-                angle: {
-                    quandrants: [ [-1, 1] ],
-                    degreeFrom: 0,
-                    degreeTo: 36
-                }
-            }
-        }
-    },
+    // {
+    //     name: 'Change color',
+    //     type: 'one time',
+    //     color: 'yellow',
+    //     rules: {
+    //         rightShoulder: {
+    //             part: 'rightShoulder',
+    //             partRelativeTo: 'rightElbow',
+    //             angle: {
+    //                 degreeFrom: 0,
+    //                 degreeTo: 20
+    //             }
+    //         },
+    //         leftElbow: {
+    //             part: 'rightElbow',
+    //             partRelativeTo: 'rightWrist',
+    //             angle: {
+    //                 quandrants: [ [-1, 1] ],
+    //                 degreeFrom: 0,
+    //                 degreeTo: 36
+    //             }
+    //         }
+    //     }
+    // },
     {
         name: 'Play pause',
         type: 'one time',
@@ -183,19 +187,19 @@ const gestures: OttoGesture[] = [
             }
         }
     },
-    {
-        name: 'lights level',
-        type: 'scale',
-        color: 'purple',
-        rules: {
-            rightElbow: {
-                part: 'leftElbow'
-            },
-            rightWrist: {
-                part: 'leftWrist'
-            }
-        }
-    }
+    // {
+    //     name: 'lights level',
+    //     type: 'scale',
+    //     color: 'purple',
+    //     rules: {
+    //         rightElbow: {
+    //             part: 'leftElbow'
+    //         },
+    //         rightWrist: {
+    //             part: 'leftWrist'
+    //         }
+    //     }
+    // }
 ];
 
 // ------------------------------------------------------------------- Class
@@ -397,19 +401,21 @@ class OttoGestureAnalysis {
             ottoSpotifyController.pausePlay();
         } else if (gesture.name === 'Change color') {
             tempLightStuff.changeColor();
-        } else if (gesture.name === 'volume') {
-            if (tempDirection === 'up') {
-                ottoSpotifyController.volumeUp();
-            } else {
-                ottoSpotifyController.volumeDown();
-            }
-        } else if (gesture.name === 'lights level') {
-            if (tempDirection === 'up') {
-                tempLightStuff.changeLevelUp();
-            } else {
-                tempLightStuff.changeLevelDown();
-            }
         }
+        // else if (gesture.name === 'volume') {
+        //     if (tempDirection === 'up') {
+        //         ottoSpotifyController.volumeUp();
+        //     } else {
+        //         ottoSpotifyController.volumeDown();
+        //     }
+        // }
+        // else if (gesture.name === 'lights level') {
+        //     if (tempDirection === 'up') {
+        //         tempLightStuff.changeLevelUp();
+        //     } else {
+        //         tempLightStuff.changeLevelDown();
+        //     }
+        // }
     }
 
     private doSomeTimer() {
@@ -554,7 +560,11 @@ class OttoGestureAnalysis {
                         this.gestureState.scaleGestureActionDebounce = false;
                     }, this.variableState.scaleGestureActionDebounceTime);
                     this.gestureState.scaleGestureActionDebounce = true;
-                    this.doGestureAction(gesture, 'up');
+                    if (TEMP_IS_LIGHTS_INSTEAD_OF_SPOTIFY) {
+                        tempLightStuff.changeLevelUp();
+                    } else {
+                        ottoSpotifyController.volumeUp();
+                    }
                 }
             }
             if (elbowDown && wristDown) {
@@ -564,7 +574,11 @@ class OttoGestureAnalysis {
                         this.gestureState.scaleGestureActionDebounce = false;
                     }, this.variableState.scaleGestureActionDebounceTime);
                     this.gestureState.scaleGestureActionDebounce = true;
-                    this.doGestureAction(gesture, 'down');
+                    if (TEMP_IS_LIGHTS_INSTEAD_OF_SPOTIFY) {
+                        tempLightStuff.changeLevelDown();
+                    } else {
+                        ottoSpotifyController.volumeDown();
+                    }
                 }
             }
         }
@@ -708,33 +722,85 @@ class TempLightStuff {
 
     colors = [
         'white',
-        'red and so on'
+        'green',
+        'blue',
+        'red'
     ]
     currentColor = '';
     currentLevel = 50;
+    hubClient: any;
 
     init() {
         this.currentColor = this.colors[0];
+        this.hubClient = new huejay.Client({
+            host:     '192.168.1.100',
+            port:     80,               // Optional
+            username: '8HeFfV3mq5GswiNZ1ZUcKhi9Nd9Y-Xg33xnoxobW', // Optional
+            timeout:  15000,            // Optional, timeout in milliseconds (15000 is the default)
+        });
     }
 
     changeColor() {
-        let index = this.colors.findIndex(c => this.currentColor === c);
-        if (index > this.colors.length) {
-            index = 0;
-        }
-        this.currentColor = this.colors[index];
+        // let index = this.colors.findIndex(c => this.currentColor === c);
+        // if (index > this.colors.length) {
+        //     index = 0;
+        // }
+        // this.currentColor = this.colors[index];
+        // let hue = 0, saturation = 0;
+        // switch (this.currentColor) {
+        //     case 'white':
+        //         hue = 0, saturation = 0;
+        //         break;
+        //     case 'red':
+        //         break;
+        //     case 'green':
+        //         break;
+        //     case 'blue':
+        //         break;
+        // }
+        // this.setLightsColor()
     }
 
     changeLevelUp() {
-        this.currentLevel += 7;
+        this.currentLevel += 16;
         this.currentLevel = Math.min(this.currentLevel, 100);
-
+        this.setLightsBrightness(this.currentLevel/100);
     }
 
     changeLevelDown() {
-        this.currentLevel -= 7;
+        this.currentLevel -= 16;
         this.currentLevel = Math.max(this.currentLevel, 30);
+        this.setLightsBrightness(this.currentLevel/100);
+    }
 
+    private setLightsColor = (brightness: number) => {
+        this.hubClient.lights.getAll().then(lights => {
+            for (let light of lights) {
+                console.log('brightness change: ', brightness);
+                light.brightness = Math.round(254 * brightness);
+                console.log('light brightnes is ', light.brightness);
+                this.hubClient.lights.save(light);
+            }
+        })
+            .catch(error => {
+                console.log('hue jay error setLightsBrightness');
+                console.log(error);
+            });
+    }
+
+    private setLightsBrightness = (brightness: number) => {
+        this.hubClient.lights.getAll().then(lights => {
+            for (let light of lights) {
+                console.log('brightness change: ', brightness);
+                light.brightness = Math.round(254 * brightness);
+                console.log('light brightnes is ', light.brightness);
+                this.hubClient.lights.save(light);
+            }
+        })
+            .catch(error => {
+                console.log('hue jay error setLightsBrightness');
+                console.log(error);
+            });
     }
 
 }

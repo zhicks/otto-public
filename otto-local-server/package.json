@@ -19,6 +19,7 @@
     "body-parser": "^1.18.3",
     "canvas-prebuilt": "^1.6.11",
     "express": "^4.16.3",
+    "huejay": "^1.8.5",
     "livecam": "^0.2.0",
     "socket.io": "^2.1.1",
     "spotify-web-api-node": "^4.0.0",
