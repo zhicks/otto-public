@@ -19,7 +19,11 @@ cloudSocket = socketIoClient(SOCKET_ADDRESS);
 cloudSocket.on('connect', () => {
     console.log('connection');
     cloudSocket.emit('kathleen_board', {
-        id: 'bigred'
+        id: 'kathleen_board'
+    });
+    cloudSocket.on('message', function(message) {
+       console.log('message received');
+       console.log(message);
     });
 });
 

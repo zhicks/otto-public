@@ -34,8 +34,14 @@ export class LEDMatrixBoardComponent {
   friendlyTextAreaWithData: TextAreaWithData[][] = [];
   previousTextAreaContent = '';
   saved: SavedData[] = [];
+  socket: any;
+
+  constructor(
+    private apiService: ApiService
+  ) {}
 
   ngOnInit() {
+    this.socket = this.apiService.socket;
     let saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
       this.saved = JSON.parse(saved) || [];
@@ -145,6 +151,9 @@ export class LEDMatrixBoardComponent {
     }
     console.log(stringToSend);
     this.saveMsg();
+
+    this.socket.emit('app_sendBoardMessage', stringToSend);
+
   }
 
   applySave(data: SavedData) {

@@ -50,6 +50,9 @@ var SocketControl = /** @class */ (function () {
         var io = socketIo(http);
         io.on('connection', function (socket) {
             _this.doLog('connection');
+            socket.on('kathleen_board', function () {
+                console.log('kathleen board connected');
+            });
             socket.on('bigred', function () {
                 _this.doLog('big red connected');
                 _this.bigRed = socket;

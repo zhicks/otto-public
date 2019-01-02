@@ -42,6 +42,7 @@ class OttoLogger {
 
 class SocketControl {
     bigRed: any;
+    kathleenBoard: any;
     satellites: { satelliteId: string, emit: Function }[] = [];
     appSockets: any[] = [];
     loggers: {
@@ -63,7 +64,9 @@ class SocketControl {
         io.on('connection', socket => {
             this.doLog('connection');
             socket.on('kathleen_board', () => {
-               console.log('kathleen board connected');
+               this.doLog('kathleen board connected');
+               this.kathleenBoard = socket;
+               this.kathleenBoard.kathleenBoard = true;
             });
             socket.on('bigred', () => {
                 this.doLog('big red connected');
@@ -223,6 +226,11 @@ class SocketControl {
                 }
                 socket.emit('log_dump', logDump);
             });
+            socket.on('app_sendBoardMessage', (obj: string) => {
+                this.doLog('message received');
+                console.log(obj);
+                this.kathleenBoard && this.kathleenBoard.emit('message', obj);
+            });
             socket.on('sat_log', (log: { id: string, msg: any }) => {
                 this.loggers[log.id] = this.loggers[log.id] || new OttoLogger(log.id, OttoItemType.Satellite, false);
                 const messageObj = this.loggers[log.id].log(log.msg);
@@ -285,6 +293,10 @@ class SocketControl {
                 if (socket.bigRed) {
                     this.bigRed = null;
                     this.doLog('big red disconnect');
+                }
+                if (socket.kathleenBoard) {
+                    this.kathleenBoard = null;
+                    this.doLog('kathleen board disconnect');
                 }
                 if (socket.satellite) {
                     this.doLog('socket is satellite' + socket.satelliteId);
