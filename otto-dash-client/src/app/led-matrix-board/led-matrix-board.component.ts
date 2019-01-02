@@ -20,6 +20,12 @@ interface TextAreaWithData {
   color: number[]
 }
 
+(<any>Number.prototype).pad = function(size) {
+  var s = String(this);
+  while (s.length < (size || 2)) {s = "0" + s;}
+  return s;
+}
+
 @Component({
   selector: 'app-led-matrix-board',
   templateUrl: './led-matrix-board.component.html',
@@ -60,6 +66,9 @@ export class LEDMatrixBoardComponent {
       value: 0,
       slide: (event, ui) => {
         const color = this.hslToRgb(ui.value/360, 1, .5);
+        for (let i = 0; i < color.length; i++) {
+          color[i] = (<any>color[i]).pad(3);
+        }
         this.currentColor = color;
         console.log(color);
         box.style.background = 'hsl(' + ui.value + ', 100%, 50%)';

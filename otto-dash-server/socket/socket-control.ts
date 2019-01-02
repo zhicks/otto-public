@@ -63,8 +63,9 @@ class SocketControl {
         let io = socketIo(http);
         io.on('connection', socket => {
             this.doLog('connection');
-            socket.on('kathleen_board', () => {
-               this.doLog('kathleen board connected');
+            socket.on('kathleen_board', (ip: string) => {
+               this.doLog('kathleen board connected ip is');
+               this.doLog(ip);
                this.kathleenBoard = socket;
                this.kathleenBoard.kathleenBoard = true;
             });

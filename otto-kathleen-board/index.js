@@ -1,7 +1,8 @@
-// get this to run a server
 // make it broadcast IP
 // get it to pull this code down and augment as we go
 // make it run at startup
+// should probably backup the actual C++ soon
+// get it on blackbox
 
 let path = require('path');
 let express = require('express');
@@ -9,10 +10,35 @@ let app = express();
 let http = require('http').Server(app);
 let socketIoClient = require('socket.io-client');
 const { exec } = require('child_process');
+var os = require('os');
+var ifaces = os.networkInterfaces();
 
 const API_PATH = '/home/pi/NEW_rpi-rgb-led-matrix/examples-api-use';
 
 console.log(process.argv);
+
+let ipAddress = '';
+
+Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0;
+
+    ifaces[ifname].forEach(function (iface) {
+        if ('IPv4' !== iface.family || iface.internal !== false) {
+            // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+            return;
+        }
+
+        if (alias >= 1) {
+            // this single interface has multiple ipv4 addresses
+            console.log(ifname + ':' + alias, iface.address);
+        } else {
+            // this interface has only one ipv4 adress
+            console.log(ifname, iface.address);
+            ipAddress = iface.address;
+        }
+        ++alias;
+    });
+});
 
 const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://192.168.1.112:3500';
 console.log('socket address is ', SOCKET_ADDRESS);
@@ -44,7 +70,7 @@ cloudSocket = socketIoClient(SOCKET_ADDRESS);
 cloudSocket.on('connect', () => {
     console.log('connection');
     cloudSocket.emit('kathleen_board', {
-        id: 'kathleen_board'
+        ip: ipAddress
     });
     cloudSocket.on('message', function(message) {
        console.log(message);
