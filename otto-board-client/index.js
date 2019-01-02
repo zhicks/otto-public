@@ -18,9 +18,9 @@ let cloudSocket;
 cloudSocket = socketIoClient(SOCKET_ADDRESS);
 cloudSocket.on('connect', () => {
     console.log('connection');
-    // cloudSocket.emit('bigred', {
-    //     id: 'bigred'
-    // });
+    cloudSocket.emit('kathleen_board', {
+        id: 'bigred'
+    });
 });
 
 app.set('view engine', 'html');
