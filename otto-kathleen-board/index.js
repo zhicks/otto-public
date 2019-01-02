@@ -13,6 +13,8 @@ var os = require('os');
 var ifaces = os.networkInterfaces();
 
 const API_PATH = '/home/pi/NEW_rpi-rgb-led-matrix/examples-api-use';
+const NUM_ROWS = 16;
+const BRIGHTNESS = 50;
 
 console.log(process.argv);
 
@@ -47,12 +49,21 @@ function writeText(str) {
     // remember if you change the C++, cd into that directory and HARDWARE=adafruit-hat make
     // const args = [`echo "" | ${API_PATH}/text-example`, text, filename, ledRows];
     // return spawnSync('python', args);
-    const command = `echo "${str}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/4x6.bdf --led-rows=16 -b 50`;
+    const command = `echo "${str}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/4x6.bdf --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
     exec(command, function(error, stdout, stderr) {
     	//console.log('error', error);
 	    //console.log('stdout', stdout);
 	    //console.log('stderr', stderr);
-    });
+    });buildLedMatrixOptions
+}
+
+function displayTime() {
+    killProcess('clock');
+    killProcess(`text-example`);
+    const cmdDisplayClock = `${API_PATH}/clock -f ${API_PATH}/../fonts/8x13.bdf -d "%I:%M %p" -y 8 --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
+    const child = exec(cmdDisplayClock);
+    child.stdout.pipe(process.stdout);
+    child.stderr.pipe(process.stderr);
 }
 
 function killProcess(grepPattern) {
@@ -76,9 +87,13 @@ cloudSocket.on('connect', () => {
     });
     cloudSocket.on('message', function(message) {
        console.log(message);
+       killProcess('clock');
 	    killProcess(`text-example`);
-	writeText(message);
+	    writeText(message);
 
+	    setTimeout(function() {
+	        displayTime();
+        }, 3000);
 
     });
 });
