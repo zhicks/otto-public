@@ -12,12 +12,18 @@ const LOCAL_STORAGE_KEY = 'SAVED_BOARD_MSG';
 
 interface SavedData {
   date: number,
-  data: TextAreaWithData[]
+  data: CharWithData[]
 }
 
-interface TextAreaWithData {
+interface CharWithData {
   character: string,
-  color: number[]
+  color: number[] | string[]
+}
+
+interface FriendlySavedData {
+  f: CharWithData[][], // friendly
+  d: number, // date
+  s: CharWithData[] // textarea
 }
 
 (<any>Number.prototype).pad = function(size) {
@@ -34,14 +40,19 @@ interface TextAreaWithData {
 export class LEDMatrixBoardComponent {
 
   activeTab = 'write';
-  currentColor = [255, 255, 255];
+  currentColor = ['255', '255', '255'];
   textAreaContent = '';
-  textAreaWithData: TextAreaWithData[] = [];
-  friendlyTextAreaWithData: TextAreaWithData[][] = [];
+  charsWithData: CharWithData[] = [];
+  // vv Just used for preview
+  friendlyTextAreaWithData: CharWithData[][] = [];
+  // vv Just used to display on saved screen
+  friendlySavedDatas: FriendlySavedData[] = [];
   previousTextAreaContent = '';
   saved: SavedData[] = [];
   socket: any;
   boardIp = 'refresh for ip';
+  touchingSlider = false;
+  showColor = false;
 
   constructor(
     private apiService: ApiService
@@ -71,19 +82,49 @@ export class LEDMatrixBoardComponent {
       max: 360,
       value: 0,
       slide: (event, ui) => {
-        const color = this.hslToRgb(ui.value/360, 1, .5);
-        for (let i = 0; i < color.length; i++) {
-          color[i] = (<any>color[i]).pad(3);
+        let value = ui.value;
+        if (value < 3) {
+          // We'll just change this to white
+          const color = ['255', '255', '255'];
+          this.currentColor = color;
+          box.style.background = 'white';
+        } else {
+          const color = <any>this.hslToRgb(value/360, 1, .5);
+          for (let i = 0; i < color.length; i++) {
+            color[i] = (<any>color[i]).pad(3);
+          }
+          this.currentColor = color;
+          box.style.background = 'hsl(' + value + ', 100%, 50%)';
         }
-        this.currentColor = color;
-        console.log(color);
-        box.style.background = 'hsl(' + ui.value + ', 100%, 50%)';
+      },
+      start: () => {
+        this.touchingSlider = true;
+      },
+      stop: () => {
+        this.touchingSlider = false;
+        $('textarea').focus();
       }
     });
   }
 
   changeActiveTab(tab: string) {
+    if (tab === 'saved') {
+      this.friendlySavedDatas = [];
+      for (let saved of this.saved) {
+        let charDataArray = saved.data;
+        let friendly = this.updatePreview(charDataArray);
+        this.friendlySavedDatas.push({
+          f: friendly,
+          d: saved.date,
+          s: charDataArray
+        });
+      }
+    }
     this.activeTab = tab;
+  }
+
+  displayClockPressed() {
+    this.socket.emit('kathleen_board_app_displayClock');
   }
 
   textAreaChanged(event) {
@@ -133,13 +174,13 @@ export class LEDMatrixBoardComponent {
       let c = changeContentsWithIndexes[i];
       // here we know to either add or remove at that index
       if (c.isRemoval) {
-        this.textAreaWithData.splice(c.index, c.count);
+        this.charsWithData.splice(c.index, c.count);
       } else {
         for (let val of c.value) {
           // if (val === '\n') {
           //   console.log('its enter');
           // }
-          this.textAreaWithData.splice(c.index, 0, {
+          this.charsWithData.splice(c.index, 0, {
             character: val,
             color: this.currentColor
           });
@@ -148,10 +189,11 @@ export class LEDMatrixBoardComponent {
     }
 
     // console.log(this.textAreaWithData);
-    this.updatePreview();
+    this.friendlyTextAreaWithData = this.updatePreview(this.charsWithData);
   }
 
   sendClicked() {
+    this.showColor = false;
     console.log(this.friendlyTextAreaWithData);
     let stringToSend = '';
     for (let i = 0; i < this.friendlyTextAreaWithData.length; i++) {
@@ -171,13 +213,27 @@ export class LEDMatrixBoardComponent {
 
   }
 
-  applySave(data: SavedData) {
-    this.textAreaWithData = data.data;
-    this.updatePreview();
+  applySave(data: FriendlySavedData) {
+    // let c: CharWithData[] = [];
+    // let i = 0;
+    // for (let x of data) {
+    //   if (i !== 0) {
+    //     c.push({
+    //       character: '\n',
+    //       color: ['255', '255', '255']
+    //     });
+    //   }
+    //   c.push(...x);
+    //   i++;
+    // }
+    this.charsWithData = data.s;
+    this.textAreaContent = this.previousTextAreaContent = data.s.map(q => q.character).join('');
+    this.friendlyTextAreaWithData = data.f;
     this.activeTab = 'write';
   }
 
   saveClicked() {
+    this.showColor = false;
     this.saveMsg();
   }
 
@@ -189,7 +245,7 @@ export class LEDMatrixBoardComponent {
     }
     saved.push({
       date: new Date().getTime(),
-      data: this.textAreaWithData
+      data: this.charsWithData
     });
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(saved));
     this.saved = saved;
@@ -205,17 +261,18 @@ export class LEDMatrixBoardComponent {
     })
   }
 
-  updatePreview() {
-    this.friendlyTextAreaWithData = [ [] ];
+  updatePreview(charsWithData: CharWithData[]) {
+    let friendly: CharWithData[][] = [ [] ];
     let index = 0;
-    for (let charInfo of this.textAreaWithData) {
+    for (let charInfo of charsWithData) {
       if (charInfo.character === '\n') {
         index++;
-        this.friendlyTextAreaWithData.push([]);
+        friendly.push([]);
       } else {
-        this.friendlyTextAreaWithData[index].push(charInfo);
+        friendly[index].push(charInfo);
       }
     }
+    return friendly;
   }
 
   hslToRgb(h, s, l){

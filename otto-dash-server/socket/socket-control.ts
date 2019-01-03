@@ -79,6 +79,11 @@ class SocketControl {
                this.kathleenBoard = socket;
                this.kathleenBoard.kathleenBoard = true;
             });
+            socket.on('kathleen_board_app_displayClock', () => {
+                if (this.kathleenBoard) {
+                    this.kathleenBoard.emit('displayClock');
+                }
+            });
             socket.on('kathleen_board_ip', (ip: string) => {
                 console.log('got ip i think');
                 this.doLog(ip);

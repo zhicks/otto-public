@@ -1,8 +1,6 @@
 // make it run at startup
 // should probably backup the actual C++ soon
 // get it on blackbox
-// pretty it up
-// the saved screen should display the text
 // font size
 
 let path = require('path');

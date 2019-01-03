@@ -1,20 +1,25 @@
 <div class="master-board-page-wrapper">
 
-  <div class="color-picker-wrapper" [hidden]="activeTab !== 'write'">
+  <div class="header">
+    <span [hidden]="activeTab !== 'write'">Write to Board</span>
+    <span [hidden]="activeTab !== 'saved'">Saved Messages</span>
+    <span class="ip-detail">{{boardIp || '000.000.000.000'}}</span>
+  </div>
+
+  <div class="color-picker-wrapper" [hidden]="activeTab !== 'write'" [style.opacity]="showColor ? 1 : 0">
     <div class="color-picker">
 
       <div id="slider-horiz" style="height: 200px; width: 16px;"></div><br />
-      <a href="#colored_sketch" id="box" data-color="" style="border: 1px solid black; width: 30px; height: 30px; background: #FFF; display: inline-block;"></a>
+      <a href="#colored_sketch" id="box" data-color="" [hidden]="!touchingSlider"></a>
 
     </div>
   </div>
 
   <div class="middle-bit">
 
-    <div>ip: {{boardIp}}</div>
-
-    <div *ngIf="activeTab === 'write'">
+    <div *ngIf="activeTab === 'write'" class="writer-wrapper" [style.width]="showColor ? '94%' : '100%'">
       <div class="preview-area">
+        <div class="preview-area-placeholder" *ngIf="!textAreaContent">Preview Area</div>
         <div *ngFor="let row of friendlyTextAreaWithData">
           <div style="display: inline-block" *ngFor="let val of row" [style.color]="'rgb(' + val.color[0] + ',' + val.color[1] + ',' + val.color[2] + ')'" [style.margin-right]="val.character === ' ' ? '0.5rem' : 0">
             {{val.character}}
@@ -22,22 +27,29 @@
         </div>
       </div>
       <div class="text-area-wrapper">
-        <textarea name="" id="" cols="30" rows="4" [(ngModel)]="textAreaContent" (ngModelChange)="textAreaChanged($event)"></textarea>
+        <textarea name="" (focus)="showColor = true" cols="30" rows="3" [(ngModel)]="textAreaContent" (ngModelChange)="textAreaChanged($event)" placeholder="Type your message here"></textarea>
       </div>
       <div class="buttons-wrapper">
-        <button (click)="sendClicked()">Send</button>
-        <button (click)="saveClicked()">Save</button>
+        <button (click)="sendClicked()" class="btn btn-default btn-lg btn-primary send-button" [disabled]="!textAreaContent">Send</button>
+        <button (click)="saveClicked()" class="btn btn-default btn-lg save-button" [disabled]="!textAreaContent">Save</button>
       </div>
     </div>
-    <div *ngIf="activeTab === 'saved'">
-      <div *ngFor="let data of saved" (click)="applySave(data)">
-        <div>{{data.date | date:'long'}}</div>
+    <div *ngIf="activeTab === 'saved'" style="padding: 1rem;">
+      <div class="clock-button-wrapper">
+        <button class="btn btn-default" (click)="displayClockPressed()">Display clock</button>
+      </div>
+      <div *ngFor="let data of friendlySavedDatas" (click)="applySave(data)" class="preview-saved-row">
+        <div *ngFor="let row of data.f">
+          <div style="display: inline-block" *ngFor="let val of row" [style.color]="'rgb(' + val.color[0] + ',' + val.color[1] + ',' + val.color[2] + ')'" [style.margin-right]="val.character === ' ' ? '0.5rem' : 0">
+            {{val.character}}
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <div class="bottom-bit">
+  <div class="bottom-bit" [hidden]="showColor">
     <div class="tabs">
       <div class="tab" [class.active]="activeTab === 'write'" (click)="changeActiveTab('write')">
         Writer
