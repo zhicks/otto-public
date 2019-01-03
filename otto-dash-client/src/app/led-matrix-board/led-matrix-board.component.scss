@@ -1,41 +1,103 @@
 .tabs {
   display: flex;
+  height: 100%;
 }
 .tab {
   flex-grow: 1;
-  background: gray;
+  background: #6a7388;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.7rem;
 
   &.active {
-    background: green;
+    background: #b7bdce;
+    opacity: 1;
+    color: #0040fd;
+    font-weight: bold;
   }
 }
-//#slider-horiz:before
-//{
-//  content: "";
-//  position: absolute;
-//  width: 200%;
-//  height: 200%;
-//  top: -50%;
-//  left: -50%;
-//  z-index: -1;
-//  background: url("http://i.imgur.com/lHQxra5.png") 0 0 repeat;
-//
-//}
 .color-picker {
   position: absolute;
   right: 1rem;
+  z-index: 10000;
 }
 #slider-horiz {
   background:url("/dashboard/assets/colorslider2.png") 0 0 repeat;
 }
+.text-area-wrapper {
+  padding-top: 1rem;
+}
 textarea {
-  width: 85%;
+  //width: 85%;
+  width: 100%;
 }
 #box {
-  width:30px;
-  height:30px;
-  border:1px solid #000;
+  //width:30px;
+  //height:30px;
+  //border:1px solid #000;
+  width: 60px;
+  height: 60px;
+  background: rgb(0, 187, 255);
+  position: absolute;
+  top: 50px;
+  left: -100px;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.7);
+  border-radius: 17%;
 }
 .preview-area {
+  background: rgba(0, 0, 0, 0.8);
+  height: 10rem;
+  padding: 0.5rem;
+  font-family: monospace;
+  font-size: 1.6rem;
+  position: relative;
+}
+.preview-area-placeholder {
+  color: rgba(255,255,255,0.6);
+  position: absolute;
+  top: 37%;
+  left: 32%;
+}
+.preview-saved-row {
   background: rgba(0,0,0,0.8);
+  border-radius: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+.send-button {
+  width: 73%;
+}
+.writer-wrapper {
+  padding: 1rem;
+  transition: all 200ms;
+}
+.header {
+  font-size: 1.6rem;
+  padding: 1rem;
+  background: #6a7388;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: white;
+}
+.middle-bit {
+  margin-top: 4rem;
+}
+.ip-detail {
+  font-size: 0.8rem;
+  float: right;
+}
+.bottom-bit {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6rem;
 }
