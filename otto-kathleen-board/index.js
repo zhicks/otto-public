@@ -43,7 +43,8 @@ Object.keys(ifaces).forEach(function (ifname) {
     });
 });
 
-const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://192.168.1.112:3500';
+// const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://192.168.1.112:3500';
+const SOCKET_ADDRESS = 'http://blackboxjs.com:3500';
 console.log('socket address is ', SOCKET_ADDRESS);
 
 
