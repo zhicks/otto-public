@@ -60,7 +60,7 @@ function writeText(str) {
 function displayTime() {
     killProcess('clock');
     killProcess(`text-example`);
-    const cmdDisplayClock = `${API_PATH}/clock -f ${API_PATH}/../fonts/8x13.bdf -d "%I:%M %p" -y 8 --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
+    const cmdDisplayClock = `${API_PATH}/clock -f ${API_PATH}/../fonts/5x8.bdf -d "%I:%M" -y 3 -x 3 --led-rows=${NUM_ROWS} -b ${BRIGHTNESS} -C 255,255,255`;
     const child = exec(cmdDisplayClock);
     child.stdout.pipe(process.stdout);
     child.stderr.pipe(process.stderr);
@@ -104,5 +104,5 @@ http.listen(app.get('port'), () => {
     console.log('listening on ' + app.get('port'));
 });
 console.log('server started');
-
+displayTime();
 
