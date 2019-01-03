@@ -1,7 +1,9 @@
-// make it go to clock after some time
 // make it run at startup
 // should probably backup the actual C++ soon
 // get it on blackbox
+// pretty it up
+// the saved screen should display the text
+// font size
 
 let path = require('path');
 let express = require('express');
@@ -15,6 +17,8 @@ var ifaces = os.networkInterfaces();
 const API_PATH = '/home/pi/NEW_rpi-rgb-led-matrix/examples-api-use';
 const NUM_ROWS = 16;
 const BRIGHTNESS = 50;
+const CLOCK_TIMEOUT_AMOUNT = 5 * 1000;
+let clockTimeout;
 
 console.log(process.argv);
 
@@ -91,9 +95,10 @@ cloudSocket.on('connect', () => {
 	    killProcess(`text-example`);
 	    writeText(message);
 
-	    setTimeout(function() {
+	    clearTimeout(clockTimeout);
+	    clockTimeout = setTimeout(function() {
 	        displayTime();
-        }, 3000);
+        }, CLOCK_TIMEOUT_AMOUNT);
 
     });
 });
