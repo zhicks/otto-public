@@ -66,6 +66,11 @@ var SocketControl = /** @class */ (function () {
                 _this.kathleenBoard = socket;
                 _this.kathleenBoard.kathleenBoard = true;
             });
+            socket.on('kathleen_board_app_displayClock', function () {
+                if (_this.kathleenBoard) {
+                    _this.kathleenBoard.emit('displayClock');
+                }
+            });
             socket.on('kathleen_board_ip', function (ip) {
                 console.log('got ip i think');
                 _this.doLog(ip);

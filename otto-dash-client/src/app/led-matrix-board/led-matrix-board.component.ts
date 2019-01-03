@@ -123,6 +123,10 @@ export class LEDMatrixBoardComponent {
     this.activeTab = tab;
   }
 
+  displayClockPressed() {
+    this.socket.emit('kathleen_board_app_displayClock');
+  }
+
   textAreaChanged(event) {
     // need to determine what's new - everything that is new gets that color
     // and need to determine what's missing
