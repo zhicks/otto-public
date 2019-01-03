@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="text-area-wrapper">
-        <textarea name="" (focus)="showColor = true" cols="30" rows="4" [(ngModel)]="textAreaContent" (ngModelChange)="textAreaChanged($event)" placeholder="Type your message here"></textarea>
+        <textarea name="" (focus)="showColor = true" cols="30" rows="3" [(ngModel)]="textAreaContent" (ngModelChange)="textAreaChanged($event)" placeholder="Type your message here"></textarea>
       </div>
       <div class="buttons-wrapper">
         <button (click)="sendClicked()" class="btn btn-default btn-lg btn-primary send-button" [disabled]="!textAreaContent">Send</button>
