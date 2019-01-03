@@ -1,9 +1,7 @@
 // make it run at startup
 // should probably backup the actual C++ soon
 // get it on blackbox
-// the saved screen should display the text
 // font size
-// keyboard goes down
 
 let path = require('path');
 let express = require('express');

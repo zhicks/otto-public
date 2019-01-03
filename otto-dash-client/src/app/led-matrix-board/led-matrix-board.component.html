@@ -36,7 +36,7 @@
     </div>
     <div *ngIf="activeTab === 'saved'" style="padding: 1rem;">
       <div *ngFor="let data of friendlySavedDatas" (click)="applySave(data)" class="preview-saved-row">
-        <div *ngFor="let row of data">
+        <div *ngFor="let row of data.f">
           <div style="display: inline-block" *ngFor="let val of row" [style.color]="'rgb(' + val.color[0] + ',' + val.color[1] + ',' + val.color[2] + ')'" [style.margin-right]="val.character === ' ' ? '0.5rem' : 0">
             {{val.character}}
           </div>
@@ -46,7 +46,7 @@
 
   </div>
 
-  <div class="bottom-bit">
+  <div class="bottom-bit" [hidden]="showColor">
     <div class="tabs">
       <div class="tab" [class.active]="activeTab === 'write'" (click)="changeActiveTab('write')">
         Writer

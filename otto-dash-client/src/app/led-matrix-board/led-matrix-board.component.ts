@@ -20,6 +20,12 @@ interface CharWithData {
   color: number[] | string[]
 }
 
+interface FriendlySavedData {
+  f: CharWithData[][], // friendly
+  d: number, // date
+  s: CharWithData[] // textarea
+}
+
 (<any>Number.prototype).pad = function(size) {
   var s = String(this);
   while (s.length < (size || 2)) {s = "0" + s;}
@@ -40,7 +46,7 @@ export class LEDMatrixBoardComponent {
   // vv Just used for preview
   friendlyTextAreaWithData: CharWithData[][] = [];
   // vv Just used to display on saved screen
-  friendlySavedDatas: CharWithData[][][] = [];
+  friendlySavedDatas: FriendlySavedData[] = [];
   previousTextAreaContent = '';
   saved: SavedData[] = [];
   socket: any;
@@ -96,6 +102,7 @@ export class LEDMatrixBoardComponent {
       },
       stop: () => {
         this.touchingSlider = false;
+        $('textarea').focus();
       }
     });
   }
@@ -103,9 +110,14 @@ export class LEDMatrixBoardComponent {
   changeActiveTab(tab: string) {
     if (tab === 'saved') {
       this.friendlySavedDatas = [];
-      for (let charDataArray of this.saved.map(q => q.data)) {
+      for (let saved of this.saved) {
+        let charDataArray = saved.data;
         let friendly = this.updatePreview(charDataArray);
-        this.friendlySavedDatas.push(friendly);
+        this.friendlySavedDatas.push({
+          f: friendly,
+          d: saved.date,
+          s: charDataArray
+        });
       }
     }
     this.activeTab = tab;
@@ -197,21 +209,22 @@ export class LEDMatrixBoardComponent {
 
   }
 
-  applySave(data: CharWithData[][]) {
-    let c: CharWithData[] = [];
-    let i = 0;
-    for (let x of data) {
-      if (i !== 0) {
-        c.push({
-          character: '\n',
-          color: ['255', '255', '255']
-        });
-      }
-      c.push(...x);
-      i++;
-    }
-    this.charsWithData = c;
-    this.friendlyTextAreaWithData = this.updatePreview(this.charsWithData);
+  applySave(data: FriendlySavedData) {
+    // let c: CharWithData[] = [];
+    // let i = 0;
+    // for (let x of data) {
+    //   if (i !== 0) {
+    //     c.push({
+    //       character: '\n',
+    //       color: ['255', '255', '255']
+    //     });
+    //   }
+    //   c.push(...x);
+    //   i++;
+    // }
+    this.charsWithData = data.s;
+    this.textAreaContent = this.previousTextAreaContent = data.s.map(q => q.character).join('');
+    this.friendlyTextAreaWithData = data.f;
     this.activeTab = 'write';
   }
 
