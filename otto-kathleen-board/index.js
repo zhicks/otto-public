@@ -60,8 +60,8 @@ function writeText(messageObj) {
     // remember if you change the C++, cd into that directory and HARDWARE=adafruit-hat make
     // const args = [`echo "" | ${API_PATH}/text-example`, text, filename, ledRows];
     // return spawnSync('python', args);
-    let fontFile = fontFiles[+messageObj.fontSize || 0];
-    const command = `echo "${str}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/${fontFile} --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
+    let fontFile = fontFiles[+messageObj.fontSize - 1 || 0];
+    const command = `echo "${messageObj.message}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/${fontFile} --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
     exec(command, function(error, stdout, stderr) {
     	//console.log('error', error);
 	    //console.log('stdout', stdout);
