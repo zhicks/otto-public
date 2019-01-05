@@ -213,7 +213,7 @@ export class LEDMatrixBoardComponent {
     let lineNum = textArea.value.substr(0, textArea.selectionStart).split("\n").length - 1;
     let lines = this.textAreaContent.split('\n');
     let line = lines[lineNum];
-    let left = this.fontSizes[lineNum].chars - line.length;
+    let left = this.selectedFontSize.chars - line.length;
     this.leftOnLine = left;
     clearTimeout(this.fadeCharsLeft);
     $('#charsleft').css('opacity', 1);
