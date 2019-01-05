@@ -18,6 +18,14 @@ const BRIGHTNESS = 50;
 const CLOCK_TIMEOUT_AMOUNT = 5 * 1000;
 let clockTimeout;
 
+const fontFiles = [
+   '4x6.bdf',
+   '5x8.bdf',
+   '6x10.bdf',
+   '8x13.bdf',
+   '9x15.bdf'
+];
+
 console.log(process.argv);
 
 let ipAddress = '';
@@ -47,11 +55,12 @@ const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexO
 console.log('socket address is ', SOCKET_ADDRESS);
 
 
-function writeText(str) {
+function writeText(messageObj) {
     // remember if you change the C++, cd into that directory and HARDWARE=adafruit-hat make
     // const args = [`echo "" | ${API_PATH}/text-example`, text, filename, ledRows];
     // return spawnSync('python', args);
-    const command = `echo "${str}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/4x6.bdf --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
+    let fontFile = fontFiles[+messageObj.fontSize || 0];
+    const command = `echo "${str}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/${fontFile} --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
     exec(command, function(error, stdout, stderr) {
     	//console.log('error', error);
 	    //console.log('stdout', stdout);
@@ -87,11 +96,11 @@ cloudSocket.on('connect', () => {
     cloudSocket.emit('kathleen_board', {
         ip: ipAddress
     });
-    cloudSocket.on('message', function(message) {
-       console.log(message);
+    cloudSocket.on('message', function(messageObj) {
+       console.log(messageObj);
        killProcess('clock');
 	    killProcess(`text-example`);
-	    writeText(message);
+	    writeText(messageObj);
 
 	    clearTimeout(clockTimeout);
 	    clockTimeout = setTimeout(function() {

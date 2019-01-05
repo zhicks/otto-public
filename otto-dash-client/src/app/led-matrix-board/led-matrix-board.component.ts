@@ -12,6 +12,7 @@ const LOCAL_STORAGE_KEY = 'SAVED_BOARD_MSG';
 
 interface SavedData {
   date: number,
+  fontSize: number,
   data: CharWithData[]
 }
 
@@ -53,6 +54,8 @@ export class LEDMatrixBoardComponent {
   boardIp = 'refresh for ip';
   touchingSlider = false;
   showColor = false;
+  selectedFontSize = 1;
+  fontSizes = [1, 2, 3, 4, 5];
 
   constructor(
     private apiService: ApiService
@@ -209,7 +212,10 @@ export class LEDMatrixBoardComponent {
     console.log(stringToSend);
     this.saveMsg();
 
-    this.socket.emit('app_sendBoardMessage', stringToSend);
+    this.socket.emit('app_sendBoardMessage', {
+      message: stringToSend,
+      fontSize: this.selectedFontSize
+    });
 
   }
 
@@ -245,7 +251,8 @@ export class LEDMatrixBoardComponent {
     }
     saved.push({
       date: new Date().getTime(),
-      data: this.charsWithData
+      data: this.charsWithData,
+      fontSize: this.selectedFontSize
     });
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(saved));
     this.saved = saved;

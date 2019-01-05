@@ -247,7 +247,7 @@ class SocketControl {
                 }
                 socket.emit('log_dump', logDump);
             });
-            socket.on('app_sendBoardMessage', (obj: string) => {
+            socket.on('app_sendBoardMessage', (obj: any) => {
                 this.doLog('message received');
                 console.log(obj);
                 this.kathleenBoard && this.kathleenBoard.emit('message', obj);

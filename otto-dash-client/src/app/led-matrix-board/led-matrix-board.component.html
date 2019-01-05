@@ -33,7 +33,17 @@
         <button (click)="sendClicked()" class="btn btn-default btn-lg btn-primary send-button" [disabled]="!textAreaContent">Send</button>
         <button (click)="saveClicked()" class="btn btn-default btn-lg save-button" [disabled]="!textAreaContent">Save</button>
       </div>
+      <div class="extra-settings-wrapper" style="margin-top: 2rem;">
+        <div class="font-size-wrapper" style="display: flex;">
+          <div style="width: 40%; display: flex; align-items: center;">Font size: </div>
+          <select class="form-control" [(ngModel)]="selectedFontSize">
+            <option *ngFor="let fs of fontSizes" [ngValue]="fs">{{fs}}</option>
+          </select>
+        </div>
+      </div>
     </div>
+
+
     <div *ngIf="activeTab === 'saved'" style="padding: 1rem;">
       <div class="clock-button-wrapper">
         <button class="btn btn-default" (click)="displayClockPressed()">Display clock</button>
