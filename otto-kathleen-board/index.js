@@ -13,9 +13,9 @@ var os = require('os');
 var ifaces = os.networkInterfaces();
 
 const API_PATH = '/home/pi/NEW_rpi-rgb-led-matrix/examples-api-use';
-const NUM_ROWS = 16;
+const NUM_ROWS = 32;
 const BRIGHTNESS = 50;
-const CLOCK_TIMEOUT_AMOUNT = 5 * 1000;
+const CLOCK_TIMEOUT_AMOUNT = 20 * 60 * 60 * 1000;
 let clockTimeout;
 
 const fontFiles = [
@@ -51,7 +51,8 @@ Object.keys(ifaces).forEach(function (ifname) {
     });
 });
 
-const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://192.168.1.112:3500';
+// const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://192.168.1.112:3500';
+const SOCKET_ADDRESS = 'http://blackboxjs.com:3500';
 console.log('socket address is ', SOCKET_ADDRESS);
 
 
@@ -71,7 +72,7 @@ function writeText(messageObj) {
 function displayTime() {
     killProcess('clock');
     killProcess(`text-example`);
-    const cmdDisplayClock = `${API_PATH}/clock -f ${API_PATH}/../fonts/5x8.bdf -d "%I:%M" -y 3 -x 3 --led-rows=${NUM_ROWS} -b ${BRIGHTNESS} -C 255,255,255`;
+    const cmdDisplayClock = `${API_PATH}/clock -f ${API_PATH}/../fonts/5x8.bdf -d "%I:%M" -y 11 -x 3 --led-rows=${NUM_ROWS} -b ${BRIGHTNESS} -C 255,255,255`;
     const child = exec(cmdDisplayClock);
     child.stdout.pipe(process.stdout);
     child.stderr.pipe(process.stderr);
@@ -96,15 +97,20 @@ cloudSocket.on('connect', () => {
     cloudSocket.emit('kathleen_board', {
         ip: ipAddress
     });
+	cloudSocket.on('displayClock', function() {
+		killProcess('clock');
+		killProcess('text-example');
+		displayTime();
+	});
     cloudSocket.on('message', function(messageObj) {
-       console.log(messageObj);
-       killProcess('clock');
-	    killProcess(`text-example`);
-	    writeText(messageObj);
+        console.log(messageObj);
+        killProcess('clock');
+        killProcess(`text-example`);
+        writeText(messageObj);
 
-	    clearTimeout(clockTimeout);
-	    clockTimeout = setTimeout(function() {
-	        displayTime();
+        clearTimeout(clockTimeout);
+        clockTimeout = setTimeout(function() {
+            displayTime();
         }, CLOCK_TIMEOUT_AMOUNT);
 
     });
