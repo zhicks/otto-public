@@ -18,6 +18,14 @@
     font-weight: bold;
   }
 }
+.chars-left {
+  position: absolute;
+  bottom: 5px;
+  right: 6px;
+  color: rgba(0,0,0,0.5);
+  transition: all 200ms;
+  opacity: 0;
+}
 .color-picker {
   position: absolute;
   right: 1rem;
@@ -28,6 +36,7 @@
 }
 .text-area-wrapper {
   padding-top: 1rem;
+  position: relative;
 }
 textarea {
   //width: 85%;
