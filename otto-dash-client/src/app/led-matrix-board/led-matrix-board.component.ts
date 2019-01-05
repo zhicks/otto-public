@@ -1,7 +1,7 @@
 declare const $;
 declare const JsDiff;
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {ApiService} from "../api/api.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {OttoGroup, OttoLight} from "../../../../otto-shared/otto-interfaces";
@@ -40,6 +40,8 @@ interface FriendlySavedData {
 })
 export class LEDMatrixBoardComponent {
 
+  @ViewChild('textarea') textarea: ElementRef;
+
   activeTab = 'write';
   currentColor = ['255', '255', '255'];
   textAreaContent = '';
@@ -54,14 +56,23 @@ export class LEDMatrixBoardComponent {
   boardIp = 'refresh for ip';
   touchingSlider = false;
   showColor = false;
-  selectedFontSize = 1;
-  fontSizes = [1, 2, 3, 4, 5];
+  selectedFontSize: { s, chars };
+  fontSizes = [
+    { s: 1, chars: 8 },
+    { s: 2, chars: 6 },
+    { s: 3, chars: 4 },
+    { s: 4, chars: 4 },
+    { s: 5, chars: 3 }
+  ];
+  leftOnLine = 8;
+  fadeCharsLeft = null;
 
   constructor(
     private apiService: ApiService
   ) {}
 
   ngOnInit() {
+    this.selectedFontSize = this.fontSizes[0];
     this.socket = this.apiService.socket;
     this.socket.on('kathleen_board_ip', (ip: string) => {
       console.log('ip is', ip);
@@ -193,6 +204,22 @@ export class LEDMatrixBoardComponent {
 
     // console.log(this.textAreaWithData);
     this.friendlyTextAreaWithData = this.updatePreview(this.charsWithData);
+
+    this.calculateCharsLeft();
+  }
+
+  calculateCharsLeft() {
+    let textArea = this.textarea.nativeElement;
+    let lineNum = textArea.value.substr(0, textArea.selectionStart).split("\n").length - 1;
+    let lines = this.textAreaContent.split('\n');
+    let line = lines[lineNum];
+    let left = this.fontSizes[lineNum].chars - line.length;
+    this.leftOnLine = left;
+    clearTimeout(this.fadeCharsLeft);
+    $('#charsleft').css('opacity', 1);
+    this.fadeCharsLeft = setTimeout(() => {
+      $('#charsleft').css('opacity', 0);
+    }, 1000);
   }
 
   sendClicked() {
@@ -214,7 +241,7 @@ export class LEDMatrixBoardComponent {
 
     this.socket.emit('app_sendBoardMessage', {
       message: stringToSend,
-      fontSize: this.selectedFontSize
+      fontSize: this.selectedFontSize.s
     });
 
   }
@@ -252,7 +279,7 @@ export class LEDMatrixBoardComponent {
     saved.push({
       date: new Date().getTime(),
       data: this.charsWithData,
-      fontSize: this.selectedFontSize
+      fontSize: this.selectedFontSize.s
     });
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(saved));
     this.saved = saved;
