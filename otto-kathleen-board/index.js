@@ -61,7 +61,7 @@ function writeText(messageObj) {
     // const args = [`echo "" | ${API_PATH}/text-example`, text, filename, ledRows];
     // return spawnSync('python', args);
     let fontFile = fontFiles[+messageObj.fontSize - 1 || 0];
-    const command = `echo "${messageObj.message.replace(/"/g, '\\"')}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/${fontFile} --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
+    const command = `echo "${messageObj.message.replace(/"/g, '\\"').replace(/'/g,  "\\'")}" | ${API_PATH}/text-example -f ${API_PATH}/../fonts/${fontFile} --led-rows=${NUM_ROWS} -b ${BRIGHTNESS}`;
     exec(command, function(error, stdout, stderr) {
     	//console.log('error', error);
 	    //console.log('stdout', stdout);

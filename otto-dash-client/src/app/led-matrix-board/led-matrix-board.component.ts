@@ -57,6 +57,14 @@ export class LEDMatrixBoardComponent {
   touchingSlider = false;
   showColor = false;
   selectedFontSize: { s, chars };
+  selectedBrightness = 50;
+  brightnesses = [
+    10,
+    30,
+    50,
+    70,
+    100
+  ]
   fontSizes = [
     { s: 1, chars: 8 },
     { s: 2, chars: 6 },
