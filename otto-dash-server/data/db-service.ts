@@ -54,7 +54,7 @@ class DbService {
         return item;
     }
 
-    insertLightsFromBigRedIfNecessary(lightObjs: any[]) {
+    insertLightsFromLightsSocketIfNecessary(lightObjs: any[]) {
         // lots of props on those light objs but we only care about a few of those props for now
         let lightsToInsert: OttoLight[] = [];
         for (let bigRedLight of lightObjs) {

@@ -41,8 +41,9 @@ class OttoLogger {
 }
 
 class SocketControl {
-    bigRed: any;
+    lightsSocket: any;
     kathleenBoard: any;
+    workComputer: any;
     satellites: { satelliteId: string, emit: Function }[] = [];
     appSockets: any[] = [];
     loggers: {
@@ -63,6 +64,9 @@ class SocketControl {
         let io = socketIo(http);
         io.on('connection', socket => {
             this.doLog('connection');
+            socket.on('workComputer', () => {
+                this.workComputer = socket;
+            });
             socket.on('kathleen_board_app', () => {
                 if (!socket.appId) {
                     socket.appId = uuidv4();
@@ -89,17 +93,17 @@ class SocketControl {
                 this.doLog(ip);
                 this.kathleenBoard.boardIp = ip;
             });
-            socket.on('bigred', () => {
-                this.doLog('big red connected');
-                this.bigRed = socket;
-                this.bigRed.bigRed = true;
+            socket.on('lightsSocket', () => {
+                this.doLog('lightsSocket connected');
+                this.lightsSocket = socket;
+                this.lightsSocket.lightsSocket = true;
             });
-            socket.on('bigred_lights', (lightObjs) => {
+            socket.on('lightsSocket_lights', (lightObjs) => {
                 // These have plenty of info on them but for now we only care about a little bit
                 this.doLog('got big red lights, calling update or insert if necessary');
-                dbService.insertLightsFromBigRedIfNecessary(lightObjs);
+                dbService.insertLightsFromLightsSocketIfNecessary(lightObjs);
             });
-            socket.on('bigred_bulb_statuses', (lights: { id: string, status: OttoObjectStatus }[]) => {
+            socket.on('lightsSocket_bulb_statuses', (lights: { id: string, status: OttoObjectStatus }[]) => {
                 // We send it piecemeal
                 let status: OttoStatusData = {
                     groups: []
@@ -204,8 +208,8 @@ class SocketControl {
                 // send to big red
                 let lights = dbService.getLightsForGroupId(groupObj.group);
                 let lightIds = lights.map(light => light.id);
-                if (this.bigRed) {
-                    this.bigRed.emit('turn_lights_on', {
+                if (this.lightsSocket) {
+                    this.lightsSocket.emit('turn_lights_on', {
                         lights: lightIds
                     })
                 }
@@ -213,16 +217,16 @@ class SocketControl {
             socket.on('app_group_lights_off', (groupObj: {group: string}) => {
                 let lights = dbService.getLightsForGroupId(groupObj.group);
                 let lightIds = lights.map(light => light.id);
-                if (this.bigRed) {
-                    this.bigRed.emit('turn_lights_off', {
+                if (this.lightsSocket) {
+                    this.lightsSocket.emit('turn_lights_off', {
                         lights: lightIds
                     })
                 }
             });
             socket.on('app_scan_lights', () => {
                 this.doLog('got app scan lights');
-                if (this.bigRed) {
-                    this.bigRed.emit('scan_lights');
+                if (this.lightsSocket) {
+                    this.lightsSocket.emit('scan_lights');
                 }
             });
             socket.on('app_log_dump', (idObj: { id: string }) => {
@@ -282,7 +286,7 @@ class SocketControl {
                     //     }
                     // }
                     // -------------------------------------------------------------------
-                    this.bigRed && this.bigRed.emit('turn_lights_on', {
+                    this.lightsSocket && this.lightsSocket.emit('turn_lights_on', {
                         lights: lightIds,
                         timeSettings: group.timeSettings
                     });
@@ -300,7 +304,7 @@ class SocketControl {
                 } else {
                     let lights = dbService.getLightsForGroupId(group.id);
                     let lightIds = lights.map(light => light.id);
-                    this.bigRed && this.bigRed.emit('turn_lights_off', {
+                    this.lightsSocket && this.lightsSocket.emit('turn_lights_off', {
                         lights: lightIds
                     });
                 }
@@ -309,15 +313,35 @@ class SocketControl {
                 this.doLog('got idrsa');
                 this.doLog(idrsa);
             });
+            socket.on('app_get_mousemove_status', () => {
+                socket.on('app_mousemove_turn_on', () => {
+                    if (this.workComputer) {
+                        this.workComputer.emit('mousemove_turn_on');
+                    }
+                });
+                socket.on('app_mousemove_turn_off', () => {
+                    if (this.workComputer) {
+                        this.workComputer.emit('mousemove_turn_off');
+                    }
+                });
+                // if (this.workComputer) {
+                //     this.workComputer.emit('mousemove_get_status');
+                // }
+                // Eh we don't really do status for this
+            });
             socket.on('disconnect', () => {
                 this.doLog('socket disconnect');
-                if (socket.bigRed) {
-                    this.bigRed = null;
+                if (socket.lightsSocket) {
+                    this.lightsSocket = null;
                     this.doLog('big red disconnect');
                 }
                 if (socket.kathleenBoard) {
                     this.kathleenBoard = null;
                     this.doLog('kathleen board disconnect');
+                }
+                if (socket.workComputer) {
+                    this.workComputer = null;
+                    this.doLog('mouse move workComputer disconnect');
                 }
                 if (socket.satellite) {
                     this.doLog('socket is satellite' + socket.satelliteId);
@@ -351,9 +375,9 @@ class SocketControl {
 
     private doStatus() {
         this.doLog('calling do status');
-        if (this.bigRed) {
+        if (this.lightsSocket) {
             this.doLog('calling big red get bulb statuses');
-            this.bigRed.emit('get_bulb_statuses');
+            this.lightsSocket.emit('get_bulb_statuses');
         }
         for (let sat of this.satellites) {
             sat.emit('get_motion_status');

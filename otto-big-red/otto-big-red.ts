@@ -119,8 +119,8 @@ module OttoBigRed {
         cloudSocket = socketIoClient(SOCKET_ADDRESS);
         cloudSocket.on('connect', () => {
             console.log('connection');
-            cloudSocket.emit('bigred', {
-                id: 'bigred'
+            cloudSocket.emit('lightsSocket', {
+                id: 'lightsSocket'
             });
         });
 
@@ -128,7 +128,7 @@ module OttoBigRed {
             console.log('Scan lights. For now, this just gets lights we already know about. Use hubClient.scan() then getNew() later');
             getLightObjectDatas((lightObjs) => {
                 console.log(lightObjs);
-                cloudSocket.emit('bigred_lights', lightObjs);
+                cloudSocket.emit('lightsSocket_lights', lightObjs);
             });
         });
 
@@ -140,7 +140,7 @@ module OttoBigRed {
                     let status = lightObj.on ? OttoObjectStatus.On : OttoObjectStatus.Off;
                     return { id: lightObj.id, status: status }
                 });
-                cloudSocket.emit('bigred_bulb_statuses', lightObjs);
+                cloudSocket.emit('lightsSocket_bulb_statuses', lightObjs);
             });
         });
 

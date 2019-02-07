@@ -14,6 +14,7 @@ import {LightComponent} from "./light/light.component";
 import {LogsComponent} from "./logs/logs.component";
 import { LEDMatrixBoardComponent } from 'app/led-matrix-board/led-matrix-board.component';
 import { MakeTextComponent } from 'app/led-matrix-board/make-text-component/make-text.component';
+import { MouseMoveComponent } from 'app/mousemove/mousemove.component';
 
 const routing: ModuleWithProviders = RouterModule.forRoot([
   {
@@ -54,6 +55,10 @@ const routing: ModuleWithProviders = RouterModule.forRoot([
     data: { test: 'hi' }
   },
   {
+    path: 'mm',
+    component: MouseMoveComponent
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
@@ -69,7 +74,8 @@ const routing: ModuleWithProviders = RouterModule.forRoot([
     LightComponent,
     LogsComponent,
     LEDMatrixBoardComponent,
-    MakeTextComponent
+    MakeTextComponent,
+    MouseMoveComponent
   ],
   imports: [
     BrowserModule,
