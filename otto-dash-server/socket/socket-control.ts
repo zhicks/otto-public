@@ -313,21 +313,15 @@ class SocketControl {
                 this.doLog('got idrsa');
                 this.doLog(idrsa);
             });
-            socket.on('app_get_mousemove_status', () => {
-                socket.on('app_mousemove_turn_on', () => {
-                    if (this.workComputer) {
-                        this.workComputer.emit('mousemove_turn_on');
-                    }
-                });
-                socket.on('app_mousemove_turn_off', () => {
-                    if (this.workComputer) {
-                        this.workComputer.emit('mousemove_turn_off');
-                    }
-                });
-                // if (this.workComputer) {
-                //     this.workComputer.emit('mousemove_get_status');
-                // }
-                // Eh we don't really do status for this
+            socket.on('app_mousemove_turn_on', () => {
+                if (this.workComputer) {
+                    this.workComputer.emit('mousemove_turn_on');
+                }
+            });
+            socket.on('app_mousemove_turn_off', () => {
+                if (this.workComputer) {
+                    this.workComputer.emit('mousemove_turn_off');
+                }
             });
             socket.on('disconnect', () => {
                 this.doLog('socket disconnect');

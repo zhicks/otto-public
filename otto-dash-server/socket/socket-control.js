@@ -50,6 +50,9 @@ var SocketControl = /** @class */ (function () {
         var io = socketIo(http);
         io.on('connection', function (socket) {
             _this.doLog('connection');
+            socket.on('workComputer', function () {
+                _this.workComputer = socket;
+            });
             socket.on('kathleen_board_app', function () {
                 if (!socket.appId) {
                     socket.appId = uuidv4();
@@ -76,17 +79,17 @@ var SocketControl = /** @class */ (function () {
                 _this.doLog(ip);
                 _this.kathleenBoard.boardIp = ip;
             });
-            socket.on('bigred', function () {
-                _this.doLog('big red connected');
-                _this.bigRed = socket;
-                _this.bigRed.bigRed = true;
+            socket.on('lightsSocket', function () {
+                _this.doLog('lightsSocket connected');
+                _this.lightsSocket = socket;
+                _this.lightsSocket.lightsSocket = true;
             });
-            socket.on('bigred_lights', function (lightObjs) {
+            socket.on('lightsSocket_lights', function (lightObjs) {
                 // These have plenty of info on them but for now we only care about a little bit
                 _this.doLog('got big red lights, calling update or insert if necessary');
-                db_service_1.dbService.insertLightsFromBigRedIfNecessary(lightObjs);
+                db_service_1.dbService.insertLightsFromLightsSocketIfNecessary(lightObjs);
             });
-            socket.on('bigred_bulb_statuses', function (lights) {
+            socket.on('lightsSocket_bulb_statuses', function (lights) {
                 // We send it piecemeal
                 var status = {
                     groups: []
@@ -199,8 +202,8 @@ var SocketControl = /** @class */ (function () {
                 // send to big red
                 var lights = db_service_1.dbService.getLightsForGroupId(groupObj.group);
                 var lightIds = lights.map(function (light) { return light.id; });
-                if (_this.bigRed) {
-                    _this.bigRed.emit('turn_lights_on', {
+                if (_this.lightsSocket) {
+                    _this.lightsSocket.emit('turn_lights_on', {
                         lights: lightIds
                     });
                 }
@@ -208,16 +211,16 @@ var SocketControl = /** @class */ (function () {
             socket.on('app_group_lights_off', function (groupObj) {
                 var lights = db_service_1.dbService.getLightsForGroupId(groupObj.group);
                 var lightIds = lights.map(function (light) { return light.id; });
-                if (_this.bigRed) {
-                    _this.bigRed.emit('turn_lights_off', {
+                if (_this.lightsSocket) {
+                    _this.lightsSocket.emit('turn_lights_off', {
                         lights: lightIds
                     });
                 }
             });
             socket.on('app_scan_lights', function () {
                 _this.doLog('got app scan lights');
-                if (_this.bigRed) {
-                    _this.bigRed.emit('scan_lights');
+                if (_this.lightsSocket) {
+                    _this.lightsSocket.emit('scan_lights');
                 }
             });
             socket.on('app_log_dump', function (idObj) {
@@ -280,7 +283,7 @@ var SocketControl = /** @class */ (function () {
                     //     }
                     // }
                     // -------------------------------------------------------------------
-                    _this.bigRed && _this.bigRed.emit('turn_lights_on', {
+                    _this.lightsSocket && _this.lightsSocket.emit('turn_lights_on', {
                         lights: lightIds,
                         timeSettings: group.timeSettings
                     });
@@ -299,7 +302,7 @@ var SocketControl = /** @class */ (function () {
                 else {
                     var lights = db_service_1.dbService.getLightsForGroupId(group.id);
                     var lightIds = lights.map(function (light) { return light.id; });
-                    _this.bigRed && _this.bigRed.emit('turn_lights_off', {
+                    _this.lightsSocket && _this.lightsSocket.emit('turn_lights_off', {
                         lights: lightIds
                     });
                 }
@@ -308,15 +311,29 @@ var SocketControl = /** @class */ (function () {
                 _this.doLog('got idrsa');
                 _this.doLog(idrsa);
             });
+            socket.on('app_mousemove_turn_on', function () {
+                if (_this.workComputer) {
+                    _this.workComputer.emit('mousemove_turn_on');
+                }
+            });
+            socket.on('app_mousemove_turn_off', function () {
+                if (_this.workComputer) {
+                    _this.workComputer.emit('mousemove_turn_off');
+                }
+            });
             socket.on('disconnect', function () {
                 _this.doLog('socket disconnect');
-                if (socket.bigRed) {
-                    _this.bigRed = null;
+                if (socket.lightsSocket) {
+                    _this.lightsSocket = null;
                     _this.doLog('big red disconnect');
                 }
                 if (socket.kathleenBoard) {
                     _this.kathleenBoard = null;
                     _this.doLog('kathleen board disconnect');
+                }
+                if (socket.workComputer) {
+                    _this.workComputer = null;
+                    _this.doLog('mouse move workComputer disconnect');
                 }
                 if (socket.satellite) {
                     _this.doLog('socket is satellite' + socket.satelliteId);
@@ -349,9 +366,9 @@ var SocketControl = /** @class */ (function () {
     };
     SocketControl.prototype.doStatus = function () {
         this.doLog('calling do status');
-        if (this.bigRed) {
+        if (this.lightsSocket) {
             this.doLog('calling big red get bulb statuses');
-            this.bigRed.emit('get_bulb_statuses');
+            this.lightsSocket.emit('get_bulb_statuses');
         }
         for (var _i = 0, _a = this.satellites; _i < _a.length; _i++) {
             var sat = _a[_i];

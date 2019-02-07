@@ -45,7 +45,7 @@ var DbService = /** @class */ (function () {
         this.doWrite();
         return item;
     };
-    DbService.prototype.insertLightsFromBigRedIfNecessary = function (lightObjs) {
+    DbService.prototype.insertLightsFromLightsSocketIfNecessary = function (lightObjs) {
         // lots of props on those light objs but we only care about a few of those props for now
         var lightsToInsert = [];
         for (var _i = 0, lightObjs_1 = lightObjs; _i < lightObjs_1.length; _i++) {
