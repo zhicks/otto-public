@@ -323,6 +323,20 @@ class SocketControl {
                     this.workComputer.emit('mousemove_turn_off');
                 }
             });
+            socket.on('app_mousemove_status', () => {
+                if (!socket.appId) {
+                    socket.appId = uuidv4();
+                    this.appSockets.push(socket);
+                }
+                if (this.workComputer) {
+                    this.workComputer.emit('get_mousemove_status');
+                }
+            });
+            socket.on('workcomputer_mousemove_status', (isOn: boolean) => {
+                this.appSockets.forEach(socket => {
+                    socket.emit('app_receive_mousemove_status', isOn);
+                });
+            });
             socket.on('disconnect', () => {
                 this.doLog('socket disconnect');
                 if (socket.lightsSocket) {

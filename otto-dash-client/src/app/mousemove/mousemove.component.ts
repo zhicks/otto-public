@@ -4,12 +4,6 @@ import {Router} from "@angular/router";
 import {OttoObjectStatus} from "../../../../otto-shared/constants";
 import {OttoStatusData} from "../../../../otto-shared/otto-interfaces";
 
-enum OffOnStatus {
-  Off,
-  On,
-  Loading
-}
-
 @Component({
   selector: 'app-mousemove',
   templateUrl: './mousemove.component.html',
@@ -17,8 +11,7 @@ enum OffOnStatus {
 })
 export class MouseMoveComponent implements OnInit {
 
-  mousemoveIsOn = OffOnStatus.Loading;
-  OffOnStatus = OffOnStatus;
+  status = 'Waiting...';
 
   constructor(
     private apiService: ApiService,
@@ -27,11 +20,15 @@ export class MouseMoveComponent implements OnInit {
 
   async ngOnInit() {
     let socket = this.apiService.socket;
-    socket.on('mousemove_status', (offOrOn: boolean) => {
+    socket.on('app_receive_mousemove_status', (isOn: boolean) => {
       console.log('got mouse move status');
-      this.mousemoveIsOn = offOrOn ? OffOnStatus.On : OffOnStatus.Off;
+      this.status = isOn ? 'On' : 'Off';
     });
-    socket.emit('app_get_mousemove_status');
+    socket.emit('app_mousemove_status');
+    setInterval(() => {
+      console.log('asking for mousemove status');
+      socket.emit('app_mousemove_status');
+    }, 1000);
   }
 
   turnOnClicked() {

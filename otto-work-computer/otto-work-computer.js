@@ -21,6 +21,13 @@ cloudSocket.on('mousemove_turn_off', () => {
     console.log('stopping mm');
     exec(KILL_CMD);
 });
+cloudSocket.on('get_mousemove_status', () => {
+    exec('tasklist', function(error, stdout, stderr) {
+        const autohotKeyIsRunning = stdout.toLowerCase().indexOf('autohotkey.exe') > -1;
+        cloudSocket.emit('workcomputer_mousemove_status', autohotKeyIsRunning);
+        console.log('running: ', autohotKeyIsRunning);
+    });
+});
 
 cloudSocket.emit('workComputer');
 
