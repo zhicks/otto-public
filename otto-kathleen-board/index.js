@@ -1,7 +1,3 @@
-// make it run at startup
-// should probably backup the actual C++ soon
-// get it on blackbox
-// font size
 
 let path = require('path');
 let express = require('express');
@@ -52,7 +48,7 @@ Object.keys(ifaces).forEach(function (ifname) {
 });
 
 // const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://192.168.1.112:3500';
-const SOCKET_ADDRESS = 'http://blackboxjs.com:3500';
+const SOCKET_ADDRESS = 'http://zackrhicks.com:3500';
 console.log('socket address is ', SOCKET_ADDRESS);
 
 
@@ -92,17 +88,20 @@ cloudSocket = socketIoClient(SOCKET_ADDRESS);
 cloudSocket.on('connect', () => {
     console.log('connection');
     cloudSocket.on('giveIp', function() {
+        console.log('on give ip');
        cloudSocket.emit('kathleen_board_ip', ipAddress);
     });
     cloudSocket.emit('kathleen_board', {
         ip: ipAddress
     });
 	cloudSocket.on('displayClock', function() {
+	    console.log('on display clock');
 		killProcess('clock');
 		killProcess('text-example');
 		displayTime();
 	});
     cloudSocket.on('message', function(messageObj) {
+        console.log('on message');
         console.log(messageObj);
         killProcess('clock');
         killProcess(`text-example`);
