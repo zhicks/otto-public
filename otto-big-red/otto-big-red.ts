@@ -16,13 +16,12 @@ module OttoBigRed {
     console.log(process.argv);
 
     // ------------------------------------------------------------------- Constants
-    const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? 'http://blackboxjs.com:3500': 'http://localhost:3500';
+    const SOCKET_ADDRESS = process.argv && process.argv[2] && process.argv[2].indexOf('prod') !== -1 ? '': 'http://localhost:3500';
     console.log('socket address is ', SOCKET_ADDRESS);
 
     // ------------------------------------------------------------------- Props
     let cloudSocket: any;
     let hubClient: any;
-    // let bridgeIp = '192.168.1.100';
     let bridgeIp = null;
 
     // ------------------------------------------------------------------- Stuff
@@ -81,7 +80,7 @@ module OttoBigRed {
 
     let toggleLights = (lightIds: {lights: string[]}, on: boolean, callback: () => void) => {
         console.log(lightIds);
-        // TODO - Right above is the same code
+        // TODO - Refactor this with the above method
         hubClient.lights.getAll().then(lights => {
             let matchingHueJayLights = [];
             console.log('hue lights:');
@@ -164,12 +163,6 @@ module OttoBigRed {
                         currentObj = lightObj.timeSettings[hourString];
                     }
                 });
-                // -------------------------------------------------------------------
-                // const diningRoomLightId = '00:17:88:01:03:44:bd:8f-0b';
-                // if (lightObj.lights.indexOf(diningRoomLightId) !== -1) {
-                //     lightObj.lights.splice(lightObj.lights.indexOf(diningRoomLightId), 1);
-                // }
-                // -------------------------------------------------------------------
                 if (currentObj.brightness) {
                     setLightsBrightness(lightObj.lights, currentObj.brightness);
                 }
@@ -189,15 +182,11 @@ module OttoBigRed {
     let doHubInit2 = () => {
         hubClient = new huejay.Client({
             host:     bridgeIp,
-            port:     80,               // Optional
-            username: '8HeFfV3mq5GswiNZ1ZUcKhi9Nd9Y-Xg33xnoxobW', // Optional
-            timeout:  15000,            // Optional, timeout in milliseconds (15000 is the default)
+            port:     80,
+            username: '', // Optional
+            timeout:  15000,
         });
         initSocket();
-        // getLightObjectDatas((things) => {
-        //     console.log(things);
-        // });
-        // doScanAndAddNewLights();
     }
     let doHubInit = () => {
         if (bridgeIp) {
@@ -224,8 +213,6 @@ module OttoBigRed {
 
     // ------------------------------------------------------------------- Hub One Time Init
     let doHubOneTimeInit = () => {
-        console.log('doing one time hub init. this is for creating a user if there is not one. you gotta press the hub link button');
-        console.log('actually you may just wanna use the app to add it by serial number');
         let user = new hubClient.users.User;
 
         // Optionally configure a device type / agent on the user
@@ -234,19 +221,6 @@ module OttoBigRed {
         hubClient.users.create(user)
             .then(user => {
                 console.log(`New user created - Username: ${user.username}`);
-                console.log('now restart and dont call this method - just call regular init or whatever its called');
-                // hubClient.users.get()
-                //     .then(user => {
-                //         console.log('Username:', user.username);
-                //         console.log('Device type:', user.deviceType);
-                //         console.log('Create date:', user.created);
-                //         console.log('Last use date:', user.lastUsed);
-                //     });
-
-                // hubClient.lights.scan()
-                //     .then(() => {
-                //         console.log('Started new light scan');
-                //     });
             })
             .catch(error => {
                 if (error instanceof huejay.Error && error.type === 101) {
@@ -258,7 +232,7 @@ module OttoBigRed {
     }
 
     let doScanAndAddNewLights = () => {
-        console.log('calling do scan and add new lights - this is a one time thing when you add new bulbs and is manually called');
+        console.log('calling do scan and add new lights');
         hubClient.lights.scan()
             .then(() => {
                 console.log('Started new light scan');

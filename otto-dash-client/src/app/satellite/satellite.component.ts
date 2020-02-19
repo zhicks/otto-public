@@ -25,21 +25,7 @@ export class SatelliteComponent implements OnInit {
 
   async ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(async (params) => {
-      let stuff = await this.apiService.getStuff();
-      this.groups = stuff.groups;
-      let id = params && params['id'];
-      if (!id) {
-        this.editingSat = {
-          id: '',
-          name: '',
-          group: ''
-        }
-      } else {
-        console.log(id);
-        let sat: OttoSatellite = <OttoSatellite> await this.apiService.getItemById(OttoItemType.Satellite, id);
-        this.editingSat = {...sat};
-        this.selectedGroup = this.groups.find(group => group.id === this.editingSat.group);
-      }
+      // Removed for public
     });
   }
 

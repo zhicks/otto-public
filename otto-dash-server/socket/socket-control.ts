@@ -42,7 +42,6 @@ class OttoLogger {
 
 class SocketControl {
     lightsSocket: any;
-    kathleenBoard: any;
     workComputer: any;
     satellites: { satelliteId: string, emit: Function }[] = [];
     appSockets: any[] = [];
@@ -66,32 +65,6 @@ class SocketControl {
             this.doLog('connection');
             socket.on('workComputer', () => {
                 this.workComputer = socket;
-            });
-            socket.on('kathleen_board_app', () => {
-                if (!socket.appId) {
-                    socket.appId = uuidv4();
-                    this.appSockets.push(socket);
-                }
-                socket.emit('kathleen_board_ip', this.kathleenBoard && this.kathleenBoard.boardIp);
-                if (this.kathleenBoard) {
-                    console.log('emitting give ip');
-                    this.kathleenBoard.emit('giveIp');
-                }
-            });
-            socket.on('kathleen_board', () => {
-               this.doLog('kathleen board connected');
-               this.kathleenBoard = socket;
-               this.kathleenBoard.kathleenBoard = true;
-            });
-            socket.on('kathleen_board_app_displayClock', () => {
-                if (this.kathleenBoard) {
-                    this.kathleenBoard.emit('displayClock');
-                }
-            });
-            socket.on('kathleen_board_ip', (ip: string) => {
-                console.log('got ip i think');
-                this.doLog(ip);
-                this.kathleenBoard.boardIp = ip;
             });
             socket.on('lightsSocket', () => {
                 this.doLog('lightsSocket connected');
@@ -251,11 +224,6 @@ class SocketControl {
                 }
                 socket.emit('log_dump', logDump);
             });
-            socket.on('app_sendBoardMessage', (obj: any) => {
-                this.doLog('message received');
-                console.log(obj);
-                this.kathleenBoard && this.kathleenBoard.emit('message', obj);
-            });
             socket.on('sat_log', (log: { id: string, msg: any }) => {
                 this.loggers[log.id] = this.loggers[log.id] || new OttoLogger(log.id, OttoItemType.Satellite, false);
                 const messageObj = this.loggers[log.id].log(log.msg);
@@ -342,10 +310,6 @@ class SocketControl {
                 if (socket.lightsSocket) {
                     this.lightsSocket = null;
                     this.doLog('big red disconnect');
-                }
-                if (socket.kathleenBoard) {
-                    this.kathleenBoard = null;
-                    this.doLog('kathleen board disconnect');
                 }
                 if (socket.workComputer) {
                     this.workComputer = null;

@@ -1,18 +1,89 @@
-{"groups":[{"id":"156e9984-d5cf-4fa4-a6a4-5ef964347844","name":"Office","lightTimeout":3600000},{"id":"0862874b-2c06-446b-8846-1f088597b218","name":"Living Room","lightTimeout":1800000},{"id":"5b0d20d7-cc30-4063-a7ac-04f1446b3eec","name":"Dining Room","lightTimeout":1800000},{"id":"965d127f-c079-4bbd-8bf3-d016349a71af","name":"Hallway","timeSettings": {
-  "6": {
-    "lightTimeout": 180000,
-    "brightness": 0
-  },
-  "9": {
-    "lightTimeout": 300000,
-    "brightness": 1
-  },
-  "20": {
-    "lightTimeout": 60000,
-    "brightness": 0
-  },
-  "22": {
-    "lightTimeout": 60000,
-    "brightness": 0
-  }
-}}],"lights":[{"type":"Dimmable light","id":"00:17:88:01:00:e4:21:60-0b","name":"Light 2","group":"965d127f-c079-4bbd-8bf3-d016349a71af"},{"type":"Extended color light","id":"00:17:88:01:10:54:71:ad-0b","name":"Color Light","group":"156e9984-d5cf-4fa4-a6a4-5ef964347844"},{"type":"Dimmable light","id":"00:17:88:01:03:44:bd:8f-0b","name":"Light 3","group":"5b0d20d7-cc30-4063-a7ac-04f1446b3eec"},{"type":"Dimmable light","id":"00:17:88:01:03:46:41:cc-0b","name":"Light 4","group":"0862874b-2c06-446b-8846-1f088597b218"}],"satellites":[{"id":"cb48a598-eaac-405c-83fd-10341013b686","group":"156e9984-d5cf-4fa4-a6a4-5ef964347844","name":"Office Sat"},{"id":"85b4260b-9897-43ac-8c96-814e66eabb40","group":"5b0d20d7-cc30-4063-a7ac-04f1446b3eec","name":"Dining Room Sat"},{"id":"3d0d1387-70cf-473d-910c-d7f28729f211","group":"0862874b-2c06-446b-8846-1f088597b218","name":"Living Room Sat"},{"id":"7f2e8b06-9a66-471d-9c63-d475fd9d3da2","group":"965d127f-c079-4bbd-8bf3-d016349a71af","name":"Hallway Sat"}]}
+{
+  "groups": [
+    {
+      "id": "156e9984-d5cf-4fa4-a6a4-5ef964347844",
+      "name": "Office",
+      "lightTimeout": 3600000
+    },
+    {
+      "id": "0862874b-2c06-446b-8846-1f088597b218",
+      "name": "Living Room",
+      "lightTimeout": 1800000
+    },
+    {
+      "id": "5b0d20d7-cc30-4063-a7ac-04f1446b3eec",
+      "name": "Dining Room",
+      "lightTimeout": 1800000
+    },
+    {
+      "id": "965d127f-c079-4bbd-8bf3-d016349a71af",
+      "name": "Hallway",
+      "timeSettings": {
+        "6": {
+          "lightTimeout": 180000,
+          "brightness": 0
+        },
+        "9": {
+          "lightTimeout": 300000,
+          "brightness": 1
+        },
+        "20": {
+          "lightTimeout": 60000,
+          "brightness": 0
+        },
+        "22": {
+          "lightTimeout": 60000,
+          "brightness": 0
+        }
+      }
+    }
+  ],
+  "lights": [
+    {
+      "type": "Dimmable light",
+      "id": "00:17:88:01:00:e4:21:60-0b",
+      "name": "Light 2",
+      "group": "965d127f-c079-4bbd-8bf3-d016349a71af"
+    },
+    {
+      "type": "Extended color light",
+      "id": "00:17:88:01:10:54:71:ad-0b",
+      "name": "Color Light",
+      "group": "156e9984-d5cf-4fa4-a6a4-5ef964347844"
+    },
+    {
+      "type": "Dimmable light",
+      "id": "00:17:88:01:03:44:bd:8f-0b",
+      "name": "Light 3",
+      "group": "5b0d20d7-cc30-4063-a7ac-04f1446b3eec"
+    },
+    {
+      "type": "Dimmable light",
+      "id": "00:17:88:01:03:46:41:cc-0b",
+      "name": "Light 4",
+      "group": "0862874b-2c06-446b-8846-1f088597b218"
+    }
+  ],
+  "satellites": [
+    {
+      "id": "cb48a598-eaac-405c-83fd-10341013b686",
+      "group": "156e9984-d5cf-4fa4-a6a4-5ef964347844",
+      "name": "Office Sat"
+    },
+    {
+      "id": "85b4260b-9897-43ac-8c96-814e66eabb40",
+      "group": "5b0d20d7-cc30-4063-a7ac-04f1446b3eec",
+      "name": "Dining Room Sat"
+    },
+    {
+      "id": "3d0d1387-70cf-473d-910c-d7f28729f211",
+      "group": "0862874b-2c06-446b-8846-1f088597b218",
+      "name": "Living Room Sat"
+    },
+    {
+      "id": "7f2e8b06-9a66-471d-9c63-d475fd9d3da2",
+      "group": "965d127f-c079-4bbd-8bf3-d016349a71af",
+      "name": "Hallway Sat"
+    }
+  ]
+}

@@ -3,8 +3,156 @@
   <component name="ChangeListManager">
     <list default="true" id="936e5722-fe82-4405-9b7b-7ccead339aec" name="Default" comment="adsfadsadfsdfs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-kathleen-board/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/otto-kathleen-board/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/otto-kathleen-board/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/otto-kathleen-board/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deploy/bb-deploy.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deploy/on-machine/client-deploy.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-big-red/otto-big-red.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-big-red/otto-big-red.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-big-red/ottobigred-startup.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-client/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-client/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/src/app/led-matrix-board/led-matrix-board.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-client/src/app/led-matrix-board/led-matrix-board.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/src/app/light/light.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-client/src/app/light/light.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/src/app/mousemove/mousemove.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/src/app/mousemove/mousemove.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/src/app/mousemove/mousemove.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-client/src/app/satellite/satellite.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-client/src/app/satellite/satellite.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/controllers/main-controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/controllers/main-controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-server/controllers/main-controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/data/db-service.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/data/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-server/data/db.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/otto-dash-server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/otto-dash-server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-server/otto-dash-server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-dash-server/socket/socket-control.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-kathleen-board/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-kathleen-board/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-kathleen-board/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/dat.gui.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_0_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_0_biases (1)" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_0_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_0_weights (1)" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_depthwise_biases (1)" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_10_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_11_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_12_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_13_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_1_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_2_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_3_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_4_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_5_pointwise_weights (1)" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_6_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_7_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_8_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_depthwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_depthwise_depthwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_pointwise_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_Conv2d_9_pointwise_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_1_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_1_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_2_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_bwd_2_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_1_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_1_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_2_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_displacement_fwd_2_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_1_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_1_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_2_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_heatmap_2_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_1_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_1_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_2_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_offset_2_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_1_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_1_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_2_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partheat_2_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_1_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_1_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_2_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_partoff_2_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_1_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_1_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_2_biases" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_2_weights" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_2_weights (1)" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_2_weights (2)" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/model-stuff/MobilenetV1_segment_2_weights (3)" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/assets/test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-client/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/frisbee.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/frisbee_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/imgtest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-gesture-analysis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-server.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-socket.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-local-socket.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-something.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-spotify-controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/otto-spotify-controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/spotify-refresh-token.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/test.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-local-server/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-satellite/satellite-camera.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-satellite/satellite-camera.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-satellite/satellite.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-satellite/satellite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/otto-satellite/satellite.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-satellite/ssh-share.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-shared/constants.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-shared/otto-interfaces.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-work-computer/otto-work-computer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-work-computer/otto-workcomputer-startup.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-work-computer/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/otto-work-computer/package.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,14 +176,7 @@
   </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/otto-big-red/package.json" />
-    <dismissed value="$PROJECT_DIR$/otto-local-client/package.json" />
     <dismissed value="$PROJECT_DIR$/otto-satellite/package.json" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1912" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1066" />
   </component>
   <component name="ProjectId" id="1X6F5mK1GI8F6ZbHE0zmyK31YZp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -62,7 +203,7 @@
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
-    <property name="ts.external.directory.path" value="C:\Users\zhick\otto\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2019.3.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="typescript-compiler-editor-notification" value="false" />
   </component>
   <component name="RecentsManager">
@@ -107,6 +248,7 @@
       <workItem from="1549575490414" duration="2787000" />
       <workItem from="1551207617322" duration="1127000" />
       <workItem from="1580358458321" duration="535000" />
+      <workItem from="1582118541185" duration="1447000" />
     </task>
     <task id="LOCAL-00031" summary="dasdfadfsadsf">
       <created>1525338389578</created>

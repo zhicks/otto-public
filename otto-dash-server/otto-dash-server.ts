@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 // ------------------------------------------------------------------- Cookie
 app.use(sessions({
     cookieName: 'ottoCookie', // cookie name dictates the key name added to the request object
-    secret: 'apdfjio3r209rw09fajsfhw4arjhiowafd', // should be a large unguessable string
+    secret: '', // should be a large unguessable string
     duration: 30 * 24 * 60 * 60 * 1000, // how long the session will stay valid in ms
     activeDuration: 30 * 24 * 60 * 60 * 1000 // if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds
 }));

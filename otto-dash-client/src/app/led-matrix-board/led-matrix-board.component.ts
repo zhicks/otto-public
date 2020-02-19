@@ -82,11 +82,11 @@ export class LEDMatrixBoardComponent {
   ngOnInit() {
     this.selectedFontSize = this.fontSizes[0];
     this.socket = this.apiService.socket;
-    this.socket.on('kathleen_board_ip', (ip: string) => {
+    this.socket.on('removed', (ip: string) => {
       console.log('ip is', ip);
       this.boardIp = ip;
     });
-    this.socket.emit('kathleen_board_app');
+    this.socket.emit('removed');
     let saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
       this.saved = JSON.parse(saved) || [];
@@ -145,29 +145,13 @@ export class LEDMatrixBoardComponent {
     this.activeTab = tab;
   }
 
-  displayClockPressed() {
-    this.socket.emit('kathleen_board_app_displayClock');
-  }
-
   textAreaChanged(event) {
-    // need to determine what's new - everything that is new gets that color
-    // and need to determine what's missing
-    // const previousTextAreaContent = this.textAreaWithData.map(t => t.character).join('');
-
     const previousTextAreaContent = this.previousTextAreaContent;
-
-    // say it's stuff and now stuffy
-    // say it's stuffy and now stuff
-    // say it's stffy and now stuffy
-    // say it's stuffy and now stffy
-    // say it's stuffy and now stand
-    // say it's stuffy and now bork
     let changeContents = JsDiff.diffChars(previousTextAreaContent, this.textAreaContent);
     let runningIndex = 0;
     let changeContentsWithIndexes = [];
     for (let c of changeContents) {
       if (c.removed ) {
-        // console.log('removed ', c.count, ' at index', runningIndex);
         changeContentsWithIndexes.push({
           count: c.count,
           index: runningIndex,
@@ -175,7 +159,6 @@ export class LEDMatrixBoardComponent {
         });
       }
       if (c.added) {
-        // console.log('added ', c.count, ' at index', runningIndex);
         changeContentsWithIndexes.push({
           count: c.count,
           index: runningIndex,
@@ -183,15 +166,11 @@ export class LEDMatrixBoardComponent {
           value: c.value
         });
       }
-      // console.log(c);
       runningIndex += c.count;
     }
 
-    // console.warn('note that if you remove multiples at a time, the indexes match the PREVIOUS thing, not the current thing - which should be beneficial');
-
     this.previousTextAreaContent = this.textAreaContent;
 
-    // here - build out the array, char and color. for each one removed or added. iterate backwards.
     for (let i = changeContentsWithIndexes.length - 1; i >= 0; i--) {
       let c = changeContentsWithIndexes[i];
       // here we know to either add or remove at that index
@@ -199,9 +178,6 @@ export class LEDMatrixBoardComponent {
         this.charsWithData.splice(c.index, c.count);
       } else {
         for (let val of c.value) {
-          // if (val === '\n') {
-          //   console.log('its enter');
-          // }
           this.charsWithData.splice(c.index, 0, {
             character: val,
             color: this.currentColor
@@ -210,7 +186,6 @@ export class LEDMatrixBoardComponent {
       }
     }
 
-    // console.log(this.textAreaWithData);
     this.friendlyTextAreaWithData = this.updatePreview(this.charsWithData);
 
     this.calculateCharsLeft();
@@ -255,18 +230,6 @@ export class LEDMatrixBoardComponent {
   }
 
   applySave(data: FriendlySavedData) {
-    // let c: CharWithData[] = [];
-    // let i = 0;
-    // for (let x of data) {
-    //   if (i !== 0) {
-    //     c.push({
-    //       character: '\n',
-    //       color: ['255', '255', '255']
-    //     });
-    //   }
-    //   c.push(...x);
-    //   i++;
-    // }
     this.charsWithData = data.s;
     this.textAreaContent = this.previousTextAreaContent = data.s.map(q => q.character).join('');
     this.friendlyTextAreaWithData = data.f;

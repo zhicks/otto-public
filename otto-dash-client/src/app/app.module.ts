@@ -55,10 +55,6 @@ const routing: ModuleWithProviders = RouterModule.forRoot([
     data: { test: 'hi' }
   },
   {
-    path: 'mm',
-    component: MouseMoveComponent
-  },
-  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

@@ -25,22 +25,7 @@ export class LightComponent implements OnInit {
 
   async ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(async (params) => {
-      let stuff = await this.apiService.getStuff();
-      this.groups = stuff.groups;
-      let id = params && params['id'];
-      if (!id) {
-        this.editingLight = {
-          id: '',
-          name: '',
-          type: 'color-bulb',
-          group: ''
-        }
-      } else {
-        console.log(id);
-        let light: OttoLight = <OttoLight> await this.apiService.getItemById(OttoItemType.Light, id);
-        this.editingLight = {...light};
-        this.selectedGroup = this.groups.find(group => group.id === this.editingLight.group);
-      }
+      // Removed for public purposes
     });
   }
 

@@ -8,7 +8,6 @@ export function isUserLoggedIn(req) {
 export function checkAuthenticated(req, res, next) {
     if (!isUserLoggedIn(req)) {
         res.redirect('/login');
-        // res.status(401).send({notAuthorized: true});
     } else {
         return next();
     }
@@ -28,12 +27,9 @@ class MainController {
 
     login(req, res) {
         let password = req.body.password;
-        if (password !== 'zack') {
-            res.status(401).send('Password not right');
-        } else {
-            setUserIdForCookie(req, 'FloorKraken');
-            res.send({ok: 'ok'});
-        }
+        // removed for public purposes - password check
+        setUserIdForCookie(req, 'removed');
+        res.send({ok: 'ok'});
     }
 
     getStuff(req, res) {
